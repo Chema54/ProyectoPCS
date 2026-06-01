@@ -1,0 +1,125 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 30 may 2026, 3:02:21 a.m.
+    Author     : josem
+*/
+/* ====== Botones ====== */
+/* ====== Botones ====== */
+.button {
+    -fx-background-color: #FF9800;   /* naranja primordial */
+    -fx-text-fill: white;            /* texto blanco por defecto */
+    -fx-font-weight: bold;
+}
+
+/* Hover */
+.button:hover {
+    -fx-background-color: #FFFFFF;   /* fondo blanco */
+    -fx-text-fill: white;            /* texto blanco en hover */
+}
+
+/* Presionado */
+.button:pressed {
+    -fx-background-color: #2B2B2B;   /* gris oscuro */
+    -fx-text-fill: white;
+}
+
+/* ====== ComboBox ====== */
+.combo-box {
+    -fx-background-color: #FF9800;   /* naranja primordial */
+    -fx-text-fill: white;            /* texto blanco por defecto */
+    -fx-font-weight: bold;
+    -fx-background-radius: 4px;
+}
+
+/* Items desplegados */
+.combo-box-popup .list-cell {
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #FFFFFF;   /* fondo blanco */
+    -fx-text-fill: white;            /* texto blanco en hover */
+}
+
+/* ====== TabPane ====== */
+.tab-pane {
+    -fx-tab-min-width: 120px;
+    -fx-tab-max-width: 200px;
+    -fx-tab-min-height: 40px;
+    -fx-tab-max-height: 40px;
+}
+
+.tab {
+    -fx-background-color: #25A794;   /* verde aqua */
+    -fx-text-fill: white;            /* texto blanco por defecto */
+    -fx-font-weight: bold;
+}
+
+.tab:selected {
+    -fx-background-color: #FF9800;   /* naranja primordial */
+    -fx-text-fill: white;
+}
+
+.tab:hover {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: white;            /* texto blanco en hover */
+}
+
+/* ====== Tabla ====== */
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #25A794;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+/* Encabezados de columnas */
+.table-view .column-header {
+    -fx-background-color: #25A794;
+    -fx-text-fill: white;            /* texto blanco por defecto */
+    -fx-font-weight: bold;
+}
+
+.table-view .column-header:hover {
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;            /* texto blanco en hover */
+}
+
+/* Filas */
+.table-row-cell {
+    -fx-background-color: #FAFAFA;
+    -fx-text-fill: black;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #25A794;
+    -fx-text-fill: white;
+}
+
+/* ====== Accordion - TitledPane ====== */
+.titled-pane {
+    -fx-background-color: #25A794;   /* verde aqua */
+    -fx-text-fill: white;            /* texto blanco */
+}
+
+/* Estilo del encabezado del TitledPane */
+.titled-pane > .title {
+    -fx-background-color: #25A794;   /* verde aqua */
+    -fx-text-fill: white;            /* texto blanco */
+    -fx-font-weight: bold;
+}
+
+/* Texto dentro del título */
+.titled-pane > .title > .text {
+    -fx-fill: white;                 /* asegura que las letras sean blancas */
+}
+
+
+
+
+
+

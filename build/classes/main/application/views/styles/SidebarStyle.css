@@ -1,0 +1,16 @@
+.toggle-button {
+    -fx-background-color: #FF9800;   /* color normal */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Cuando está seleccionado */
+.toggle-button:selected {
+    -fx-background-color: #D17D00;   /* rojo cuando está activo */
+    -fx-text-fill: white;
+}
+
+/* Mientras se presiona */
+.toggle-button:pressed {
+    -fx-background-color: #D17D00;   /* naranja mientras se presiona */
+}

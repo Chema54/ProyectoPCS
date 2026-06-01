@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.application.controllers.UserFXMLController">
+    <children>
+      <TabPane prefHeight="549.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Practicantes">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                          <columns>
+                            <TableColumn minWidth="-1.0" prefWidth="118.0" text="Usuario&#10;" />
+                              <TableColumn minWidth="-1.0" prefWidth="120.0" text="Matricula" />
+                              <TableColumn minWidth="-1.0" prefWidth="158.0" text="Nombre del Practicante" />
+                              <TableColumn prefWidth="186.0" text="Estado del Usuario" />
+                          </columns>
+                        </TableView>
+                        <TextField layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Practicante" />
+                        <ComboBox layoutX="352.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <Button layoutX="500.0" layoutY="25.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="124.0" text="Registrar &#10;Practicante" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Profesores">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                           <columns>
+                              <TableColumn minWidth="-1.0" prefWidth="168.0" text="Usuario" />
+                              <TableColumn minWidth="-1.0" prefWidth="211.0" text="No. de Personal" />
+                              <TableColumn minWidth="-1.0" prefWidth="203.0" text="Nombre del Profesor" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="502.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Registrar Profesor&#10;" />
+                        <ComboBox layoutX="350.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <TextField layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el no. del Personal" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Coordinadores">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                           <columns>
+                              <TableColumn minWidth="-1.0" prefWidth="168.0" text="Usuario" />
+                              <TableColumn minWidth="-1.0" prefWidth="211.0" text="No. de Personal" />
+                              <TableColumn minWidth="-1.0" prefWidth="203.0" text="Nombre del Coordinador" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="506.0" layoutY="23.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="116.0" text="Registrar &#10;Coordinador&#10;" />
+                        <ComboBox layoutX="350.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <TextField layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el no. del Personal" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="660.0" stylesheets="@../styles/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.application.controllers.ProjectFXMLController">
+   <children>
+      <TabPane prefHeight="549.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Proyectos">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                          <columns>
+                            <TableColumn minWidth="-1.0" prefWidth="176.0" text="Nombre &#10;del Proyecto" />
+                              <TableColumn minWidth="-1.0" prefWidth="170.0" text="Organizacion &#10;Vinculada" />
+                              <TableColumn minWidth="-1.0" prefWidth="84.0" text="Estado" />
+                              <TableColumn text="Espacios &#10;Disponibles" />
+                            <TableColumn minWidth="-1.0" prefWidth="73.0" text="Cupo Total" />
+                          </columns>
+                        </TableView>
+                        <TextField layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Proyecto" />
+                        <ComboBox layoutX="352.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <Button layoutX="500.0" layoutY="32.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Registrar Proyecto" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Asignaciones">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                           <columns>
+                              <TableColumn minWidth="-1.0" prefWidth="133.0" text="Nombre del Proyecto" />
+                              <TableColumn minWidth="-1.0" prefWidth="119.0" text="Matricula" />
+                              <TableColumn minWidth="-1.0" prefWidth="162.0" text="Practicante" />
+                              <TableColumn minWidth="-1.0" prefWidth="88.0" text="NRC" />
+                              <TableColumn text="Estado" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="498.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Asignar Proyecto" />
+                        <ComboBox layoutX="353.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <TextField layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Practicante" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Organizaciones Vinculadas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="38.0" layoutY="74.0" prefHeight="378.0" prefWidth="584.0">
+                           <columns>
+                              <TableColumn minWidth="-1.0" prefWidth="160.0" text="Nombre de Organizacion" />
+                              <TableColumn minWidth="-1.0" prefWidth="93.0" text="Sector" />
+                              <TableColumn minWidth="-1.0" prefWidth="144.0" text="Direccion" />
+                              <TableColumn prefWidth="102.0" text="Correo" />
+                              <TableColumn prefWidth="84.0" text="Telefono" />
+                           </columns>
+                        </TableView>
+                        <TextField layoutX="38.0" layoutY="29.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre de la Organizacion vinculada" />
+                        <Button layoutX="464.0" layoutY="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="158.0" text="Registrar Organizacion" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
