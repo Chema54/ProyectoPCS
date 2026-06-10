@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package main.application.controllers;
+package main.application.controllers.coordinator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,9 +20,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import main.application.modal.Modal;
+import main.common.Modal;
 import main.common.ExceptionHandler;
 import main.common.UserDisplayableException;
+import main.database.DBConnector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,7 +73,7 @@ public class CoordinatorMenuFXMLController implements Initializable {
         toggleButtonProject.setSelected(true);
         } catch (UserDisplayableException e) {
             LOGGER.error(e.getMessage(), e);
-            Modal.displayError(e.getMessage());
+            Modal.displayError(e);
         }
     }
 
@@ -93,7 +94,7 @@ public class CoordinatorMenuFXMLController implements Initializable {
                     loadSelectedView(newToggle);
                 } catch (UserDisplayableException ex) {
                     LOGGER.error(ex.getMessage(), ex);
-                    Modal.displayError(ex.getMessage());
+                    Modal.displayError(ex);
                 }
             }
         );
@@ -137,10 +138,11 @@ public class CoordinatorMenuFXMLController implements Initializable {
     @FXML
     private void handleCloseSession(ActionEvent event) {
         try {
+            DBConnector.deleteConfiguration();
             returnToLogin();
         } catch (UserDisplayableException e) {
             LOGGER.error(e.getMessage(), e); 
-            Modal.displayError(e.getMessage());
+            Modal.displayError(e);
         }
     }
 

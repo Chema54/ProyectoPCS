@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="660.0" stylesheets="@../styles/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.application.controllers.ProjectFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="660.0" stylesheets="@../styles/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.application.controllers.coordinator.ProjectFXMLController">
    <children>
       <TabPane prefHeight="549.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
