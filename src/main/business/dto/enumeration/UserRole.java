@@ -9,9 +9,10 @@ package main.business.dto.enumeration;
  * @author josem
  */
 public enum UserRole {
-    INTERN(1),   
-    PROFESSOR(2),  
-    COORDINATOR(3);   
+    INTERN(1),
+    COORDINADOR(2), 
+    PROFESSOR(3);
+     
 
     private final int role;
 
@@ -21,5 +22,16 @@ public enum UserRole {
 
     public int getIdRol() {
         return role;
+    }
+    
+    public static UserRole fromId(int id) {
+        for (UserRole role : values()) {
+            if (role.getIdRol() == id) {
+                return role;
+            }
+        }
+        throw new IllegalArgumentException(
+            "Rol no válido: " + id
+        );
     }
 }

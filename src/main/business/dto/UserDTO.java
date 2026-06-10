@@ -12,20 +12,19 @@ import main.common.BCrypt;
  * @author josem
  */
 public class UserDTO {
-    private int userID; 
-    private String username;
-    private String password;
-    private UserRole role;
-    private boolean access;
 
+    private final int userID;
+    private final String username;
+    private final String password;
+    private final UserRole role;
+    private final boolean access;
 
-    
-    public UserDTO(int userID, String username, String password, UserRole role, boolean access) {
-        this.userID = userID;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.access = access;
+    private UserDTO(UserBuilder builder) {
+        this.userID = builder.userID;
+        this.username = builder.username;
+        this.password = builder.password;
+        this.role = builder.role;
+        this.access = builder.access;
     }
 
     public int getUserID() {
@@ -60,9 +59,16 @@ public class UserDTO {
         }
 
         UserDTO that = (UserDTO) instance;
-        return username.equals(that.username)
+
+        return userID == that.userID
                 && access == that.access
+                && username.equals(that.username)
                 && role == that.role;
+    }
+
+    @Override
+    public String toString() {
+        return username;
     }
 
     public boolean hasPasswordMatch(String candidate) {
@@ -71,5 +77,43 @@ public class UserDTO {
 
     public static String getGeneratedHashedPassword(String plain) {
         return BCrypt.hashpw(plain + "@Password", BCrypt.gensalt());
+    }
+
+    public static class UserBuilder {
+
+        private int userID;
+        private String username;
+        private String password;
+        private UserRole role;
+        private boolean access;
+
+        public UserBuilder setUserID(int userID) {
+            this.userID = userID;
+            return this;
+        }
+
+        public UserBuilder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder setRole(UserRole role) {
+            this.role = role;
+            return this;
+        }
+
+        public UserBuilder setAccess(boolean access) {
+            this.access = access;
+            return this;
+        }
+
+        public UserDTO build() {
+            return new UserDTO(this);
+        }
     }
 }

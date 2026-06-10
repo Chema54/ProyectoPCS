@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author josem
  */
-public class UserDAO extends CompleteDAOShape<UserDTO, Integer> {
+public class UserDAO extends CompleteDAOShape<UserDTO, String> {
 
     private static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
 
@@ -34,7 +34,7 @@ public class UserDAO extends CompleteDAOShape<UserDTO, Integer> {
             "SELECT * FROM Usuario";
 
     private static final String GET_QUERY =
-            "SELECT * FROM Usuario WHERE id_usuario = ?";
+            "SELECT * FROM Usuario WHERE username = ?";
 
     private static final String UPDATE_QUERY =
             "UPDATE Usuario SET username = ?, password = ?, role = ?, access = ? WHERE id_usuario = ?";
@@ -48,7 +48,6 @@ public class UserDAO extends CompleteDAOShape<UserDTO, Integer> {
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
-
             statement.setInt(1, userDTO.getUserID());
             statement.setString(2, userDTO.getUsername());
             statement.setString(3, userDTO.getPassword());
@@ -70,11 +69,17 @@ public class UserDAO extends CompleteDAOShape<UserDTO, Integer> {
             PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
             ResultSet resultSet = statement.executeQuery()
         ) {
-
             List<UserDTO> users = new ArrayList<>();
 
             while (resultSet.next()) {
-                users.add(mapResultSet(resultSet));
+                users.add(new UserDTO.UserBuilder()
+                    .setUserID(resultSet.getInt("id_usuario"))
+                    .setUsername(resultSet.getString("username"))
+                    .setPassword(resultSet.getString("password"))
+                    .setRole(UserRole.fromId(resultSet.getInt("id_rol")))
+                    .setAccess(resultSet.getBoolean("access"))
+                    .build()
+                );
             }
 
             return users;
@@ -86,26 +91,27 @@ public class UserDAO extends CompleteDAOShape<UserDTO, Integer> {
     }
 
     @Override
-    public UserDTO getOne(Integer id) throws UserDisplayableException {
+    public UserDTO getOne(String username) throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(GET_QUERY)
         ) {
-
-            statement.setInt(1, id);
-
+            statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
-
                 if (resultSet.next()) {
-                    return mapResultSet(resultSet);
+                    return new UserDTO.UserBuilder()
+                    .setUserID(resultSet.getInt("id_usuario"))
+                    .setUsername(resultSet.getString("username"))
+                    .setPassword(resultSet.getString("password"))
+                    .setRole(UserRole.fromId(resultSet.getInt("id_rol")))
+                    .setAccess(resultSet.getBoolean("access"))
+                    .build();
                 }
-
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No ha sido posible obtener el usuario.");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener el usuario.");
         }
     }
 
@@ -115,44 +121,27 @@ public class UserDAO extends CompleteDAOShape<UserDTO, Integer> {
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-
             statement.setString(1, userDTO.getUsername());
             statement.setString(2, userDTO.getPassword());
             statement.setString(3, userDTO.getRole().name());
             statement.setBoolean(4, userDTO.hasAccess());
             statement.setInt(5, userDTO.getUserID());
-
             statement.executeUpdate();
-
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No ha sido posible actualizar el usuario.");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar el usuario.");
         }
     }
 
     @Override
-    public void deleteOne(Integer id) throws UserDisplayableException {
+    public void deleteOne(String id) throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
         ) {
-
-            statement.setInt(1, id);
+            statement.setString(1, id);
             statement.executeUpdate();
-
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No ha sido posible eliminar el usuario.");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar el usuario.");
         }
-    }
-
-    private UserDTO mapResultSet(ResultSet resultSet) throws SQLException {
-        return new UserDTO(
-                resultSet.getInt("id_usuario"),
-                resultSet.getString("username"),
-                resultSet.getString("password"),
-                UserRole.valueOf(resultSet.getString("role")),
-                resultSet.getBoolean("access")
-        );
     }
 }
