@@ -1,0 +1,111 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 9 jun 2026, 1:35:03 a.m.
+    Author     : josem
+*/
+/* =====================================================
+   FONDO GENERAL
+   ===================================================== */
+
+.root {
+    -fx-background-color: #25A794;
+}
+
+/* =====================================================
+   CONTENEDORES
+   ===================================================== */
+.anchor-pane {
+    -fx-background-color: #25A794;
+}
+
+.anchor-pane {
+    -fx-background-color: #25A794;
+}
+
+/* =====================================================
+   LABELS
+   ===================================================== */
+
+.label {
+    -fx-text-fill: white;
+}
+
+.label-title {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.label-subtitle {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+/* =====================================================
+   BOTONES
+   ===================================================== */
+
+.button {
+
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;
+
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0,0,0,0.20),
+        8,
+        0.2,
+        0,
+        2
+    );
+}
+
+.button:hover {
+
+    -fx-background-color: #FFB74D;
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0,0,0,0.35),
+        12,
+        0.3,
+        0,
+        4
+    );
+
+    -fx-translate-y: -1;
+}
+
+.button:pressed {
+
+    -fx-background-color: #E65100;
+
+    -fx-translate-y: 2;
+}
+
+/* =====================================================
+   MENSAJES DE ERROR
+   ===================================================== */
+
+.label-error {
+    -fx-text-fill: #FFCDD2;
+    -fx-font-weight: bold;
+}
+
+/* =====================================================
+   SEPARADOR
+   ===================================================== */
+
+.separator .line {
+    -fx-border-color: white;
+}

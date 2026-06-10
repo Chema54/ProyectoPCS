@@ -6,6 +6,9 @@ package main.application.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +20,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import main.application.modal.Modal;
+import main.common.Modal;
+import main.business.dto.UserDTO;
+import main.business.dto.enumeration.UserRole;
 import main.common.ExceptionHandler;
 import main.common.UserDisplayableException;
+import main.database.DBConnector;
+import main.database.Session;
+import main.database.dao.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,7 +60,7 @@ public class LoginFXMLController implements Initializable{
     }
 
     @FXML
-    private void login() {
+    private void login() throws SQLException {
         String username = textFieldUsername.getText().trim();
         String password = passwordFieldPassword.getText();
         
@@ -60,11 +68,27 @@ public class LoginFXMLController implements Initializable{
             System.out.println("aqui deberias revisar el formato del texto");
             return;
         } 
-        //toDo: agregar otro if validacion de caracteres 
         try {
-            openMenuByRole(username);
+            createConnection();
+            UserDAO userDAO = new UserDAO();
+            UserDTO user = userDAO.getOne(username);
+            if (user == null || !Objects.equals(user.getPassword(), password)) {
+                throw new UserDisplayableException(
+                    "Error de Autenticación",
+                    "Inicio de sesión fallido",
+                    "Usuario y/o contraseña incorrectos.",
+                    null
+                );
+            }
+            Session.setCurrentUser(user);
+            System.out.println("Usuario: " + user.getUsername());
+            System.out.println("Rol: " + user.getRole());
+            System.out.println("Rol name: " + user.getRole().name());
+            System.out.println("Abriendo menú para: " + user.getRole());
+            openMenuByRole(user.getRole());
         } catch (UserDisplayableException e) {
-            Modal.displayError(e.getMessage());
+            LOGGER.error("{} - {}", e.getTitle(), e.getHeader());
+            Modal.displayError(e);
         }
     }
     
@@ -84,18 +108,34 @@ public class LoginFXMLController implements Initializable{
 
     }
     
-    private void openMenuByRole(String rol) throws UserDisplayableException {
+    private void createConnection() throws UserDisplayableException {
+        String url = "jdbc:mysql://100.119.92.93/practicas_profesionales";
+        String dbUser = textFieldUsername.getText().trim();
+        String dbPassword = passwordFieldPassword.getText();
+
+        DBConnector connector = DBConnector.getInstance(url, dbUser, dbPassword);
+
+        try (Connection connection = connector.getConnection()) {
+            if (!connection.isClosed()) {
+                connector.saveProperties();
+            }
+        } catch(SQLException e){
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se puede conectar a la base de datos.");
+        }
+    }
+    
+    private void openMenuByRole(UserRole rol) throws UserDisplayableException {
     switch (rol) {
 
-        case "practicante"://aqui seria CASE INTERN
+        case INTERN://aqui seria CASE INTERN
             openWindow("/main/application/views/intern/InternMenuFXML.fxml");
             break;
 
-        case "coordinador"://aqui seria case COORDINATOR
+        case COORDINADOR://aqui seria case COORDINATOR
             openWindow("/main/application/views/coordinator/CoordinatorMenuFXML.fxml");
             break;
 
-        case "profesor"://aqui seria case COORDINATOR
+        case PROFESSOR://aqui seria case PROFESOR
             openWindow("/main/application/views/professor/ProfessorMenuFXML.fxml");
             break;
             

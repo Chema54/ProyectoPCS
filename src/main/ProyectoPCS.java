@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.database.DBConnector;
 
 /**
  *
@@ -26,8 +27,13 @@ public class ProyectoPCS extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-
-    public static void main(String[] args) {
-        launch(args);
+    
+    @Override
+    public void stop() {
+        DBConnector.deleteConfiguration();
     }
-}
+
+        public static void main(String[] args) {
+            launch(args);
+        }
+    }

@@ -6,32 +6,69 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Created on : 30 may 2026, 3:02:21 a.m.
     Author     : josem
 */
-/* ====== Botones ====== */
-/* ====== Botones ====== */
 .button {
-    -fx-background-color: #FF9800;   /* naranja primordial */
-    -fx-text-fill: white;            /* texto blanco por defecto */
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
+
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0,0,0,0.20),
+        8,
+        0.2,
+        0,
+        2
+    );
 }
 
-/* Hover */
+/* Mouse encima */
 .button:hover {
-    -fx-background-color: #FFFFFF;   /* fondo blanco */
-    -fx-text-fill: white;            /* texto blanco en hover */
+    -fx-background-color: #FFB74D;
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0,0,0,0.35),
+        12,
+        0.3,
+        0,
+        4
+    );
+
+    -fx-translate-y: -1;
 }
 
 /* Presionado */
 .button:pressed {
-    -fx-background-color: #2B2B2B;   /* gris oscuro */
-    -fx-text-fill: white;
+    -fx-background-color: #E65100;
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0,0,0,0.15),
+        4,
+        0.1,
+        0,
+        1
+    );
+
+    -fx-translate-y: 2;
 }
 
 /* ====== ComboBox ====== */
 .combo-box {
-    -fx-background-color: #FF9800;   /* naranja primordial */
-    -fx-text-fill: white;            /* texto blanco por defecto */
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 4px;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.combo-box:hover {
+    -fx-background-color: #FFB74D;
 }
 
 /* Items desplegados */
@@ -54,19 +91,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .tab {
-    -fx-background-color: #25A794;   /* verde aqua */
-    -fx-text-fill: white;            /* texto blanco por defecto */
+    -fx-background-color: #25A794;
     -fx-font-weight: bold;
 }
 
-.tab:selected {
-    -fx-background-color: #FF9800;   /* naranja primordial */
-    -fx-text-fill: white;
+.tab:hover {
+    -fx-background-color: #38C6AF;
 }
 
-.tab:hover {
-    -fx-background-color: #FFFFFF;
-    -fx-text-fill: white;            /* texto blanco en hover */
+.tab:selected {
+    -fx-background-color: #FF9800;
 }
 
 /* ====== Tabla ====== */
@@ -80,13 +114,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 /* Encabezados de columnas */
 .table-view .column-header {
     -fx-background-color: #25A794;
-    -fx-text-fill: white;            /* texto blanco por defecto */
-    -fx-font-weight: bold;
 }
 
 .table-view .column-header:hover {
-    -fx-background-color: #FF9800;
-    -fx-text-fill: white;            /* texto blanco en hover */
+    -fx-background-color: #1E8878;
 }
 
 /* Filas */
