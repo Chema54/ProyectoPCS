@@ -9,11 +9,25 @@ package main.common;
  * @author josem
  */
 public class UserDisplayableException extends Exception {
-  public UserDisplayableException(String message) {
-    super(message);
-  }
+    private final String title;
+    private final String header;
+    private final String detail;
 
-  public UserDisplayableException(String message, Throwable cause) {
-    super(message, cause);
-  }
+    public UserDisplayableException(String title, String header, String detail) {
+        super(detail);
+        this.title = title;
+        this.header = header;
+        this.detail = detail;
+    }
+    
+    public UserDisplayableException(String title, String header, String detail, Throwable cause) {
+        super(detail, cause);
+        this.title = title;
+        this.header = header;
+        this.detail = detail;
+    }
+
+    public String getTitle() { return title; }
+    public String getHeader() { return header; }
+    public String getDetail() { return detail; }
 }
