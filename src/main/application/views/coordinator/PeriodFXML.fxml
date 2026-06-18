@@ -22,9 +22,9 @@
                               <TableColumn prefWidth="113.0" text="Estado" />
                           </columns>
                         </TableView>
-                        <TextField layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el Periodo Escolar" />
-                        <ComboBox layoutX="352.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <Button layoutX="500.0" layoutY="32.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Registrar Periodo" />
+                        <TextField fx:id="txtSearchPeriod" layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el Periodo Escolar" />
+                        <ComboBox fx:id="cmbFilterPeriod" layoutX="352.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <Button fx:id="btnRegisterPeriod" layoutX="500.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleRegisterPeriod" prefHeight="25.0" prefWidth="124.0" text="Registrar Periodo" />
                      </children>
                   </AnchorPane>
             </content>
@@ -33,16 +33,16 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                        <TableView fx:id="tvEducationalExperiences" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
                            <columns>
                               <TableColumn minWidth="-1.0" prefWidth="168.0" text="NRC" />
                               <TableColumn minWidth="-1.0" prefWidth="211.0" text="Periodo Escolar" />
                               <TableColumn minWidth="-1.0" prefWidth="203.0" text="Profesor Asignado" />
                            </columns>
                         </TableView>
-                        <Button layoutX="483.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Registrar Experiencia &#10;Educativa" />
-                        <ComboBox layoutX="350.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <TextField layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el NRC" />
+                        <Button fx:id="btnRegisterEE" layoutX="483.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Registrar Experiencia &#10;Educativa" />
+                        <ComboBox fx:id="cmbFilterEE" layoutX="350.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <TextField fx:id="txtSearchNRC" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el NRC" />
                      </children>
                   </AnchorPane>
             </content>

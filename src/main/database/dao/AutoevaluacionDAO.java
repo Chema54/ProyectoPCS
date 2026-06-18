@@ -34,7 +34,7 @@ public class AutoevaluacionDAO extends CompleteDAOShape<AutoevaluacionDTO, Integ
             "DELETE FROM Autoevaluacion WHERE id_autoevaluacion = ?";
             
     private static final String CREATE_SHELL_QUERY =
-            "INSERT INTO Autoevaluacion (id_asignacion) VALUES (?)";
+            "INSERT INTO Autoevaluacion (id_asignacion, estado) VALUES (?, 'Inhabilitado')";
 
     @Override
     public void createOne(AutoevaluacionDTO selfAssessmentDTO) throws UserDisplayableException {
@@ -49,8 +49,7 @@ public class AutoevaluacionDAO extends CompleteDAOShape<AutoevaluacionDTO, Integ
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro de la autoevaluacion, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 
@@ -62,8 +61,7 @@ public class AutoevaluacionDAO extends CompleteDAOShape<AutoevaluacionDTO, Integ
             statement.setInt(1, assignmentId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la generación del cascarón de autoevaluacion, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 

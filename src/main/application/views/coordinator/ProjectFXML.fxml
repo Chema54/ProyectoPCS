@@ -23,9 +23,9 @@
                             <TableColumn minWidth="-1.0" prefWidth="73.0" text="Cupo Total" />
                           </columns>
                         </TableView>
-                        <TextField layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Proyecto" />
-                        <ComboBox layoutX="352.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <Button layoutX="500.0" layoutY="32.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Registrar Proyecto" />
+                        <TextField fx:id="txtSearchProject" layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Proyecto" />
+                        <ComboBox fx:id="cmbFilterProject" layoutX="352.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <Button fx:id="btnRegisterProject" layoutX="500.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleRegisterProject" prefHeight="25.0" prefWidth="124.0" text="Registrar Proyecto" />
                      </children>
                   </AnchorPane>
             </content>
@@ -34,7 +34,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                        <TableView fx:id="tvAssignments" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
                            <columns>
                               <TableColumn minWidth="-1.0" prefWidth="133.0" text="Nombre del Proyecto" />
                               <TableColumn minWidth="-1.0" prefWidth="119.0" text="Matricula" />
@@ -43,9 +43,9 @@
                               <TableColumn text="Estado" />
                            </columns>
                         </TableView>
-                        <Button layoutX="498.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Asignar Proyecto" />
-                        <ComboBox layoutX="353.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <TextField layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Practicante" />
+                        <Button fx:id="btnAssignProject" layoutX="498.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleAssignProject" prefHeight="25.0" prefWidth="124.0" text="Asignar Proyecto" />
+                        <ComboBox fx:id="cmbFilterAssignment" layoutX="353.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <TextField fx:id="txtSearchIntern" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Practicante" />
                      </children>
                   </AnchorPane>
             </content>
@@ -54,7 +54,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="38.0" layoutY="74.0" prefHeight="378.0" prefWidth="584.0">
+                        <TableView fx:id="tvOrganizations" layoutX="38.0" layoutY="74.0" prefHeight="378.0" prefWidth="584.0">
                            <columns>
                               <TableColumn minWidth="-1.0" prefWidth="160.0" text="Nombre de Organizacion" />
                               <TableColumn minWidth="-1.0" prefWidth="93.0" text="Sector" />
@@ -63,8 +63,8 @@
                               <TableColumn prefWidth="84.0" text="Telefono" />
                            </columns>
                         </TableView>
-                        <TextField layoutX="38.0" layoutY="29.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre de la Organizacion vinculada" />
-                        <Button layoutX="464.0" layoutY="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="158.0" text="Registrar Organizacion" />
+                        <TextField fx:id="txtSearchOrganization" layoutX="38.0" layoutY="29.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre de la Organizacion vinculada" />
+                        <Button fx:id="btnRegisterOrganization" layoutX="464.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleRegisterOrganization" prefHeight="25.0" prefWidth="158.0" text="Registrar Organizacion" />
                      </children>
                   </AnchorPane>
               </content>

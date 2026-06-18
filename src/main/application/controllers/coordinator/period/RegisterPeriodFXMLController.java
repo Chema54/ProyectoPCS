@@ -1,0 +1,129 @@
+package main.application.controllers.coordinator.period;
+
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import main.business.dto.PeriodoDTO;
+import main.common.Modal;
+import main.common.UserDisplayableException;
+import main.service.PeriodoService;
+
+public class RegisterPeriodFXMLController implements Initializable {
+
+    @FXML
+    private TextField textFieldName;
+    @FXML
+    private DatePicker datePickerStartDate;
+    @FXML
+    private DatePicker datePickerEndDate;
+    @FXML
+    private Label labelErrorName;
+    @FXML
+    private Label labelErrorStartDate;
+    @FXML
+    private Label labelErrorEndDate;
+    @FXML
+    private Button btnFinalizar;
+    @FXML
+    private Button btnCancelar;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        clearErrorLabels();
+    }
+
+    private void clearErrorLabels() {
+        labelErrorName.setText("");
+        labelErrorStartDate.setText("");
+        labelErrorEndDate.setText("");
+    }
+
+    @FXML
+    private void registerPeriod(ActionEvent event) {
+        if (!validateFields()) {
+            return; // Regresa al paso 2 del flujo normal (FA 3.1 y FA 3.2)
+        }
+
+        // 4. Despliega ventana de confirmación (Paso 4 y 5)
+        boolean isConfirmed = Modal.displayConfirmation("¿Está seguro que desea registrar este Periodo?");
+        
+        if (!isConfirmed) {
+            return; // FA 5.1 Rechazar Confirmación: Regresa al paso 3 (se queda en la ventana)
+        }
+
+        try {
+            // 7. El SGPP guarda en la base de datos el Periodo capturado
+            PeriodoDTO periodo = new PeriodoDTO.PeriodoBuilder()
+                    .setName(textFieldName.getText().trim())
+                    .setStartDate(java.sql.Date.valueOf(datePickerStartDate.getValue()))
+                    .setEndDate(java.sql.Date.valueOf(datePickerEndDate.getValue()))
+                    .build();
+
+            PeriodoService.registrarNuevoPeriodo(periodo);
+
+            // 8. Despliega ventana de Acción Realizada
+            Modal.displayInformation("Registro Exitoso", "El Periodo ha sido registrado y abierto exitosamente.");
+            closeWindow(); // 10. Cierra la ventana
+
+        } catch (UserDisplayableException e) {
+            // EX1 - Error de conexión u otros errores manejados por el Service
+            Modal.displayError(e);
+        } catch (Exception e) {
+            Modal.displayError(new UserDisplayableException(
+                "Error del Sistema", 
+                "No se pudo completar el registro", 
+                "Ocurrió un error con el sistema", 
+                e
+            ));
+        }
+    }
+
+    private boolean validateFields() {
+        clearErrorLabels();
+        boolean isValid = true;
+
+        String name = textFieldName.getText().trim();
+        LocalDate startDate = datePickerStartDate.getValue();
+        LocalDate endDate = datePickerEndDate.getValue();
+
+        // FA 3.1 Campos Vacíos de registro
+        if (name.isEmpty()) {
+            labelErrorName.setText("El campo Nombre del Periodo es obligatorio");
+            isValid = false;
+        }
+        if (startDate == null) {
+            labelErrorStartDate.setText("El campo Fecha de Inicio es obligatorio");
+            isValid = false;
+        }
+        if (endDate == null) {
+            labelErrorEndDate.setText("El campo Fecha de Fin es obligatorio");
+            isValid = false;
+        }
+
+        // FA 3.2 Campos con valores incorrectos (Lógica superficial, la profunda está en el Service)
+        if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
+            labelErrorEndDate.setText("El campo Fecha de Fin contiene valores invalidos (No puede ser antes del inicio)");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    @FXML
+    private void cancel(ActionEvent event) {
+        closeWindow();
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) btnCancelar.getScene().getWindow();
+        stage.close();
+    }
+}

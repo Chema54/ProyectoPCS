@@ -53,8 +53,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro de la evaluacion de organizacion vinculada, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 

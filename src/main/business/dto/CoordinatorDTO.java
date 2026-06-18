@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.business.dto;
 
-/**
- *
- * @author josem
- */
 public class CoordinatorDTO {
 
     private final int idCoordinator;
@@ -15,6 +7,9 @@ public class CoordinatorDTO {
     private final String username;
     private final String academicNumber;
     private final String name;
+    private final String lastName;
+    private final String motherLastName;
+    private final String email;
 
     public CoordinatorDTO(CoordinatorBuilder builder) {
         this.idCoordinator = builder.idCoordinator;
@@ -22,8 +17,12 @@ public class CoordinatorDTO {
         this.username = builder.username;
         this.academicNumber = builder.academicNumber;
         this.name = builder.name;
+        this.lastName = builder.lastName;
+        this.motherLastName = builder.motherLastName;
+        this.email = builder.email;
     }
 
+    // Getters
     public int getIDCoordinator() {
         return idCoordinator;
     }
@@ -44,23 +43,16 @@ public class CoordinatorDTO {
         return name;
     }
 
-    @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
+    public String getLastName() {
+        return lastName;
+    }
 
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
+    public String getMotherLastName() {
+        return motherLastName;
+    }
 
-        CoordinatorDTO that = (CoordinatorDTO) instance;
-
-        return idCoordinator == that.idCoordinator
-                && idUser == that.idUser
-                && username.equals(that.username)
-                && academicNumber.equals(that.academicNumber)
-                && name.equals(that.name);
+    public String getEmail() {
+        return email;
     }
 
     public static class CoordinatorBuilder {
@@ -70,6 +62,9 @@ public class CoordinatorDTO {
         protected String username;
         protected String academicNumber;
         protected String name;
+        protected String lastName;
+        protected String motherLastName;
+        protected String email;
 
         public CoordinatorBuilder setIDCoordinator(int idCoordinator) {
             this.idCoordinator = idCoordinator;
@@ -96,6 +91,21 @@ public class CoordinatorDTO {
             return this;
         }
 
+        public CoordinatorBuilder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public CoordinatorBuilder setMotherLastName(String motherLastName) {
+            this.motherLastName = motherLastName;
+            return this;
+        }
+
+        public CoordinatorBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
         public CoordinatorDTO build() {
             return new CoordinatorDTO(this);
         }
@@ -103,6 +113,6 @@ public class CoordinatorDTO {
 
     @Override
     public String toString() {
-        return username + " - " + name + " (" + academicNumber + ")";
+        return name + " " + lastName + " (" + academicNumber + ")";
     }
 }

@@ -26,23 +26,23 @@ public class CoordinatorDAO extends CompleteDAOShape<CoordinatorDTO, Integer> {
     private static final Logger LOGGER = LogManager.getLogger(CoordinatorDTO.class);
     
     private static final String CREATE_QUERY = 
-        "INSERT INTO Coordinador (id_usuario, numeroPersonal, nombreCoordinador) VALUES (?, ?, ?)";
+        "INSERT INTO Coordinador (id_usuario, numeroPersonal, nombre, apellido_paterno, apellido_materno, correo) VALUES (?, ?, ?, ?, ?, ?)";    
     private static final String GET_ALL_QUERY = 
         "SELECT c.id_coordinador, c.id_usuario, u.username, " +
-        "c.numeroPersonal, c.nombreCoordinador " +
+        "c.numeroPersonal, c.nombre, c.apellido_paterno, c.apellido_materno, c.correo " +
         "FROM Coordinador c " +
         "INNER JOIN Usuario u ON c.id_usuario = u.id_usuario";
     private static final String GET_QUERY = 
         "SELECT c.id_coordinador, c.id_usuario, u.username, " +
-        "c.numeroPersonal, c.nombreCoordinador " +
+        "c.numeroPersonal, c.nombre, c.apellido_paterno, c.apellido_materno, c.correo " +
         "FROM Coordinador c " +
         "INNER JOIN Usuario u ON c.id_usuario = u.id_usuario " +
         "WHERE c.id_coordinador = ?";
     private static final String UPDATE_QUERY = 
         "UPDATE Coordinador " +
-        "SET id_usuario = ?, numeroPersonal = ?, nombreCoordinador = ? " +
+        "SET id_usuario = ?, numeroPersonal = ?, nombre = ?, apellido_paterno = ?, apellido_materno = ?, correo = ? " +
         "WHERE id_coordinador = ?";
-    private static final String DELETE_QUERY = 
+      private static final String DELETE_QUERY = 
         "DELETE FROM Coordinador WHERE id_coordinador = ?";
 
     @Override
@@ -54,6 +54,10 @@ public class CoordinatorDAO extends CompleteDAOShape<CoordinatorDTO, Integer> {
             statement.setInt(1, coordinatorDTO.getIDUser());
             statement.setString(2, coordinatorDTO.getAcademicNumber());
             statement.setString(3, coordinatorDTO.getNombre());
+            statement.setString(4, coordinatorDTO.getLastName()); 
+            statement.setString(5, coordinatorDTO.getMotherLastName());
+            statement.setString(6, coordinatorDTO.getEmail());
+            
             statement.executeUpdate();
         } catch (SQLException e) {
             throw ExceptionHandler.handleSQLException(
@@ -76,7 +80,7 @@ public class CoordinatorDAO extends CompleteDAOShape<CoordinatorDTO, Integer> {
                     .setIDUser(resultSet.getInt("id_usuario"))
                     .setUsername(resultSet.getString("username"))
                     .setAcademicNumber(resultSet.getString("numeroPersonal"))
-                    .setName(resultSet.getString("nombreCoordinador"))
+                    .setName(resultSet.getString("nombre"))
                     .build();
                 coordinators.add(coordinator);
             }

@@ -25,10 +25,18 @@ public class AsignacionService {
 
         int idGenerado = asignacionDAO.createOneAndReturnId(asignacion);
 
-        // Coordina a los DAO
-        DocumentoAceptacionDAO.crearCascaron(idGenerado);
-        ReporteMensualDAO.crearCascaron(idGenerado);
-        AutoevaluacionDAO.crearCascaron(idGenerado);
-        EvaluacionOVDAO.crearCascaron(idGenerado);
+        if (idGenerado > 0) {
+            // Generación en cascada de cascarones (Regla #5)
+            DocumentoAceptacionDAO.crearCascaron(idGenerado);
+            ReporteMensualDAO.crearCascaron(idGenerado);
+            AutoevaluacionDAO.crearCascaron(idGenerado);
+            EvaluacionOVDAO.crearCascaron(idGenerado);
+        } else {
+            throw new UserDisplayableException(
+                "Error de Registro",
+                "No se pudo completar la asignación",
+                "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos"
+            );
+        }
     }
 }

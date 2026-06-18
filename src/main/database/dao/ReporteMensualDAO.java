@@ -19,22 +19,22 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
     private static final Logger LOGGER = LogManager.getLogger(ReporteMensualDAO.class);
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Reporte_Mensual (id_asignacion, archivo, estado, fecha_entrega, fecha_limite, horas_reportadas, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Reporte (id_asignacion, tipo_reporte, archivo, estado, fecha_entrega, fecha_limite, horas_reportadas, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT * FROM Reporte_Mensual";
+            "SELECT * FROM Reporte";
 
     private static final String GET_QUERY =
-            "SELECT * FROM Reporte_Mensual WHERE id_reporte = ?";
+            "SELECT * FROM Reporte WHERE id_reporte = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Reporte_Mensual SET id_asignacion = ?, archivo = ?, estado = ?, fecha_entrega = ?, fecha_limite = ?, horas_reportadas = ?, calificacion = ?, comentarios = ? WHERE id_reporte = ?";
+            "UPDATE Reporte SET id_asignacion = ?, tipo_reporte = ?, archivo = ?, estado = ?, fecha_entrega = ?, fecha_limite = ?, horas_reportadas = ?, calificacion = ?, comentarios = ? WHERE id_reporte = ?";
 
     private static final String DELETE_QUERY =
-            "DELETE FROM Reporte_Mensual WHERE id_reporte = ?";
+            "DELETE FROM Reporte WHERE id_reporte = ?";
             
     private static final String CREATE_SHELL_QUERY =
-            "INSERT INTO Reporte_Mensual (id_asignacion, estado) VALUES (?, 'Inhabilitado')";
+            "INSERT INTO Reporte (id_asignacion, tipo_reporte, estado) VALUES (?, 'Mensual', 'Inhabilitado')";
 
     @Override
     public void createOne(ReporteMensualDTO reportDTO) throws UserDisplayableException {
@@ -43,19 +43,19 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
             statement.setInt(1, reportDTO.getAssignmentId());
-            statement.setString(2, reportDTO.getFile());
-            statement.setString(3, reportDTO.getStatus() != null ? reportDTO.getStatus() : "Pendiente");
-            statement.setDate(4, reportDTO.getDeliveryDate());
-            statement.setDate(5, reportDTO.getDeadline());
-            statement.setInt(6, reportDTO.getReportedHours());
-            statement.setBigDecimal(7, reportDTO.getScore());
-            statement.setString(8, reportDTO.getComments());
+            statement.setString(2, "Mensual");
+            statement.setString(3, reportDTO.getFile());
+            statement.setString(4, reportDTO.getStatus() != null ? reportDTO.getStatus() : "Pendiente");
+            statement.setDate(5, reportDTO.getDeliveryDate());
+            statement.setDate(6, reportDTO.getDeadline());
+            statement.setInt(7, reportDTO.getReportedHours());
+            statement.setBigDecimal(8, reportDTO.getScore());
+            statement.setString(9, reportDTO.getComments());
 
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro del reporte mensual, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 
@@ -67,8 +67,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             statement.setInt(1, assignmentId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la generación del cascarón de reporte, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 
@@ -99,8 +98,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             return reports;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la consulta de reportes mensuales, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 
@@ -129,8 +127,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la búsqueda del reporte mensual, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 
@@ -141,19 +138,19 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
             statement.setInt(1, reportDTO.getAssignmentId());
-            statement.setString(2, reportDTO.getFile());
-            statement.setString(3, reportDTO.getStatus());
-            statement.setDate(4, reportDTO.getDeliveryDate());
-            statement.setDate(5, reportDTO.getDeadline());
-            statement.setInt(6, reportDTO.getReportedHours());
-            statement.setBigDecimal(7, reportDTO.getScore());
-            statement.setString(8, reportDTO.getComments());
-            statement.setInt(9, reportDTO.getMonthlyReportId());
+            statement.setString(2, "Mensual");
+            statement.setString(3, reportDTO.getFile());
+            statement.setString(4, reportDTO.getStatus());
+            statement.setDate(5, reportDTO.getDeliveryDate());
+            statement.setDate(6, reportDTO.getDeadline());
+            statement.setInt(7, reportDTO.getReportedHours());
+            statement.setBigDecimal(8, reportDTO.getScore());
+            statement.setString(9, reportDTO.getComments());
+            statement.setInt(10, reportDTO.getMonthlyReportId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la actualización del reporte mensual, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 
@@ -166,8 +163,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la eliminación del reporte mensual, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 }

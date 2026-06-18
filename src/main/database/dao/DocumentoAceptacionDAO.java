@@ -50,8 +50,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro del documento de aceptacion, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e);
         }
     }
 

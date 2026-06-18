@@ -121,18 +121,41 @@ public class UserFXMLController implements Initializable {
     }
     
     @FXML
-    private void goToRegisterCoordinator(ActionEvent event) throws UserDisplayableException{
+    private void handleRegisterIntern(ActionEvent event) {
+        openModalWindow("/main/application/views/coordinator/intern/RegisterInternFXML.fxml", "Registrar Nuevo Practicante");
+    }
+
+    @FXML
+    private void handleRegisterProfessor(ActionEvent event) {
+        Modal.displayAlert("Información", "Módulo en construcción", "El registro de profesores estará disponible próximamente.");
+    }
+
+    @FXML
+    private void handleRegisterCoordinator(ActionEvent event) {
+        openModalWindow("/main/application/views/coordinator/user/RegisterUserCoordinatorFXML.fxml", "Registrar Nuevo Coordinador");
+    }
+
+    private void openModalWindow(String fxmlPath, String title) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/main/application/views/coordinator/user/RegisterUserCoordinatorFXML.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Registrar Coordinador");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle(title);
             stage.setScene(new Scene(root));
-            stage.setResizable(false);
-            stage.show();
+            stage.showAndWait();
+            loadCoordinators(); // Refresh table
         } catch (IOException e) {
-            throw ExceptionHandler.handleGUILoadIOException(LOGGER, e);
+            Modal.displayError(ExceptionHandler.handleGUILoadIOException(LOGGER, e));
+        } catch (Exception e) {
+            Modal.displayError(ExceptionHandler.handleUnexpectedException(LOGGER, e, "Error al abrir la ventana: " + title));
         }
     }
+
+    @FXML
+    @Deprecated
+    private void goToRegisterCoordinator(ActionEvent event) throws UserDisplayableException{
+        handleRegisterCoordinator(event);
+    }
 }
+

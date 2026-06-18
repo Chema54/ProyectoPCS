@@ -6,6 +6,7 @@ package main.common;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import main.common.UserDisplayableException;
 
@@ -50,7 +51,7 @@ public final class Modal {
         alert.showAndWait();
     }
 
-    public static void displayConfirmation(String message) {
+    public static boolean displayConfirmation(String message) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
 
         alert.setTitle("Confirmación");
@@ -58,6 +59,6 @@ public final class Modal {
         alert.setContentText(message);
 
         alert.initModality(Modality.APPLICATION_MODAL);
-        alert.showAndWait();
+        return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
     }
 }

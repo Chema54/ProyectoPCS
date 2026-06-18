@@ -68,33 +68,30 @@ public class ExceptionHandler {
         }
 
         logger.error("Error de Entrada/Salida Desconocido: {}", e);
-        String detail = message + " Error de Entrada/Salida desconocido. Por favor, inténtelo más tarde.";
         return new UserDisplayableException(
             "Error de Entrada/Salida", 
             "Problema de lectura/escritura", 
-            detail.trim(), 
+            "Ocurrió un error con el sistema", 
             e
         );
     }
 
     private static UserDisplayableException handleFileNotFoundExceptionMessage(Logger logger, FileNotFoundException e, String message) {
         logger.error("Archivo no Encontrado (Verificar Ruta de Archivo): {}", e);
-        String detail = message + " Error de archivo no encontrado. Por favor, verifique la ruta del archivo.";
         return new UserDisplayableException(
             "Ruta de Archivo no encontrada", 
             "Archivo no disponible", 
-            detail.trim(), 
+            "Ocurrió un error con el sistema", 
             e
         );
     }
 
     private static UserDisplayableException handleAccessDeniedExceptionMessage(Logger logger, AccessDeniedException e, String message) {
         logger.error("Acceso Denegado (Verificar Permisos): {}", e);
-        String detail = message + " Acceso denegado. Por favor, verifique los permisos del archivo.";
         return new UserDisplayableException(
             "Permisos de Archivo Denegados", 
             "Acceso restringido", 
-            detail.trim(), 
+            "Ocurrió un error con el sistema", 
             e
         );
     }
@@ -109,40 +106,13 @@ public class ExceptionHandler {
     }
 
     public static UserDisplayableException handleSQLException(Logger logger, SQLException e, String message) {
-        String state = Optional.ofNullable(e.getSQLState()).orElse("");
-        String title;
-        String header;
-        String detail;
-
-        switch (state.substring(0, 2)) {
-            case "08":
-                title = "Error de Conexión";
-                header = "No se pudo conectar a la base de datos";
-                detail = "Inténtelo más tarde.";
-                break;
-            case "23":
-                title = "Error de Integridad";
-                header = "Violación de integridad de datos";
-                detail = "Revise la información ingresada.";
-                break;
-            case "28":
-                title = "Error de Autenticación";
-                header = "Inicio de sesión fallido";
-                detail = "Usuario y/o contraseña incorrectos.";
-                break;
-            case "42":
-                title = "Error de Sintaxis SQL";
-                header = "Consulta inválida";
-                detail = "Contacte al administrador del sistema.";
-                break;
-            default:
-                title = "Error SQL Desconocido";
-                header = "Ha ocurrido un error inesperado";
-                detail = SQL_UNKNOWN_ERROR;
-        }
-
-        logger.error("{} - SQLState: {}", title, state, e);
-        return new UserDisplayableException(title, header, detail.trim(), e);
+        logger.error("Error de SQL detectado. SQLState: {}", e.getSQLState(), e);
+        return new UserDisplayableException(
+            "Error de Base de Datos", 
+            "Error de conexión", 
+            "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos", 
+            e
+        );
     }
 
 
