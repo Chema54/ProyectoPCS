@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.database.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +24,9 @@ public class UserDAO extends CompleteDAOShape<UserDTO, String> {
 
     private static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
 
+    // Ajustado para omitir id_usuario (ya que es autoincrementable) y usar id_rol
     private static final String CREATE_QUERY =
-            "INSERT INTO Usuario (id_usuario, username, password, role, access) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO Usuario (username, password, role, access, id_rol) VALUES (?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
             "SELECT * FROM Usuario";
@@ -48,11 +46,11 @@ public class UserDAO extends CompleteDAOShape<UserDTO, String> {
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
-            statement.setInt(1, userDTO.getUserID());
-            statement.setString(2, userDTO.getUsername());
-            statement.setString(3, userDTO.getPassword());
-            statement.setString(4, userDTO.getRole().name());
-            statement.setBoolean(5, userDTO.hasAccess());
+            statement.setString(1, userDTO.getUsername());
+            statement.setString(2, userDTO.getPassword());
+            statement.setString(3, userDTO.getRole().name());
+            statement.setBoolean(4, userDTO.hasAccess());
+            statement.setInt(5, userDTO.getRole().getIdRol());
 
             statement.executeUpdate();
 
@@ -60,6 +58,35 @@ public class UserDAO extends CompleteDAOShape<UserDTO, String> {
             throw ExceptionHandler.handleSQLException(
                     LOGGER, e, "No ha sido posible crear el usuario.");
         }
+    }
+
+    public int createOneAndReturnId(UserDTO userDTO) throws UserDisplayableException {
+        int generatedId = -1;
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setString(1, userDTO.getUsername());
+            statement.setString(2, userDTO.getPassword());
+            statement.setString(3, userDTO.getRole().name());
+            statement.setBoolean(4, userDTO.hasAccess());
+            statement.setInt(5, userDTO.getRole().getIdRol());
+
+            statement.executeUpdate();
+            
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    generatedId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Fallo al obtener el ID del usuario generado.");
+                }
+            }
+
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(
+                    LOGGER, e, "No ha sido posible crear el usuario.");
+        }
+        return generatedId;
     }
 
     @Override

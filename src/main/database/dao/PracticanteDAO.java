@@ -7,10 +7,8 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import main.database.dao.shape.CompleteDAOShape;
 import main.business.dto.PracticanteDTO;
-import main.business.dto.UserDTO;
 import main.common.ExceptionHandler;
 import main.common.UserDisplayableException;
 import main.database.DBConnector;
@@ -21,9 +19,6 @@ public class PracticanteDAO extends CompleteDAOShape<PracticanteDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(PracticanteDAO.class);
 
-    private static final String CREATE_USER_QUERY =
-            "INSERT INTO Usuario (username, password, role, access, id_rol) VALUES (?, ?, 'INTERN', 1, 1)";
-    
     private static final String CREATE_INTERN_QUERY =
             "INSERT INTO Practicante (nombre, apellido_paterno, apellido_materno, correo, matricula, estado, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -41,63 +36,55 @@ public class PracticanteDAO extends CompleteDAOShape<PracticanteDTO, Integer> {
 
     @Override
     public void createOne(PracticanteDTO internDTO) throws UserDisplayableException {
-        Connection connection = null;
-        try {
-            connection = DBConnector.getInstance().getConnection();
-            connection.setAutoCommit(false);
-
-            String rawPassword = UUID.randomUUID().toString().substring(0, 8);
-            String hashedPassword = UserDTO.getGeneratedHashedPassword(rawPassword);
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement internStatement = connection.prepareStatement(CREATE_INTERN_QUERY)
+        ) {
+            internStatement.setString(1, internDTO.getName());
+            internStatement.setString(2, internDTO.getPaternalSurname());
+            internStatement.setString(3, internDTO.getMaternalSurname());
+            internStatement.setString(4, internDTO.getEmail());
+            internStatement.setString(5, internDTO.getEnrollment());
+            internStatement.setString(6, internDTO.getStatus() != null ? internDTO.getStatus() : "Activo");
+            internStatement.setInt(7, internDTO.getUserId());
             
-            int generatedUserId = 0;
-            try (PreparedStatement userStatement = connection.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-                userStatement.setString(1, internDTO.getEnrollment());
-                userStatement.setString(2, hashedPassword);
-                userStatement.executeUpdate();
-                
-                try (ResultSet generatedKeys = userStatement.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        generatedUserId = generatedKeys.getInt(1);
-                    } else {
-                        throw new SQLException("Fallo al obtener el ID del usuario generado.");
-                    }
-                }
-            }
-
-            try (PreparedStatement internStatement = connection.prepareStatement(CREATE_INTERN_QUERY)) {
-                internStatement.setString(1, internDTO.getName());
-                internStatement.setString(2, internDTO.getPaternalSurname());
-                internStatement.setString(3, internDTO.getMaternalSurname());
-                internStatement.setString(4, internDTO.getEmail());
-                internStatement.setString(5, internDTO.getEnrollment());
-                internStatement.setString(6, internDTO.getStatus() != null ? internDTO.getStatus() : "Activo");
-                internStatement.setInt(7, generatedUserId);
-                
-                internStatement.executeUpdate();
-            }
-
-            connection.commit();
+            internStatement.executeUpdate();
 
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    LOGGER.error("Error al revertir la transacción", ex);
-                }
-            }
             throw ExceptionHandler.handleSQLException(
                     LOGGER, e, "No se ha podido realizar el registro del practicante, debido a un error de conexión con la Base de datos");
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.setAutoCommit(true);
-                    connection.close();
-                } catch (SQLException e) {
-                    LOGGER.error("Error al cerrar la conexión", e);
+        }
+    }
+
+    public int createOneAndReturnId(PracticanteDTO internDTO) throws UserDisplayableException {
+        int generatedId = -1;
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement internStatement = connection.prepareStatement(CREATE_INTERN_QUERY, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            internStatement.setString(1, internDTO.getName());
+            internStatement.setString(2, internDTO.getPaternalSurname());
+            internStatement.setString(3, internDTO.getMaternalSurname());
+            internStatement.setString(4, internDTO.getEmail());
+            internStatement.setString(5, internDTO.getEnrollment());
+            internStatement.setString(6, internDTO.getStatus() != null ? internDTO.getStatus() : "Activo");
+            internStatement.setInt(7, internDTO.getUserId());
+            
+            internStatement.executeUpdate();
+            
+            try (ResultSet generatedKeys = internStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    generatedId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Fallo al obtener el ID del practicante generado.");
                 }
             }
+
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(
+                    LOGGER, e, "No se ha podido realizar el registro del practicante, debido a un error de conexión con la Base de datos");
         }
+        return generatedId;
     }
 
     @Override
