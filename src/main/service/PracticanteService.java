@@ -1,5 +1,6 @@
 package main.service;
 
+import java.util.List;
 import java.util.UUID;
 import main.business.dto.PracticanteDTO;
 import main.business.dto.UserDTO;
@@ -10,9 +11,34 @@ import main.common.UserDisplayableException;
 
 public class PracticanteService {
 
+    public static List<PracticanteDTO> getAllPracticantes() throws UserDisplayableException {
+        PracticanteDAO dao = new PracticanteDAO();
+        return dao.getAll();
+    }
+
     public static void registrarNuevoPracticante(PracticanteDTO practicante) throws UserDisplayableException {
         
-        // 1. Validaciones de negocio (Si aplica, ej. verificar que la matrícula no exista)
+        // 1. Validaciones de negocio estrictas
+        String enrollment = practicante.getEnrollment();
+        String email = practicante.getEmail();
+        
+        // Validación de Matrícula: Empieza con 'S' seguida de 8 números (total 9 caracteres)
+        if (enrollment == null || !enrollment.matches("^S\\d{8}$")) {
+            throw new UserDisplayableException(
+                "Restricción de Practicante",
+                "Formato de matrícula inválido",
+                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
+            );
+        }
+        
+        // Validación de Correo: Empieza con 'zS', seguido de 8 números, y termina con @estudiantes.uv.mx
+        if (email == null || !email.matches("^zS\\d{8}@estudiantes\\.uv\\.mx$")) {
+            throw new UserDisplayableException(
+                "Restricción de Practicante",
+                "Formato de correo electrónico inválido",
+                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
+            );
+        }
         
         // 2. Generación automática de contraseña
         String rawPassword = UUID.randomUUID().toString().substring(0, 8);
@@ -20,7 +46,7 @@ public class PracticanteService {
         
         // 3. Crear DTO de Usuario y guardarlo para obtener el ID
         UserDTO nuevoUsuario = new UserDTO.UserBuilder()
-            .setUsername(practicante.getEnrollment()) // Usamos matrícula como username
+            .setUsername(practicante.getEnrollment())
             .setPassword(hashedPassword)
             .setRole(UserRole.INTERN)
             .setAccess(true)
