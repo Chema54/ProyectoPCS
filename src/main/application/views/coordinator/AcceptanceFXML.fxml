@@ -31,14 +31,16 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                        <TableView fx:id="tvAcceptance" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
                            <columns>
-                              <TableColumn minWidth="-1.0" prefWidth="295.0" text="Nombre de Practicante" />
-                              <TableColumn minWidth="-1.0" prefWidth="288.0" text="NRC" />
+                              <TableColumn fx:id="colAsigId" minWidth="-1.0" prefWidth="100.0" text="ID Asignación" />
+                              <TableColumn fx:id="colFile" minWidth="-1.0" prefWidth="200.0" text="Archivo" />
+                              <TableColumn fx:id="colStatus" minWidth="-1.0" prefWidth="144.0" text="Estado" />
+                              <TableColumn fx:id="colDate" minWidth="-1.0" prefWidth="139.0" text="Fecha Entrega" />
                            </columns>
                         </TableView>
-                        <ComboBox layoutX="350.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <TextField layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Practicante" />
+                        <ComboBox fx:id="cmbFilterDoc" layoutX="350.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <TextField fx:id="txtSearchDoc" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el ID o nombre del documento" />
                      </children>
                   </AnchorPane>
             </content>

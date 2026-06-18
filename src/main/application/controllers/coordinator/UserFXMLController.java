@@ -17,17 +17,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.common.Modal;
 import main.business.dto.CoordinatorDTO;
+import main.business.dto.PracticanteDTO;
 import main.common.ExceptionHandler;
 import main.common.UserDisplayableException;
 import main.database.dao.CoordinatorDAO;
+import main.database.dao.PracticanteDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,6 +51,17 @@ public class UserFXMLController implements Initializable {
     @FXML
     private Tab tabIntern;
     
+    @FXML
+    private TableView<PracticanteDTO> tvInterns;
+    @FXML
+    private TableColumn<PracticanteDTO, String> colInternUser;
+    @FXML
+    private TableColumn<PracticanteDTO, String> colInternEnrollment;
+    @FXML
+    private TableColumn<PracticanteDTO, String> colInternName;
+    @FXML
+    private TableColumn<PracticanteDTO, String> colInternStatus;
+    
     //Seccion Profesores
     @FXML
     private Tab tabProfessor;
@@ -54,9 +70,6 @@ public class UserFXMLController implements Initializable {
     //Seccion Coordinadores
     @FXML
     private Tab tabCoordinator;
-    
-    @FXML
-    private TextField textFieldSearchCoordinators;
     
     @FXML
     private TableView<CoordinatorDTO> tableViewCoordinator;
@@ -71,13 +84,54 @@ public class UserFXMLController implements Initializable {
     private TableColumn<CoordinatorDTO, String> columnName;
 
     private final CoordinatorDAO coordinatorDAO = new CoordinatorDAO();
+    private final PracticanteDAO practicanteDAO = new PracticanteDAO();
     
     private ObservableList<CoordinatorDTO> coordinatorList;
     private FilteredList<CoordinatorDTO> filteredList;
+    @FXML
+    private TextField txtSearchIntern;
+    @FXML
+    private ComboBox<?> cmbFilterIntern;
+    @FXML
+    private Button btnRegisterIntern;
+    @FXML
+    private TableView<?> tvProfessors;
+    @FXML
+    private Button btnRegisterProfessor;
+    @FXML
+    private ComboBox<?> cmbFilterProfessor;
+    @FXML
+    private TextField txtSearchProfessor;
+    @FXML
+    private Button btnRegisterCoordinator;
+    @FXML
+    private ComboBox<?> cmbFilterCoordinator;
+    @FXML
+    private TextField txtSearchCoordinator;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeCoordinatorTable();
+        initializeInternTable();
+        loadCoordinators();
+        loadInterns();
+        configureSearch();
+    }
+
+    private void initializeInternTable() {
+        colInternUser.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colInternEnrollment.setCellValueFactory(new PropertyValueFactory<>("enrollment"));
+        colInternName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colInternStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+    }
+
+    private void loadInterns() {
+        try {
+            tvInterns.setItems(FXCollections.observableArrayList(practicanteDAO.getAll()));
+        } catch (UserDisplayableException e) {
+            Modal.displayError(e);
+        }
+    }
         loadCoordinators();
         configureSearch();
     }
@@ -105,7 +159,7 @@ public class UserFXMLController implements Initializable {
     }
     
     private void configureSearch() {
-        textFieldSearchCoordinators.textProperty().addListener((observable, oldValue, newValue) -> {
+        txtSearchCoordinator.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(coordinator -> {
                 if (newValue == null || newValue.trim().isEmpty())
                     return true;
@@ -127,7 +181,7 @@ public class UserFXMLController implements Initializable {
 
     @FXML
     private void handleRegisterProfessor(ActionEvent event) {
-        Modal.displayAlert("Información", "Módulo en construcción", "El registro de profesores estará disponible próximamente.");
+        ///Modal.displayAlert("Información", "Módulo en construcción", "El registro de profesores estará disponible próximamente.");
     }
 
     @FXML
@@ -152,7 +206,6 @@ public class UserFXMLController implements Initializable {
         }
     }
 
-    @FXML
     @Deprecated
     private void goToRegisterCoordinator(ActionEvent event) throws UserDisplayableException{
         handleRegisterCoordinator(event);
