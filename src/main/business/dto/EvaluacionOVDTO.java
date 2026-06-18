@@ -1,0 +1,128 @@
+package main.business.dto;
+
+import java.sql.Date;
+import java.math.BigDecimal;
+
+public class EvaluacionOVDTO {
+
+    private final int linkedOrganizationEvaluationId;
+    private final int assignmentId;
+    private final String file;
+    private final String status;
+    private final Date deliveryDate;
+    private final Date deadline;
+    private final BigDecimal score;
+    private final String comments;
+
+    private EvaluacionOVDTO(EvaluacionOVBuilder builder) {
+        this.linkedOrganizationEvaluationId = builder.linkedOrganizationEvaluationId;
+        this.assignmentId = builder.assignmentId;
+        this.file = builder.file;
+        this.status = builder.status;
+        this.deliveryDate = builder.deliveryDate;
+        this.deadline = builder.deadline;
+        this.score = builder.score;
+        this.comments = builder.comments;
+    }
+
+    public int getLinkedOrganizationEvaluationId() {
+        return linkedOrganizationEvaluationId;
+    }
+
+    public int getAssignmentId() {
+        return assignmentId;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public BigDecimal getScore() {
+        return score;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    @Override
+    public boolean equals(Object instance) {
+        if (this == instance) {
+            return true;
+        }
+        if (instance == null || getClass() != instance.getClass()) {
+            return false;
+        }
+        EvaluacionOVDTO that = (EvaluacionOVDTO) instance;
+        return linkedOrganizationEvaluationId == that.linkedOrganizationEvaluationId
+                && assignmentId == that.assignmentId;
+    }
+
+    public static class EvaluacionOVBuilder {
+
+        private int linkedOrganizationEvaluationId;
+        private int assignmentId;
+        private String file;
+        private String status;
+        private Date deliveryDate;
+        private Date deadline;
+        private BigDecimal score;
+        private String comments;
+
+        public EvaluacionOVBuilder setLinkedOrganizationEvaluationId(int linkedOrganizationEvaluationId) {
+            this.linkedOrganizationEvaluationId = linkedOrganizationEvaluationId;
+            return this;
+        }
+
+        public EvaluacionOVBuilder setAssignmentId(int assignmentId) {
+            this.assignmentId = assignmentId;
+            return this;
+        }
+
+        public EvaluacionOVBuilder setFile(String file) {
+            this.file = file;
+            return this;
+        }
+
+        public EvaluacionOVBuilder setStatus(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public EvaluacionOVBuilder setDeliveryDate(Date deliveryDate) {
+            this.deliveryDate = deliveryDate;
+            return this;
+        }
+
+        public EvaluacionOVBuilder setDeadline(Date deadline) {
+            this.deadline = deadline;
+            return this;
+        }
+
+        public EvaluacionOVBuilder setScore(BigDecimal score) {
+            this.score = score;
+            return this;
+        }
+
+        public EvaluacionOVBuilder setComments(String comments) {
+            this.comments = comments;
+            return this;
+        }
+
+        public EvaluacionOVDTO build() {
+            return new EvaluacionOVDTO(this);
+        }
+    }
+}
