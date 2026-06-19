@@ -45,6 +45,17 @@ public class RegisterProjectFXMLController implements Initializable {
             // Llenado dinámico sin datos hardcodeados. El combobox mostrará el nombre por el toString() del DTO.
             comboBoxOrganization.setItems(FXCollections.observableArrayList(OrganizacionService.getAllOrganizaciones()));
             comboBoxTitular.setItems(FXCollections.observableArrayList(TitularService.getAllTitulares()));
+            
+            comboBoxTitular.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                if (newVal != null) {
+                    for (OrganizacionVinculadaDTO org : comboBoxOrganization.getItems()) {
+                        if (org.getOrganizationId() == newVal.getOrganizationId()) {
+                            comboBoxOrganization.getSelectionModel().select(org);
+                            break;
+                        }
+                    }
+                }
+            });
         } catch (UserDisplayableException e) {
             Modal.displayError(e);
         }
@@ -92,16 +103,20 @@ public class RegisterProjectFXMLController implements Initializable {
     }
 
     private boolean validateFields() {
-        if (textFieldName.getText().trim().isEmpty() ||
-            textFieldTotalCapacity.getText().trim().isEmpty() ||
-            comboBoxOrganization.getValue() == null ||
-            comboBoxTitular.getValue() == null) {
-            
-            Modal.displayError(new UserDisplayableException(
-                "Campos Incompletos",
-                "Faltan datos obligatorios",
-                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
-            ));
+        if (textFieldName.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Nombre es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (textFieldTotalCapacity.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Cupo Total es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (comboBoxTitular.getValue() == null) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Titular es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (comboBoxOrganization.getValue() == null) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Organización es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
             return false;
         }
         return true;

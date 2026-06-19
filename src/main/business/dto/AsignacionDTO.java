@@ -7,6 +7,10 @@ public class AsignacionDTO {
     private final int projectId;
     private final int educationalExperienceId;
     private final String status;
+    private final String projectName;
+    private final String practicanteName;
+    private final String practicanteMatricula;
+    private final String nrc;
 
     private AsignacionDTO(AsignacionBuilder builder) {
         this.assignmentId = builder.assignmentId;
@@ -14,6 +18,10 @@ public class AsignacionDTO {
         this.projectId = builder.projectId;
         this.educationalExperienceId = builder.educationalExperienceId;
         this.status = builder.status;
+        this.projectName = builder.projectName;
+        this.practicanteName = builder.practicanteName;
+        this.practicanteMatricula = builder.practicanteMatricula;
+        this.nrc = builder.nrc;
     }
 
     public int getAssignmentId() {
@@ -34,6 +42,22 @@ public class AsignacionDTO {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public String getPracticanteName() {
+        return practicanteName;
+    }
+
+    public String getPracticanteMatricula() {
+        return practicanteMatricula;
+    }
+
+    public String getNrc() {
+        return nrc;
     }
 
     @Override
@@ -64,6 +88,10 @@ public class AsignacionDTO {
         private int projectId;
         private int educationalExperienceId;
         private String status;
+        private String projectName;
+        private String practicanteName;
+        private String practicanteMatricula;
+        private String nrc;
 
         public AsignacionBuilder setAssignmentId(int assignmentId) {
             this.assignmentId = assignmentId;
@@ -87,6 +115,26 @@ public class AsignacionDTO {
 
         public AsignacionBuilder setStatus(String status) {
             this.status = status;
+            return this;
+        }
+
+        public AsignacionBuilder setProjectName(String projectName) {
+            this.projectName = projectName;
+            return this;
+        }
+
+        public AsignacionBuilder setPracticanteName(String practicanteName) {
+            this.practicanteName = practicanteName;
+            return this;
+        }
+
+        public AsignacionBuilder setPracticanteMatricula(String practicanteMatricula) {
+            this.practicanteMatricula = practicanteMatricula;
+            return this;
+        }
+
+        public AsignacionBuilder setNrc(String nrc) {
+            this.nrc = nrc;
             return this;
         }
 

@@ -64,15 +64,16 @@ public class RegisterOrganizationFXMLController implements Initializable {
     }
 
     private boolean validateFields() {
-        if (textFieldBusinessName.getText().trim().isEmpty() ||
-            textFieldLocation.getText().trim().isEmpty() ||
-            textFieldEmail.getText().trim().isEmpty()) {
-            
-            Modal.displayError(new UserDisplayableException(
-                "Campos Incompletos",
-                "Faltan datos obligatorios",
-                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
-            ));
+        if (textFieldBusinessName.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Nombre de Organización es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (textFieldLocation.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Dirección es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (textFieldEmail.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Correo es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
             return false;
         }
         return true;

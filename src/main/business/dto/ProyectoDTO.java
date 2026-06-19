@@ -8,6 +8,7 @@ public class ProyectoDTO {
     private final String status;
     private final int totalCapacity;
     private final int availableSpaces;
+    private final String organizationName;
 
     private ProyectoDTO(ProyectoBuilder builder) {
         this.projectId = builder.projectId;
@@ -16,6 +17,7 @@ public class ProyectoDTO {
         this.status = builder.status;
         this.totalCapacity = builder.totalCapacity;
         this.availableSpaces = builder.availableSpaces;
+        this.organizationName = builder.organizationName;
     }
 
     public int getProjectId() {
@@ -40,6 +42,10 @@ public class ProyectoDTO {
 
     public int getAvailableSpaces() {
         return availableSpaces;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
     }
 
     @Override
@@ -72,6 +78,7 @@ public class ProyectoDTO {
         private String status;
         private int totalCapacity;
         private int availableSpaces;
+        private String organizationName;
 
         public ProyectoBuilder setProjectId(int projectId) {
             this.projectId = projectId;
@@ -100,6 +107,11 @@ public class ProyectoDTO {
 
         public ProyectoBuilder setAvailableSpaces(int availableSpaces) {
             this.availableSpaces = availableSpaces;
+            return this;
+        }
+
+        public ProyectoBuilder setOrganizationName(String organizationName) {
+            this.organizationName = organizationName;
             return this;
         }
 

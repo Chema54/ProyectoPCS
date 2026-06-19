@@ -22,16 +22,19 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             "INSERT INTO Proyecto (nombre, id_titular, estado, cupo_total, espacios_disponibles) VALUES (?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT * FROM Proyecto";
+            "SELECT p.*, o.razon_social as organizationName FROM Proyecto p INNER JOIN TitularProyecto t ON p.id_titular = t.id_titular INNER JOIN OrganizacionVinculada o ON t.id_organizacion = o.id_organizacion";
 
     private static final String GET_QUERY =
-            "SELECT * FROM Proyecto WHERE id_proyecto = ?";
+            "SELECT p.*, o.razon_social as organizationName FROM Proyecto p INNER JOIN TitularProyecto t ON p.id_titular = t.id_titular INNER JOIN OrganizacionVinculada o ON t.id_organizacion = o.id_organizacion WHERE p.id_proyecto = ?";
 
     private static final String UPDATE_QUERY =
             "UPDATE Proyecto SET nombre = ?, id_titular = ?, estado = ?, cupo_total = ?, espacios_disponibles = ? WHERE id_proyecto = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Proyecto WHERE id_proyecto = ?";
+
+    private static final String DECREMENT_SPACES_QUERY =
+            "UPDATE Proyecto SET espacios_disponibles = espacios_disponibles - 1 WHERE id_proyecto = ?";
 
     @Override
     public void createOne(ProyectoDTO projectDTO) throws UserDisplayableException {
@@ -70,6 +73,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
                     .setStatus(resultSet.getString("estado"))
                     .setTotalCapacity(resultSet.getInt("cupo_total"))
                     .setAvailableSpaces(resultSet.getInt("espacios_disponibles"))
+                    .setOrganizationName(resultSet.getString("organizationName"))
                     .build()
                 );
             }
@@ -98,6 +102,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
                         .setStatus(resultSet.getString("estado"))
                         .setTotalCapacity(resultSet.getInt("cupo_total"))
                         .setAvailableSpaces(resultSet.getInt("espacios_disponibles"))
+                        .setOrganizationName(resultSet.getString("organizationName"))
                         .build();
                 }
                 return null;
@@ -140,6 +145,19 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
         } catch (SQLException e) {
             throw ExceptionHandler.handleSQLException(
                     LOGGER, e, "No se ha podido realizar la eliminación del proyecto, debido a un error de conexión con la Base de datos");
+        }
+    }
+
+    public void decrementAvailableSpaces(int projectId) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(DECREMENT_SPACES_QUERY)
+        ) {
+            statement.setInt(1, projectId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(
+                    LOGGER, e, "No se ha podido decrementar el cupo, debido a un error de conexión con la Base de datos");
         }
     }
 }

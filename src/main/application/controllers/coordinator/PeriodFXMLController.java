@@ -48,13 +48,19 @@ public class PeriodFXMLController implements Initializable {
     private TableColumn<PeriodoDTO, String> colStartDate;
     @FXML
     private TableColumn<PeriodoDTO, String> colEndDate;
+    @FXML
+    private TableColumn<PeriodoDTO, String> colPeriodStatus;
 
     @FXML
     private TableView<ExperienciaEducativaDTO> tvEducationalExperiences;
     @FXML
     private TableColumn<ExperienciaEducativaDTO, String> colEENrc;
     @FXML
-    private TableColumn<ExperienciaEducativaDTO, Integer> colEEPeriod;
+    private TableColumn<ExperienciaEducativaDTO, String> colEEName;
+    @FXML
+    private TableColumn<ExperienciaEducativaDTO, String> colEEPeriod;
+    @FXML
+    private TableColumn<ExperienciaEducativaDTO, String> colEEProfessor;
 
     private final PeriodoDAO periodoDAO = new PeriodoDAO();
     private final ExperienciaEducativaDAO eeDAO = new ExperienciaEducativaDAO();
@@ -73,10 +79,13 @@ public class PeriodFXMLController implements Initializable {
         colPeriodName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        colPeriodStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         // Educational Experiences
         colEENrc.setCellValueFactory(new PropertyValueFactory<>("nrc"));
-        colEEPeriod.setCellValueFactory(new PropertyValueFactory<>("periodId"));
+        colEEName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colEEPeriod.setCellValueFactory(new PropertyValueFactory<>("periodName"));
+        colEEProfessor.setCellValueFactory(new PropertyValueFactory<>("professorName"));
     }
 
     private void loadAllData() {

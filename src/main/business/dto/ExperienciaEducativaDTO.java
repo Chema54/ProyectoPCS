@@ -6,12 +6,16 @@ public class ExperienciaEducativaDTO {
     private final String name;
     private final int periodId;
     private final String nrc;
+    private final String periodName;
+    private final String professorName;
 
     private ExperienciaEducativaDTO(ExperienciaEducativaBuilder builder) {
         this.educationalExperienceId = builder.educationalExperienceId;
         this.name = builder.name;
         this.periodId = builder.periodId;
         this.nrc = builder.nrc;
+        this.periodName = builder.periodName;
+        this.professorName = builder.professorName;
     }
 
     public int getEducationalExperienceId() {
@@ -28,6 +32,14 @@ public class ExperienciaEducativaDTO {
 
     public String getNrc() {
         return nrc;
+    }
+
+    public String getPeriodName() {
+        return periodName;
+    }
+
+    public String getProfessorName() {
+        return professorName;
     }
 
     @Override
@@ -56,6 +68,8 @@ public class ExperienciaEducativaDTO {
         private String name;
         private int periodId;
         private String nrc;
+        private String periodName;
+        private String professorName;
 
         public ExperienciaEducativaBuilder setEducationalExperienceId(int educationalExperienceId) {
             this.educationalExperienceId = educationalExperienceId;
@@ -74,6 +88,16 @@ public class ExperienciaEducativaDTO {
 
         public ExperienciaEducativaBuilder setNrc(String nrc) {
             this.nrc = nrc;
+            return this;
+        }
+
+        public ExperienciaEducativaBuilder setPeriodName(String periodName) {
+            this.periodName = periodName;
+            return this;
+        }
+
+        public ExperienciaEducativaBuilder setProfessorName(String professorName) {
+            this.professorName = professorName;
             return this;
         }
 

@@ -22,10 +22,10 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             "INSERT INTO ExperienciaEducativa (nombre, id_periodo, nrc) VALUES (?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT * FROM ExperienciaEducativa";
+            "SELECT e.*, p.nombre as periodName, CONCAT_WS(' ', prof.nombre, prof.apellido_paterno, prof.apellido_materno) as professorName FROM ExperienciaEducativa e INNER JOIN Periodo p ON e.id_periodo = p.id_periodo LEFT JOIN ProfesorExperiencia pe ON e.id_experiencia = pe.id_experiencia LEFT JOIN Profesor prof ON pe.id_profesor = prof.id_profesor";
 
     private static final String GET_QUERY =
-            "SELECT * FROM ExperienciaEducativa WHERE id_experiencia = ?";
+            "SELECT e.*, p.nombre as periodName, CONCAT_WS(' ', prof.nombre, prof.apellido_paterno, prof.apellido_materno) as professorName FROM ExperienciaEducativa e INNER JOIN Periodo p ON e.id_periodo = p.id_periodo LEFT JOIN ProfesorExperiencia pe ON e.id_experiencia = pe.id_experiencia LEFT JOIN Profesor prof ON pe.id_profesor = prof.id_profesor WHERE e.id_experiencia = ?";
 
     private static final String UPDATE_QUERY =
             "UPDATE ExperienciaEducativa SET nombre = ?, id_periodo = ?, nrc = ? WHERE id_experiencia = ?";
@@ -66,6 +66,8 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
                     .setName(resultSet.getString("nombre"))
                     .setPeriodId(resultSet.getInt("id_periodo"))
                     .setNrc(resultSet.getString("nrc"))
+                    .setPeriodName(resultSet.getString("periodName"))
+                    .setProfessorName(resultSet.getString("professorName") != null ? resultSet.getString("professorName") : "Sin asignar")
                     .build()
                 );
             }
@@ -92,6 +94,8 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
                         .setName(resultSet.getString("nombre"))
                         .setPeriodId(resultSet.getInt("id_periodo"))
                         .setNrc(resultSet.getString("nrc"))
+                        .setPeriodName(resultSet.getString("periodName"))
+                        .setProfessorName(resultSet.getString("professorName") != null ? resultSet.getString("professorName") : "Sin asignar")
                         .build();
                 }
                 return null;

@@ -74,16 +74,20 @@ public class RegisterInternFXMLController implements Initializable {
     }
 
     private boolean validateFields() {
-        if (textFieldName.getText().trim().isEmpty() ||
-            textFieldPaternalSurname.getText().trim().isEmpty() ||
-            textFieldEnrollment.getText().trim().isEmpty() ||
-            textFieldEmail.getText().trim().isEmpty()) {
-            
-            Modal.displayError(new UserDisplayableException(
-                "Campos Incompletos",
-                "Faltan datos obligatorios",
-                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
-            ));
+        if (textFieldName.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Nombre es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (textFieldPaternalSurname.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Apellido Paterno es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (textFieldEnrollment.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Matrícula es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (textFieldEmail.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Correo Electrónico es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
             return false;
         }
         return true;

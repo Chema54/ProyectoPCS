@@ -47,6 +47,8 @@ public class ProjectFXMLController implements Initializable {
     @FXML
     private TableColumn<ProyectoDTO, String> colProjectName;
     @FXML
+    private TableColumn<ProyectoDTO, String> colProjectOrg;
+    @FXML
     private TableColumn<ProyectoDTO, String> colProjectStatus;
     @FXML
     private TableColumn<ProyectoDTO, Integer> colProjectAvailable;
@@ -56,9 +58,13 @@ public class ProjectFXMLController implements Initializable {
     @FXML
     private TableView<AsignacionDTO> tvAssignments;
     @FXML
-    private TableColumn<AsignacionDTO, Integer> colAsigProject;
+    private TableColumn<AsignacionDTO, String> colAsigProject;
     @FXML
-    private TableColumn<AsignacionDTO, Integer> colAsigIntern;
+    private TableColumn<AsignacionDTO, String> colAsigMatricula;
+    @FXML
+    private TableColumn<AsignacionDTO, String> colAsigIntern;
+    @FXML
+    private TableColumn<AsignacionDTO, String> colAsigNrc;
     @FXML
     private TableColumn<AsignacionDTO, String> colAsigStatus;
 
@@ -89,13 +95,16 @@ public class ProjectFXMLController implements Initializable {
     private void initializeTables() {
         // Projects
         colProjectName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colProjectOrg.setCellValueFactory(new PropertyValueFactory<>("organizationName"));
         colProjectStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         colProjectAvailable.setCellValueFactory(new PropertyValueFactory<>("availableSpaces"));
         colProjectTotal.setCellValueFactory(new PropertyValueFactory<>("totalCapacity"));
 
         // Assignments
-        colAsigProject.setCellValueFactory(new PropertyValueFactory<>("projectId"));
-        colAsigIntern.setCellValueFactory(new PropertyValueFactory<>("internId"));
+        colAsigProject.setCellValueFactory(new PropertyValueFactory<>("projectName"));
+        colAsigMatricula.setCellValueFactory(new PropertyValueFactory<>("practicanteMatricula"));
+        colAsigIntern.setCellValueFactory(new PropertyValueFactory<>("practicanteName"));
+        colAsigNrc.setCellValueFactory(new PropertyValueFactory<>("nrc"));
         colAsigStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         // Organizations

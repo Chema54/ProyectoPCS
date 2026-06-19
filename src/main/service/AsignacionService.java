@@ -6,6 +6,7 @@ import main.database.dao.AutoevaluacionDAO;
 import main.database.dao.DocumentoAceptacionDAO;
 import main.database.dao.EvaluacionOVDAO;
 import main.database.dao.ReporteMensualDAO;
+import main.database.dao.ProyectoDAO;
 import main.common.UserDisplayableException;
 
 public class AsignacionService {
@@ -31,6 +32,10 @@ public class AsignacionService {
             ReporteMensualDAO.crearCascaron(idGenerado);
             AutoevaluacionDAO.crearCascaron(idGenerado);
             EvaluacionOVDAO.crearCascaron(idGenerado);
+            
+            // Disminuir espacios en el proyecto
+            ProyectoDAO proyectoDAO = new ProyectoDAO();
+            proyectoDAO.decrementAvailableSpaces(asignacion.getProjectId());
         } else {
             throw new UserDisplayableException(
                 "Error de Registro",

@@ -17,7 +17,7 @@
                         <TableView fx:id="tvProjects" layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
                           <columns>
                             <TableColumn fx:id="colProjectName" minWidth="-1.0" prefWidth="176.0" text="Nombre &#10;del Proyecto" />
-                              <TableColumn minWidth="-1.0" prefWidth="170.0" text="Organizacion &#10;Vinculada" />
+                              <TableColumn fx:id="colProjectOrg" minWidth="-1.0" prefWidth="170.0" text="Organizacion &#10;Vinculada" />
                               <TableColumn fx:id="colProjectStatus" minWidth="-1.0" prefWidth="84.0" text="Estado" />
                               <TableColumn fx:id="colProjectAvailable" text="Espacios &#10;Disponibles" />
                             <TableColumn fx:id="colProjectTotal" minWidth="-1.0" prefWidth="73.0" text="Cupo Total" />
@@ -37,9 +37,9 @@
                         <TableView fx:id="tvAssignments" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
                            <columns>
                               <TableColumn fx:id="colAsigProject" minWidth="-1.0" prefWidth="133.0" text="Nombre del Proyecto" />
-                              <TableColumn minWidth="-1.0" prefWidth="119.0" text="Matricula" />
+                              <TableColumn fx:id="colAsigMatricula" minWidth="-1.0" prefWidth="119.0" text="Matricula" />
                               <TableColumn fx:id="colAsigIntern" minWidth="-1.0" prefWidth="162.0" text="Practicante" />
-                              <TableColumn minWidth="-1.0" prefWidth="88.0" text="NRC" />
+                              <TableColumn fx:id="colAsigNrc" minWidth="-1.0" prefWidth="88.0" text="NRC" />
                               <TableColumn fx:id="colAsigStatus" text="Estado" />
                            </columns>
                         </TableView>
@@ -57,7 +57,6 @@
                         <TableView fx:id="tvOrganizations" layoutX="38.0" layoutY="74.0" prefHeight="378.0" prefWidth="584.0">
                            <columns>
                               <TableColumn fx:id="colOrgName" minWidth="-1.0" prefWidth="160.0" text="Nombre de Organizacion" />
-                              <TableColumn minWidth="-1.0" prefWidth="93.0" text="Sector" />
                               <TableColumn fx:id="colOrgLocation" minWidth="-1.0" prefWidth="144.0" text="Direccion" />
                               <TableColumn fx:id="colOrgEmail" prefWidth="102.0" text="Correo" />
                               <TableColumn fx:id="colOrgPhone" prefWidth="84.0" text="Telefono" />

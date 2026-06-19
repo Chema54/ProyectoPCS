@@ -32,6 +32,16 @@ public class PeriodoDTO {
         return endDate;
     }
 
+    public String getStatus() {
+        if (startDate == null || endDate == null) return "Desconocido";
+        java.time.LocalDate now = java.time.LocalDate.now();
+        java.time.LocalDate inicio = startDate.toLocalDate();
+        java.time.LocalDate fin = endDate.toLocalDate();
+        if (now.isBefore(inicio)) return "Próximo";
+        if (now.isAfter(fin)) return "Concluido";
+        return "Activo";
+    }
+
     @Override
     public boolean equals(Object instance) {
         if (this == instance) {

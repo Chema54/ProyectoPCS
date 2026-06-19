@@ -23,10 +23,10 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             "INSERT INTO Asignacion (id_practicante, id_proyecto, id_experiencia, estado) VALUES (?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT * FROM Asignacion";
+            "SELECT a.*, p.nombre as p_nombre, p.apellido_paterno as p_ap, p.apellido_materno as p_am, p.matricula, pr.nombre as pr_nombre, e.nrc FROM Asignacion a INNER JOIN Practicante p ON a.id_practicante = p.id_practicante INNER JOIN Proyecto pr ON a.id_proyecto = pr.id_proyecto INNER JOIN ExperienciaEducativa e ON a.id_experiencia = e.id_experiencia";
 
     private static final String GET_QUERY =
-            "SELECT * FROM Asignacion WHERE id_asignacion = ?";
+            "SELECT a.*, p.nombre as p_nombre, p.apellido_paterno as p_ap, p.apellido_materno as p_am, p.matricula, pr.nombre as pr_nombre, e.nrc FROM Asignacion a INNER JOIN Practicante p ON a.id_practicante = p.id_practicante INNER JOIN Proyecto pr ON a.id_proyecto = pr.id_proyecto INNER JOIN ExperienciaEducativa e ON a.id_experiencia = e.id_experiencia WHERE a.id_asignacion = ?";
 
     private static final String UPDATE_QUERY =
             "UPDATE Asignacion SET id_practicante = ?, id_proyecto = ?, id_experiencia = ?, estado = ? WHERE id_asignacion = ?";
@@ -118,6 +118,10 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
                     .setProjectId(resultSet.getInt("id_proyecto"))
                     .setEducationalExperienceId(resultSet.getInt("id_experiencia"))
                     .setStatus(resultSet.getString("estado"))
+                    .setProjectName(resultSet.getString("pr_nombre"))
+                    .setPracticanteName(resultSet.getString("p_nombre") + " " + resultSet.getString("p_ap") + " " + resultSet.getString("p_am"))
+                    .setPracticanteMatricula(resultSet.getString("matricula"))
+                    .setNrc(resultSet.getString("nrc"))
                     .build()
                 );
             }
@@ -145,6 +149,10 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
                         .setProjectId(resultSet.getInt("id_proyecto"))
                         .setEducationalExperienceId(resultSet.getInt("id_experiencia"))
                         .setStatus(resultSet.getString("estado"))
+                        .setProjectName(resultSet.getString("pr_nombre"))
+                        .setPracticanteName(resultSet.getString("p_nombre") + " " + resultSet.getString("p_ap") + " " + resultSet.getString("p_am"))
+                        .setPracticanteMatricula(resultSet.getString("matricula"))
+                        .setNrc(resultSet.getString("nrc"))
                         .build();
                 }
                 return null;
