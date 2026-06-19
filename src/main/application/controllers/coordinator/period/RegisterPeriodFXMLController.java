@@ -10,8 +10,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.collections.FXCollections;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.stage.Stage;
 import main.business.dto.PeriodoDTO;
+import main.business.dto.CoordinatorDTO;
+import main.business.dto.ProyectoDTO;
+import main.database.dao.CoordinatorDAO;
+import main.database.dao.ProyectoDAO;
 import main.common.Modal;
 import main.common.UserDisplayableException;
 import main.service.PeriodoService;
@@ -31,6 +41,14 @@ public class RegisterPeriodFXMLController implements Initializable {
     @FXML
     private Label labelErrorEndDate;
     @FXML
+    private Label labelErrorCoordinator;
+    @FXML
+    private Label labelErrorProjects;
+    @FXML
+    private ComboBox<CoordinatorDTO> comboBoxCoordinator;
+    @FXML
+    private ListView<ProyectoDTO> listViewProjects;
+    @FXML
     private Button btnFinalizar;
     @FXML
     private Button btnCancelar;
@@ -38,12 +56,24 @@ public class RegisterPeriodFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         clearErrorLabels();
+        listViewProjects.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        try {
+            CoordinatorDAO coordinatorDAO = new CoordinatorDAO();
+            comboBoxCoordinator.setItems(FXCollections.observableArrayList(coordinatorDAO.getAll()));
+
+            ProyectoDAO proyectoDAO = new ProyectoDAO();
+            listViewProjects.setItems(FXCollections.observableArrayList(proyectoDAO.getAll()));
+        } catch (UserDisplayableException e) {
+            Modal.displayError(e);
+        }
     }
 
     private void clearErrorLabels() {
         labelErrorName.setText("");
         labelErrorStartDate.setText("");
         labelErrorEndDate.setText("");
+        if (labelErrorCoordinator != null) labelErrorCoordinator.setText("");
+        if (labelErrorProjects != null) labelErrorProjects.setText("");
     }
 
     @FXML
@@ -60,14 +90,19 @@ public class RegisterPeriodFXMLController implements Initializable {
         }
 
         try {
-            // 7. El SGPP guarda en la base de datos el Periodo capturado
             PeriodoDTO periodo = new PeriodoDTO.PeriodoBuilder()
                     .setName(textFieldName.getText().trim())
                     .setStartDate(java.sql.Date.valueOf(datePickerStartDate.getValue()))
                     .setEndDate(java.sql.Date.valueOf(datePickerEndDate.getValue()))
+                    .setCoordinatorId(comboBoxCoordinator.getValue().getIDCoordinator())
                     .build();
 
-            PeriodoService.registrarNuevoPeriodo(periodo);
+            List<Integer> projectIds = new ArrayList<>();
+            for (ProyectoDTO proj : listViewProjects.getSelectionModel().getSelectedItems()) {
+                projectIds.add(proj.getProjectId());
+            }
+
+            PeriodoService.registrarNuevoPeriodo(periodo, projectIds);
 
             // 8. Despliega ventana de Acción Realizada
             Modal.displayInformation("Registro Exitoso", "El Periodo ha sido registrado y abierto exitosamente.");
@@ -105,6 +140,14 @@ public class RegisterPeriodFXMLController implements Initializable {
         }
         if (endDate == null) {
             labelErrorEndDate.setText("El campo Fecha de Fin es obligatorio");
+            isValid = false;
+        }
+        if (comboBoxCoordinator.getValue() == null) {
+            labelErrorCoordinator.setText("El campo Coordinador es obligatorio");
+            isValid = false;
+        }
+        if (listViewProjects.getSelectionModel().getSelectedItems().isEmpty()) {
+            labelErrorProjects.setText("Debe seleccionar al menos un proyecto");
             isValid = false;
         }
 

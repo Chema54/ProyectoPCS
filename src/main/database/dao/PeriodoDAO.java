@@ -19,32 +19,44 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
     private static final Logger LOGGER = LogManager.getLogger(PeriodoDAO.class);
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin) VALUES (?, ?, ?)";
+            "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin, id_coordinador) VALUES (?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT * FROM Periodo";
+            "SELECT p.*, CONCAT_WS(' ', c.nombre, c.apellido_paterno, c.apellido_materno) as coordinatorName FROM Periodo p LEFT JOIN Coordinador c ON p.id_coordinador = c.id_coordinador";
 
     private static final String GET_QUERY =
-            "SELECT * FROM Periodo WHERE id_periodo = ?";
+            "SELECT p.*, CONCAT_WS(' ', c.nombre, c.apellido_paterno, c.apellido_materno) as coordinatorName FROM Periodo p LEFT JOIN Coordinador c ON p.id_coordinador = c.id_coordinador WHERE p.id_periodo = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Periodo SET nombre = ?, fecha_inicio = ?, fecha_fin = ? WHERE id_periodo = ?";
+            "UPDATE Periodo SET nombre = ?, fecha_inicio = ?, fecha_fin = ?, id_coordinador = ? WHERE id_periodo = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Periodo WHERE id_periodo = ?";
 
     @Override
     public void createOne(PeriodoDTO periodDTO) throws UserDisplayableException {
+        createAndReturnId(periodDTO);
+    }
+
+    public Integer createAndReturnId(PeriodoDTO periodDTO) throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+            PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, periodDTO.getName());
             statement.setDate(2, periodDTO.getStartDate());
             statement.setDate(3, periodDTO.getEndDate());
+            statement.setInt(4, periodDTO.getCoordinatorId());
 
             statement.executeUpdate();
 
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Error al crear el periodo, no se pudo obtener el ID.");
+                }
+            }
         } catch (SQLException e) {
             throw ExceptionHandler.handleSQLException(
                     LOGGER, e, "No se ha podido realizar el registro del periodo, debido a un error de conexión con la Base de datos");
@@ -66,6 +78,8 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
                     .setName(resultSet.getString("nombre"))
                     .setStartDate(resultSet.getDate("fecha_inicio"))
                     .setEndDate(resultSet.getDate("fecha_fin"))
+                    .setCoordinatorId(resultSet.getInt("id_coordinador"))
+                    .setCoordinatorName(resultSet.getString("coordinatorName") != null ? resultSet.getString("coordinatorName") : "Sin asignar")
                     .build()
                 );
             }
@@ -92,6 +106,8 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
                         .setName(resultSet.getString("nombre"))
                         .setStartDate(resultSet.getDate("fecha_inicio"))
                         .setEndDate(resultSet.getDate("fecha_fin"))
+                        .setCoordinatorId(resultSet.getInt("id_coordinador"))
+                        .setCoordinatorName(resultSet.getString("coordinatorName") != null ? resultSet.getString("coordinatorName") : "Sin asignar")
                         .build();
                 }
                 return null;
@@ -112,7 +128,8 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             statement.setString(1, periodDTO.getName());
             statement.setDate(2, periodDTO.getStartDate());
             statement.setDate(3, periodDTO.getEndDate());
-            statement.setInt(4, periodDTO.getPeriodId());
+            statement.setInt(4, periodDTO.getCoordinatorId());
+            statement.setInt(5, periodDTO.getPeriodId());
             
             statement.executeUpdate();
         } catch (SQLException e) {

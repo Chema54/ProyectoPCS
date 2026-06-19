@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import main.business.dto.PeriodoDTO;
 import main.database.dao.PeriodoDAO;
+import main.database.dao.PeriodoProyectoDAO;
 import main.common.UserDisplayableException;
 
 public class PeriodoService {
@@ -13,7 +14,7 @@ public class PeriodoService {
         return dao.getAll();
     }
 
-    public static void registrarNuevoPeriodo(PeriodoDTO periodo) throws UserDisplayableException {
+    public static void registrarNuevoPeriodo(PeriodoDTO periodo, List<Integer> projectIds) throws UserDisplayableException {
         // Validaciones estrictas de negocio
         
         Date start = periodo.getStartDate();
@@ -27,8 +28,11 @@ public class PeriodoService {
             );
         }
         
-        // Guardar Periodo en la BD
+        // Guardar Periodo en la BD y vincular proyectos
         PeriodoDAO dao = new PeriodoDAO();
-        dao.createOne(periodo);
+        Integer newPeriodId = dao.createAndReturnId(periodo);
+        
+        PeriodoProyectoDAO ppDao = new PeriodoProyectoDAO();
+        ppDao.linkProjectsToPeriod(newPeriodId, projectIds);
     }
 }

@@ -81,6 +81,8 @@ public class CoordinatorDAO extends CompleteDAOShape<CoordinatorDTO, Integer> {
                     .setUsername(resultSet.getString("username"))
                     .setAcademicNumber(resultSet.getString("numeroPersonal"))
                     .setName(resultSet.getString("nombre"))
+                    .setLastName(resultSet.getString("apellido_paterno"))
+                    .setMotherLastName(resultSet.getString("apellido_materno"))
                     .build();
                 coordinators.add(coordinator);
             }
@@ -106,7 +108,9 @@ public class CoordinatorDAO extends CompleteDAOShape<CoordinatorDTO, Integer> {
                         .setIDUser(resultSet.getInt("id_usuario"))
                         .setUsername(resultSet.getString("username"))    
                         .setAcademicNumber(resultSet.getString("numeroPersonal"))
-                        .setName(resultSet.getString("nombreCoordinador"))
+                        .setName(resultSet.getString("nombre"))
+                        .setLastName(resultSet.getString("apellido_paterno"))
+                        .setMotherLastName(resultSet.getString("apellido_materno"))
                         .build();
                 }
                 return null;

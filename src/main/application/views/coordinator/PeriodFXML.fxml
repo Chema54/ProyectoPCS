@@ -18,7 +18,8 @@
                           <columns>
                             <TableColumn fx:id="colPeriodName" minWidth="-1.0" prefWidth="176.0" text="Periodo Escolar&#10;" />
                               <TableColumn fx:id="colStartDate" minWidth="-1.0" prefWidth="152.0" text="Fecha de Inicio" />
-                              <TableColumn fx:id="colEndDate" minWidth="-1.0" prefWidth="141.0" text="Fecha de Fin" />
+                              <TableColumn fx:id="colEndDate" minWidth="-1.0" prefWidth="120.0" text="Fecha de Fin" />
+                              <TableColumn fx:id="colPeriodCoordinator" prefWidth="180.0" text="Coordinador" />
                               <TableColumn fx:id="colPeriodStatus" prefWidth="113.0" text="Estado" />
                           </columns>
                         </TableView>
