@@ -97,12 +97,7 @@ public class RegisterPeriodFXMLController implements Initializable {
                     .setCoordinatorId(comboBoxCoordinator.getValue().getIDCoordinator())
                     .build();
 
-            List<Integer> projectIds = new ArrayList<>();
-            for (ProyectoDTO proj : listViewProjects.getSelectionModel().getSelectedItems()) {
-                projectIds.add(proj.getProjectId());
-            }
-
-            PeriodoService.registrarNuevoPeriodo(periodo, projectIds);
+            PeriodoService.registerNewPeriod(periodo);
 
             // 8. Despliega ventana de Acción Realizada
             Modal.displayInformation("Registro Exitoso", "El Periodo ha sido registrado y abierto exitosamente.");

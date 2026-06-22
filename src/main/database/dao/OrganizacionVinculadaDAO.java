@@ -33,6 +33,9 @@ public class OrganizacionVinculadaDAO extends CompleteDAOShape<OrganizacionVincu
     private static final String DELETE_QUERY =
             "DELETE FROM OrganizacionVinculada WHERE id_organizacion = ?";
 
+    private static final String CHECK_NAME_QUERY =
+            "SELECT COUNT(*) FROM OrganizacionVinculada WHERE razon_social = ?";
+
     @Override
     public void createOne(OrganizacionVinculadaDTO organizationDTO) throws UserDisplayableException {
         try (
@@ -129,5 +132,22 @@ public class OrganizacionVinculadaDAO extends CompleteDAOShape<OrganizacionVincu
             .setPhoneNumber(resultSet.getString("telefono"))
             .setEmail(resultSet.getString("correo"))
             .build();
+    }
+
+    public boolean isNameRegistered(String businessName) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(CHECK_NAME_QUERY)
+        ) {
+            statement.setString(1, businessName);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible verificar el nombre de la organización vinculada.");
+        }
+        return false;
     }
 }

@@ -2,6 +2,8 @@ package main.application.controllers.coordinator.intern;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,9 +38,25 @@ public class RegisterAssignmentFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            comboBoxIntern.setItems(FXCollections.observableArrayList(PracticanteService.getAllPracticantes()));
-            comboBoxProject.setItems(FXCollections.observableArrayList(ProyectoService.getAllProyectos()));
+            List<PracticanteDTO> unassignedInterns = PracticanteService.getAllPracticantes().stream()
+                    .filter(p -> !"Asignado".equals(p.getStatus()))
+                    .collect(Collectors.toList());
+            comboBoxIntern.setItems(FXCollections.observableArrayList(unassignedInterns));
+
+            List<ProyectoDTO> availableProjects = ProyectoService.getAllProyectos().stream()
+                    .filter(p -> p.getAvailableSpaces() > 0)
+                    .collect(Collectors.toList());
+            comboBoxProject.setItems(FXCollections.observableArrayList(availableProjects));
+
             comboBoxEducationalExperience.setItems(FXCollections.observableArrayList(ExperienciaEducativaService.getAllExperiencias()));
+            
+            if (unassignedInterns.isEmpty() || availableProjects.isEmpty()) {
+                Modal.displayError(new UserDisplayableException(
+                    "Registro Bloqueado", 
+                    "Faltan elementos disponibles", 
+                    "Actualmente no hay estudiantes sin asignación o proyectos con cupo disponible en el sistema."
+                ));
+            }
         } catch (UserDisplayableException e) {
             Modal.displayError(e);
         }
@@ -58,7 +76,7 @@ public class RegisterAssignmentFXMLController implements Initializable {
                     .setStatus("Activa")
                     .build();
 
-            AsignacionService.registrarNuevaAsignacion(asignacion);
+            AsignacionService.registerNewAssignment(asignacion);
 
             Modal.displayInformation("Asignación Exitosa", "La operación se ha realizado exitosamente");
             closeWindow();

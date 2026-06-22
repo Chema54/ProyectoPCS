@@ -34,6 +34,12 @@ public class PracticanteDAO extends CompleteDAOShape<PracticanteDTO, Integer> {
     private static final String DELETE_QUERY =
             "DELETE FROM Practicante WHERE id_practicante = ?";
 
+    private static final String CHANGE_STATUS_QUERY =
+            "UPDATE Practicante SET estado = ? WHERE id_practicante = ?";
+
+    private static final String CHECK_ENROLLMENT_QUERY =
+            "SELECT COUNT(*) FROM Practicante WHERE matricula = ?";
+
     @Override
     public void createOne(PracticanteDTO internDTO) throws UserDisplayableException {
         try (
@@ -161,5 +167,37 @@ public class PracticanteDAO extends CompleteDAOShape<PracticanteDTO, Integer> {
             throw ExceptionHandler.handleSQLException(
                     LOGGER, e, "No se ha podido realizar la eliminación del practicante, debido a un error de conexión con la Base de datos");
         }
+    }
+
+    public void changeStatus(int internId, String status) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(CHANGE_STATUS_QUERY)
+        ) {
+            statement.setString(1, status);
+            statement.setInt(2, internId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(
+                    LOGGER, e, "No se ha podido actualizar el estado del practicante, debido a un error de conexión con la Base de datos");
+        }
+    }
+
+    public boolean isEnrollmentRegistered(String enrollment) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(CHECK_ENROLLMENT_QUERY)
+        ) {
+            statement.setString(1, enrollment);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(
+                    LOGGER, e, "No se ha podido verificar la matrícula, debido a un error de conexión con la Base de datos");
+        }
+        return false;
     }
 }

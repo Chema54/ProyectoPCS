@@ -22,7 +22,6 @@ public class PracticanteService {
         String enrollment = practicante.getEnrollment();
         String email = practicante.getEmail();
         
-        // Validación de Matrícula: Empieza con 'S' seguida de 8 números (total 9 caracteres)
         if (enrollment == null || !enrollment.matches("^S\\d{8}$")) {
             throw new UserDisplayableException(
                 "Restricción de Practicante",
@@ -31,12 +30,20 @@ public class PracticanteService {
             );
         }
         
-        // Validación de Correo: Empieza con 'zS', seguido de 8 números, y termina con @estudiantes.uv.mx
         if (email == null || !email.matches("^zS\\d{8}@estudiantes\\.uv\\.mx$")) {
             throw new UserDisplayableException(
                 "Restricción de Practicante",
                 "Formato de correo electrónico inválido",
                 "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
+            );
+        }
+        
+        PracticanteDAO practicanteDAO = new PracticanteDAO();
+        if (practicanteDAO.isEnrollmentRegistered(enrollment)) {
+            throw new UserDisplayableException(
+                "Matrícula Duplicada",
+                "El Practicante ya existe en el sistema",
+                "Existe un Practicante Registrado con la misma matricula"
             );
         }
         
@@ -68,7 +75,6 @@ public class PracticanteService {
             .build();
         
         // 5. Guardar Practicante en la BD
-        PracticanteDAO practicanteDAO = new PracticanteDAO();
         practicanteDAO.createOne(practicanteAInsertar);
     }
 }

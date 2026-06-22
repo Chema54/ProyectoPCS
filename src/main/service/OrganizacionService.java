@@ -13,8 +13,16 @@ public class OrganizacionService {
     }
     
     public static void registrarNuevaOrganizacion(OrganizacionVinculadaDTO organizacion) throws UserDisplayableException {
-        // Validaciones de negocio pueden ir aquí
         OrganizacionVinculadaDAO dao = new OrganizacionVinculadaDAO();
+        
+        if (dao.isNameRegistered(organizacion.getBusinessName())) {
+            throw new UserDisplayableException(
+                "Organización Duplicada",
+                "El nombre de la organización ya existe en el sistema",
+                "Esta Organización Vinculada ya se encuentra registrada en el sistema"
+            );
+        }
+        
         dao.createOne(organizacion);
     }
 }
