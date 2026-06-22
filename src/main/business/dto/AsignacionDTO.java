@@ -61,22 +61,6 @@ public class AsignacionDTO {
     }
 
     @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        AsignacionDTO that = (AsignacionDTO) instance;
-        return assignmentId == that.assignmentId
-                && internId == that.internId
-                && projectId == that.projectId
-                && educationalExperienceId == that.educationalExperienceId
-                && status.equals(that.status);
-    }
-
-    @Override
     public String toString() {
         return "Asignacion{" + "ID=" + assignmentId + ", status=" + status + '}';
     }

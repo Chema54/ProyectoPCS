@@ -55,21 +55,6 @@ public class PracticanteDTO {
     }
 
     @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        PracticanteDTO that = (PracticanteDTO) instance;
-        return internId == that.internId
-                && userId == that.userId
-                && enrollment.equals(that.enrollment)
-                && email.equals(that.email);
-    }
-
-    @Override
     public String toString() {
         return enrollment + " - " + name + " " + paternalSurname;
     }

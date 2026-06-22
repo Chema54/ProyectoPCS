@@ -1,12 +1,13 @@
 package main.business.dto;
 
-import java.sql.Date;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 public class EvaluacionOVDTO {
 
     private final int linkedOrganizationEvaluationId;
     private final int assignmentId;
+    private final String deliverableName;
     private final String file;
     private final String status;
     private final Date deliveryDate;
@@ -17,6 +18,7 @@ public class EvaluacionOVDTO {
     private EvaluacionOVDTO(EvaluacionOVBuilder builder) {
         this.linkedOrganizationEvaluationId = builder.linkedOrganizationEvaluationId;
         this.assignmentId = builder.assignmentId;
+        this.deliverableName = builder.deliverableName;
         this.file = builder.file;
         this.status = builder.status;
         this.deliveryDate = builder.deliveryDate;
@@ -31,6 +33,10 @@ public class EvaluacionOVDTO {
 
     public int getAssignmentId() {
         return assignmentId;
+    }
+
+    public String getDeliverableName() {
+        return deliverableName;
     }
 
     public String getFile() {
@@ -57,23 +63,11 @@ public class EvaluacionOVDTO {
         return comments;
     }
 
-    @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        EvaluacionOVDTO that = (EvaluacionOVDTO) instance;
-        return linkedOrganizationEvaluationId == that.linkedOrganizationEvaluationId
-                && assignmentId == that.assignmentId;
-    }
-
     public static class EvaluacionOVBuilder {
 
         private int linkedOrganizationEvaluationId;
         private int assignmentId;
+        private String deliverableName;
         private String file;
         private String status;
         private Date deliveryDate;
@@ -88,6 +82,11 @@ public class EvaluacionOVDTO {
 
         public EvaluacionOVBuilder setAssignmentId(int assignmentId) {
             this.assignmentId = assignmentId;
+            return this;
+        }
+
+        public EvaluacionOVBuilder setDeliverableName(String deliverableName) {
+            this.deliverableName = deliverableName;
             return this;
         }
 

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import main.database.dao.shape.CompleteDAOShape;
@@ -17,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducativaDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(ExperienciaEducativaDAO.class);
+    
+    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
 
     private static final String CREATE_QUERY =
             "INSERT INTO ExperienciaEducativa (nombre, id_periodo, nrc) VALUES (?, ?, ?)";
@@ -40,14 +43,19 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
             statement.setString(1, experienceDTO.getName());
-            statement.setInt(2, experienceDTO.getPeriodId());
+            
+            if (experienceDTO.getPeriodId() != null) {
+                statement.setInt(2, experienceDTO.getPeriodId());
+            } else {
+                statement.setNull(2, Types.INTEGER);
+            }
+            
             statement.setString(3, experienceDTO.getNrc());
 
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro de la experiencia educativa, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -61,22 +69,13 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             List<ExperienciaEducativaDTO> experiences = new ArrayList<>();
 
             while (resultSet.next()) {
-                experiences.add(new ExperienciaEducativaDTO.ExperienciaEducativaBuilder()
-                    .setEducationalExperienceId(resultSet.getInt("id_experiencia"))
-                    .setName(resultSet.getString("nombre"))
-                    .setPeriodId(resultSet.getInt("id_periodo"))
-                    .setNrc(resultSet.getString("nrc"))
-                    .setPeriodName(resultSet.getString("periodName"))
-                    .setProfessorName(resultSet.getString("professorName") != null ? resultSet.getString("professorName") : "Sin asignar")
-                    .build()
-                );
+                experiences.add(mapResultSetToDTO(resultSet));
             }
 
             return experiences;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la consulta de experiencias educativas, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -89,21 +88,13 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new ExperienciaEducativaDTO.ExperienciaEducativaBuilder()
-                        .setEducationalExperienceId(resultSet.getInt("id_experiencia"))
-                        .setName(resultSet.getString("nombre"))
-                        .setPeriodId(resultSet.getInt("id_periodo"))
-                        .setNrc(resultSet.getString("nrc"))
-                        .setPeriodName(resultSet.getString("periodName"))
-                        .setProfessorName(resultSet.getString("professorName") != null ? resultSet.getString("professorName") : "Sin asignar")
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la búsqueda de la experiencia educativa, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -114,14 +105,19 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
             statement.setString(1, experienceDTO.getName());
-            statement.setInt(2, experienceDTO.getPeriodId());
+            
+            if (experienceDTO.getPeriodId() != null) {
+                statement.setInt(2, experienceDTO.getPeriodId());
+            } else {
+                statement.setNull(2, Types.INTEGER);
+            }
+            
             statement.setString(3, experienceDTO.getNrc());
             statement.setInt(4, experienceDTO.getEducationalExperienceId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la actualización de la experiencia educativa, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -134,8 +130,21 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la eliminación de la experiencia educativa, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
+    }
+    
+    private ExperienciaEducativaDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        int periodId = resultSet.getInt("id_periodo");
+        Integer periodIdOrNull = resultSet.wasNull() ? null : periodId;
+        
+        return new ExperienciaEducativaDTO.ExperienciaEducativaBuilder()
+            .setEducationalExperienceId(resultSet.getInt("id_experiencia"))
+            .setName(resultSet.getString("nombre"))
+            .setPeriodId(periodIdOrNull)
+            .setNrc(resultSet.getString("nrc"))
+            .setPeriodName(resultSet.getString("periodName"))
+            .setProfessorName(resultSet.getString("professorName") != null ? resultSet.getString("professorName").trim() : "Sin asignar")
+            .build();
     }
 }

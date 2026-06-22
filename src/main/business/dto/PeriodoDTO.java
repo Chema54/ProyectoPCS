@@ -8,7 +8,7 @@ public class PeriodoDTO {
     private final String name;
     private final Date startDate;
     private final Date endDate;
-    private final int coordinatorId;
+    private final Integer coordinatorId;
     private final String coordinatorName;
 
     private PeriodoDTO(PeriodoBuilder builder) {
@@ -36,7 +36,7 @@ public class PeriodoDTO {
         return endDate;
     }
 
-    public int getCoordinatorId() {
+    public Integer getCoordinatorId() {
         return coordinatorId;
     }
 
@@ -55,19 +55,6 @@ public class PeriodoDTO {
     }
 
     @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        PeriodoDTO that = (PeriodoDTO) instance;
-        return periodId == that.periodId
-                && name.equals(that.name);
-    }
-
-    @Override
     public String toString() {
         return name;
     }
@@ -78,7 +65,7 @@ public class PeriodoDTO {
         private String name;
         private Date startDate;
         private Date endDate;
-        private int coordinatorId;
+        private Integer coordinatorId;
         private String coordinatorName;
 
         public PeriodoBuilder setPeriodId(int periodId) {
@@ -101,7 +88,7 @@ public class PeriodoDTO {
             return this;
         }
 
-        public PeriodoBuilder setCoordinatorId(int coordinatorId) {
+        public PeriodoBuilder setCoordinatorId(Integer coordinatorId) {
             this.coordinatorId = coordinatorId;
             return this;
         }

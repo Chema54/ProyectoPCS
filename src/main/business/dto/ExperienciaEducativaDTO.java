@@ -4,7 +4,7 @@ public class ExperienciaEducativaDTO {
 
     private final int educationalExperienceId;
     private final String name;
-    private final int periodId;
+    private final Integer periodId;
     private final String nrc;
     private final String periodName;
     private final String professorName;
@@ -26,7 +26,7 @@ public class ExperienciaEducativaDTO {
         return name;
     }
 
-    public int getPeriodId() {
+    public Integer getPeriodId() {
         return periodId;
     }
 
@@ -43,21 +43,6 @@ public class ExperienciaEducativaDTO {
     }
 
     @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        ExperienciaEducativaDTO that = (ExperienciaEducativaDTO) instance;
-        return educationalExperienceId == that.educationalExperienceId
-                && periodId == that.periodId
-                && nrc.equals(that.nrc)
-                && name.equals(that.name);
-    }
-
-    @Override
     public String toString() {
         return nrc + " - " + name;
     }
@@ -66,7 +51,7 @@ public class ExperienciaEducativaDTO {
 
         private int educationalExperienceId;
         private String name;
-        private int periodId;
+        private Integer periodId;
         private String nrc;
         private String periodName;
         private String professorName;
@@ -81,7 +66,7 @@ public class ExperienciaEducativaDTO {
             return this;
         }
 
-        public ExperienciaEducativaBuilder setPeriodId(int periodId) {
+        public ExperienciaEducativaBuilder setPeriodId(Integer periodId) {
             this.periodId = periodId;
             return this;
         }

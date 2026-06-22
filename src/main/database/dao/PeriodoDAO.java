@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import main.database.dao.shape.CompleteDAOShape;
@@ -17,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(PeriodoDAO.class);
+    
+    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
 
     private static final String CREATE_QUERY =
             "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin, id_coordinador) VALUES (?, ?, ?, ?)";
@@ -46,7 +49,12 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             statement.setString(1, periodDTO.getName());
             statement.setDate(2, periodDTO.getStartDate());
             statement.setDate(3, periodDTO.getEndDate());
-            statement.setInt(4, periodDTO.getCoordinatorId());
+            
+            if (periodDTO.getCoordinatorId() != null) {
+                statement.setInt(4, periodDTO.getCoordinatorId());
+            } else {
+                statement.setNull(4, Types.INTEGER);
+            }
 
             statement.executeUpdate();
 
@@ -58,8 +66,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro del periodo, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -73,22 +80,13 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             List<PeriodoDTO> periods = new ArrayList<>();
 
             while (resultSet.next()) {
-                periods.add(new PeriodoDTO.PeriodoBuilder()
-                    .setPeriodId(resultSet.getInt("id_periodo"))
-                    .setName(resultSet.getString("nombre"))
-                    .setStartDate(resultSet.getDate("fecha_inicio"))
-                    .setEndDate(resultSet.getDate("fecha_fin"))
-                    .setCoordinatorId(resultSet.getInt("id_coordinador"))
-                    .setCoordinatorName(resultSet.getString("coordinatorName") != null ? resultSet.getString("coordinatorName") : "Sin asignar")
-                    .build()
-                );
+                periods.add(mapResultSetToDTO(resultSet));
             }
 
             return periods;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la consulta de periodos, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -101,21 +99,13 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new PeriodoDTO.PeriodoBuilder()
-                        .setPeriodId(resultSet.getInt("id_periodo"))
-                        .setName(resultSet.getString("nombre"))
-                        .setStartDate(resultSet.getDate("fecha_inicio"))
-                        .setEndDate(resultSet.getDate("fecha_fin"))
-                        .setCoordinatorId(resultSet.getInt("id_coordinador"))
-                        .setCoordinatorName(resultSet.getString("coordinatorName") != null ? resultSet.getString("coordinatorName") : "Sin asignar")
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la búsqueda del periodo, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -128,13 +118,18 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             statement.setString(1, periodDTO.getName());
             statement.setDate(2, periodDTO.getStartDate());
             statement.setDate(3, periodDTO.getEndDate());
-            statement.setInt(4, periodDTO.getCoordinatorId());
+            
+            if (periodDTO.getCoordinatorId() != null) {
+                statement.setInt(4, periodDTO.getCoordinatorId());
+            } else {
+                statement.setNull(4, Types.INTEGER);
+            }
+            
             statement.setInt(5, periodDTO.getPeriodId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la actualización del periodo, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -147,8 +142,21 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la eliminación del periodo, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
+    }
+
+    private PeriodoDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        int coordinatorId = resultSet.getInt("id_coordinador");
+        Integer coordIdOrNull = resultSet.wasNull() ? null : coordinatorId;
+        
+        return new PeriodoDTO.PeriodoBuilder()
+            .setPeriodId(resultSet.getInt("id_periodo"))
+            .setName(resultSet.getString("nombre"))
+            .setStartDate(resultSet.getDate("fecha_inicio"))
+            .setEndDate(resultSet.getDate("fecha_fin"))
+            .setCoordinatorId(coordIdOrNull)
+            .setCoordinatorName(resultSet.getString("coordinatorName") != null ? resultSet.getString("coordinatorName").trim() : "Sin asignar")
+            .build();
     }
 }

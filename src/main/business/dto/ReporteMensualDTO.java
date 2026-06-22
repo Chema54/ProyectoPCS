@@ -1,12 +1,13 @@
 package main.business.dto;
 
-import java.sql.Date;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 public class ReporteMensualDTO {
 
     private final int monthlyReportId;
     private final int assignmentId;
+    private final String deliverableName;
     private final String file;
     private final String status;
     private final Date deliveryDate;
@@ -18,6 +19,7 @@ public class ReporteMensualDTO {
     private ReporteMensualDTO(ReporteMensualBuilder builder) {
         this.monthlyReportId = builder.monthlyReportId;
         this.assignmentId = builder.assignmentId;
+        this.deliverableName = builder.deliverableName;
         this.file = builder.file;
         this.status = builder.status;
         this.deliveryDate = builder.deliveryDate;
@@ -33,6 +35,10 @@ public class ReporteMensualDTO {
 
     public int getAssignmentId() {
         return assignmentId;
+    }
+
+    public String getDeliverableName() {
+        return deliverableName;
     }
 
     public String getFile() {
@@ -63,23 +69,11 @@ public class ReporteMensualDTO {
         return comments;
     }
 
-    @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        ReporteMensualDTO that = (ReporteMensualDTO) instance;
-        return monthlyReportId == that.monthlyReportId
-                && assignmentId == that.assignmentId;
-    }
-
     public static class ReporteMensualBuilder {
 
         private int monthlyReportId;
         private int assignmentId;
+        private String deliverableName;
         private String file;
         private String status;
         private Date deliveryDate;
@@ -95,6 +89,11 @@ public class ReporteMensualDTO {
 
         public ReporteMensualBuilder setAssignmentId(int assignmentId) {
             this.assignmentId = assignmentId;
+            return this;
+        }
+
+        public ReporteMensualBuilder setDeliverableName(String deliverableName) {
+            this.deliverableName = deliverableName;
             return this;
         }
 

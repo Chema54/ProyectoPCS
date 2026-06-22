@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import main.database.dao.shape.CompleteDAOShape;
@@ -17,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(ProyectoDAO.class);
+    
+    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
 
     private static final String CREATE_QUERY =
             "INSERT INTO Proyecto (nombre, id_titular, estado, cupo_total, espacios_disponibles) VALUES (?, ?, ?, ?, ?)";
@@ -35,6 +38,9 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
 
     private static final String DECREMENT_SPACES_QUERY =
             "UPDATE Proyecto SET espacios_disponibles = espacios_disponibles - 1 WHERE id_proyecto = ?";
+            
+    private static final String CHANGE_STATUS_QUERY =
+            "UPDATE Proyecto SET estado = ? WHERE id_proyecto = ?";
 
     @Override
     public void createOne(ProyectoDTO projectDTO) throws UserDisplayableException {
@@ -43,7 +49,13 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
             statement.setString(1, projectDTO.getName());
-            statement.setInt(2, projectDTO.getTitularId());
+            
+            if (projectDTO.getTitularId() != null) {
+                statement.setInt(2, projectDTO.getTitularId());
+            } else {
+                statement.setNull(2, Types.INTEGER);
+            }
+            
             statement.setString(3, projectDTO.getStatus() != null ? projectDTO.getStatus() : "Sin asignar");
             statement.setInt(4, projectDTO.getTotalCapacity());
             statement.setInt(5, projectDTO.getAvailableSpaces());
@@ -51,8 +63,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro del proyecto, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -66,23 +77,13 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             List<ProyectoDTO> projects = new ArrayList<>();
 
             while (resultSet.next()) {
-                projects.add(new ProyectoDTO.ProyectoBuilder()
-                    .setProjectId(resultSet.getInt("id_proyecto"))
-                    .setName(resultSet.getString("nombre"))
-                    .setTitularId(resultSet.getInt("id_titular"))
-                    .setStatus(resultSet.getString("estado"))
-                    .setTotalCapacity(resultSet.getInt("cupo_total"))
-                    .setAvailableSpaces(resultSet.getInt("espacios_disponibles"))
-                    .setOrganizationName(resultSet.getString("organizationName"))
-                    .build()
-                );
+                projects.add(mapResultSetToDTO(resultSet));
             }
 
             return projects;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la consulta de proyectos, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -95,22 +96,13 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new ProyectoDTO.ProyectoBuilder()
-                        .setProjectId(resultSet.getInt("id_proyecto"))
-                        .setName(resultSet.getString("nombre"))
-                        .setTitularId(resultSet.getInt("id_titular"))
-                        .setStatus(resultSet.getString("estado"))
-                        .setTotalCapacity(resultSet.getInt("cupo_total"))
-                        .setAvailableSpaces(resultSet.getInt("espacios_disponibles"))
-                        .setOrganizationName(resultSet.getString("organizationName"))
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la búsqueda del proyecto, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -121,7 +113,13 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
             statement.setString(1, projectDTO.getName());
-            statement.setInt(2, projectDTO.getTitularId());
+            
+            if (projectDTO.getTitularId() != null) {
+                statement.setInt(2, projectDTO.getTitularId());
+            } else {
+                statement.setNull(2, Types.INTEGER);
+            }
+            
             statement.setString(3, projectDTO.getStatus());
             statement.setInt(4, projectDTO.getTotalCapacity());
             statement.setInt(5, projectDTO.getAvailableSpaces());
@@ -129,8 +127,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la actualización del proyecto, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -143,8 +140,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la eliminación del proyecto, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -156,8 +152,35 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             statement.setInt(1, projectId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido decrementar el cupo, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
+    }
+    
+    public void changeStatus(int projectId, String status) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(CHANGE_STATUS_QUERY)
+        ) {
+            statement.setString(1, status);
+            statement.setInt(2, projectId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+        }
+    }
+    
+    private ProyectoDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        int titularId = resultSet.getInt("id_titular");
+        Integer titularIdOrNull = resultSet.wasNull() ? null : titularId;
+        
+        return new ProyectoDTO.ProyectoBuilder()
+            .setProjectId(resultSet.getInt("id_proyecto"))
+            .setName(resultSet.getString("nombre"))
+            .setTitularId(titularIdOrNull)
+            .setStatus(resultSet.getString("estado"))
+            .setTotalCapacity(resultSet.getInt("cupo_total"))
+            .setAvailableSpaces(resultSet.getInt("espacios_disponibles"))
+            .setOrganizationName(resultSet.getString("organizationName"))
+            .build();
     }
 }

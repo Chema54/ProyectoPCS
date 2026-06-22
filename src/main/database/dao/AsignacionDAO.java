@@ -18,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(AsignacionDAO.class);
+    
+    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
 
     private static final String CREATE_ASSIGNMENT_QUERY =
             "INSERT INTO Asignacion (id_practicante, id_proyecto, id_experiencia, estado) VALUES (?, ?, ?, ?)";
@@ -36,6 +38,9 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             
     private static final String CHECK_ACTIVE_ASSIGNMENT_QUERY =
             "SELECT COUNT(*) FROM Asignacion WHERE id_practicante = ? AND estado = 'Activa'";
+            
+    private static final String GET_ASSIGNMENTS_BY_PERIOD_QUERY =
+            "SELECT a.id_asignacion FROM Asignacion a INNER JOIN ExperienciaEducativa ee ON a.id_experiencia = ee.id_experiencia WHERE ee.id_periodo = ?";
 
     @Override
     public void createOne(AsignacionDTO assignmentDTO) throws UserDisplayableException {
@@ -51,8 +56,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro de la asignacion, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -78,8 +82,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro de la asignacion, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
         return generatedId;
     }
@@ -96,10 +99,27 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la verificación de asignaciones, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
         return false;
+    }
+
+    public List<Integer> getAssignmentIdsByPeriod(int periodId) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ASSIGNMENTS_BY_PERIOD_QUERY)
+        ) {
+            statement.setInt(1, periodId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                List<Integer> assignmentIds = new ArrayList<>();
+                while (resultSet.next()) {
+                    assignmentIds.add(resultSet.getInt("id_asignacion"));
+                }
+                return assignmentIds;
+            }
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+        }
     }
 
     @Override
@@ -112,25 +132,13 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             List<AsignacionDTO> assignments = new ArrayList<>();
 
             while (resultSet.next()) {
-                assignments.add(new AsignacionDTO.AsignacionBuilder()
-                    .setAssignmentId(resultSet.getInt("id_asignacion"))
-                    .setInternId(resultSet.getInt("id_practicante"))
-                    .setProjectId(resultSet.getInt("id_proyecto"))
-                    .setEducationalExperienceId(resultSet.getInt("id_experiencia"))
-                    .setStatus(resultSet.getString("estado"))
-                    .setProjectName(resultSet.getString("pr_nombre"))
-                    .setPracticanteName(resultSet.getString("p_nombre") + " " + resultSet.getString("p_ap") + " " + resultSet.getString("p_am"))
-                    .setPracticanteMatricula(resultSet.getString("matricula"))
-                    .setNrc(resultSet.getString("nrc"))
-                    .build()
-                );
+                assignments.add(mapResultSetToDTO(resultSet));
             }
 
             return assignments;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la consulta de asignaciones, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -143,24 +151,13 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new AsignacionDTO.AsignacionBuilder()
-                        .setAssignmentId(resultSet.getInt("id_asignacion"))
-                        .setInternId(resultSet.getInt("id_practicante"))
-                        .setProjectId(resultSet.getInt("id_proyecto"))
-                        .setEducationalExperienceId(resultSet.getInt("id_experiencia"))
-                        .setStatus(resultSet.getString("estado"))
-                        .setProjectName(resultSet.getString("pr_nombre"))
-                        .setPracticanteName(resultSet.getString("p_nombre") + " " + resultSet.getString("p_ap") + " " + resultSet.getString("p_am"))
-                        .setPracticanteMatricula(resultSet.getString("matricula"))
-                        .setNrc(resultSet.getString("nrc"))
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la búsqueda de la asignacion, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -178,8 +175,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la actualización de la asignacion, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -192,8 +188,21 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la eliminación de la asignacion, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
+    }
+    
+    private AsignacionDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new AsignacionDTO.AsignacionBuilder()
+            .setAssignmentId(resultSet.getInt("id_asignacion"))
+            .setInternId(resultSet.getInt("id_practicante"))
+            .setProjectId(resultSet.getInt("id_proyecto"))
+            .setEducationalExperienceId(resultSet.getInt("id_experiencia"))
+            .setStatus(resultSet.getString("estado"))
+            .setProjectName(resultSet.getString("pr_nombre"))
+            .setPracticanteName(resultSet.getString("p_nombre") + " " + resultSet.getString("p_ap") + " " + resultSet.getString("p_am"))
+            .setPracticanteMatricula(resultSet.getString("matricula"))
+            .setNrc(resultSet.getString("nrc"))
+            .build();
     }
 }

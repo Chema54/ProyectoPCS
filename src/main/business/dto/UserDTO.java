@@ -48,25 +48,6 @@ public class UserDTO {
     }
 
     @Override
-    public boolean equals(Object instance) {
-
-        if (this == instance) {
-            return true;
-        }
-
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-
-        UserDTO that = (UserDTO) instance;
-
-        return userID == that.userID
-                && access == that.access
-                && username.equals(that.username)
-                && role == that.role;
-    }
-
-    @Override
     public String toString() {
         return username;
     }

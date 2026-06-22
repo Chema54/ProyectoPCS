@@ -6,6 +6,7 @@ public class DocumentoAceptacionDTO {
 
     private final int acceptanceDocumentId;
     private final int assignmentId;
+    private final String deliverableName;
     private final String file;
     private final String status;
     private final Date deliveryDate;
@@ -13,6 +14,7 @@ public class DocumentoAceptacionDTO {
     private DocumentoAceptacionDTO(DocumentoAceptacionBuilder builder) {
         this.acceptanceDocumentId = builder.acceptanceDocumentId;
         this.assignmentId = builder.assignmentId;
+        this.deliverableName = builder.deliverableName;
         this.file = builder.file;
         this.status = builder.status;
         this.deliveryDate = builder.deliveryDate;
@@ -24,6 +26,10 @@ public class DocumentoAceptacionDTO {
 
     public int getAssignmentId() {
         return assignmentId;
+    }
+
+    public String getDeliverableName() {
+        return deliverableName;
     }
 
     public String getFile() {
@@ -38,23 +44,11 @@ public class DocumentoAceptacionDTO {
         return deliveryDate;
     }
 
-    @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        DocumentoAceptacionDTO that = (DocumentoAceptacionDTO) instance;
-        return acceptanceDocumentId == that.acceptanceDocumentId
-                && assignmentId == that.assignmentId;
-    }
-
     public static class DocumentoAceptacionBuilder {
 
         private int acceptanceDocumentId;
         private int assignmentId;
+        private String deliverableName;
         private String file;
         private String status;
         private Date deliveryDate;
@@ -66,6 +60,11 @@ public class DocumentoAceptacionDTO {
 
         public DocumentoAceptacionBuilder setAssignmentId(int assignmentId) {
             this.assignmentId = assignmentId;
+            return this;
+        }
+
+        public DocumentoAceptacionBuilder setDeliverableName(String deliverableName) {
+            this.deliverableName = deliverableName;
             return this;
         }
 

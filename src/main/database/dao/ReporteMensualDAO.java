@@ -17,9 +17,10 @@ import org.apache.logging.log4j.Logger;
 public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(ReporteMensualDAO.class);
+    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Reporte (id_asignacion, tipo_reporte, archivo, estado, fecha_entrega, fecha_limite, horas_reportadas, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Reporte (id_asignacion, nombre_entregable, archivo, estado, fecha_entrega, fecha_limite, horas_reportadas, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
             "SELECT * FROM Reporte";
@@ -28,13 +29,13 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             "SELECT * FROM Reporte WHERE id_reporte = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Reporte SET id_asignacion = ?, tipo_reporte = ?, archivo = ?, estado = ?, fecha_entrega = ?, fecha_limite = ?, horas_reportadas = ?, calificacion = ?, comentarios = ? WHERE id_reporte = ?";
+            "UPDATE Reporte SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_entrega = ?, fecha_limite = ?, horas_reportadas = ?, calificacion = ?, comentarios = ? WHERE id_reporte = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Reporte WHERE id_reporte = ?";
             
-    private static final String CREATE_SHELL_QUERY =
-            "INSERT INTO Reporte (id_asignacion, tipo_reporte, estado) VALUES (?, 'Mensual', 'Inhabilitado')";
+    private static final String BATCH_INSERT_QUERY =
+            "INSERT INTO Reporte (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
 
     @Override
     public void createOne(ReporteMensualDTO reportDTO) throws UserDisplayableException {
@@ -43,7 +44,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
             statement.setInt(1, reportDTO.getAssignmentId());
-            statement.setString(2, "Mensual");
+            statement.setString(2, reportDTO.getDeliverableName());
             statement.setString(3, reportDTO.getFile());
             statement.setString(4, reportDTO.getStatus() != null ? reportDTO.getStatus() : "Pendiente");
             statement.setDate(5, reportDTO.getDeliveryDate());
@@ -55,19 +56,31 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
-    public static void crearCascaron(int assignmentId) throws UserDisplayableException {
+    public void createDeliverables(List<Integer> assignmentIds) throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(CREATE_SHELL_QUERY)
+            PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
         ) {
-            statement.setInt(1, assignmentId);
-            statement.executeUpdate();
+            for (Integer assignmentId : assignmentIds) {
+                // 3 inserts required per assignment
+                statement.setInt(1, assignmentId);
+                statement.setString(2, "Reportes mensuales (4)");
+                statement.executeUpdate();
+                
+                statement.setInt(1, assignmentId);
+                statement.setString(2, "Primer informe 210 hrs");
+                statement.executeUpdate();
+                
+                statement.setInt(1, assignmentId);
+                statement.setString(2, "Segundo informe 420 hrs.");
+                statement.executeUpdate();
+            }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -81,24 +94,13 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             List<ReporteMensualDTO> reports = new ArrayList<>();
 
             while (resultSet.next()) {
-                reports.add(new ReporteMensualDTO.ReporteMensualBuilder()
-                    .setMonthlyReportId(resultSet.getInt("id_reporte"))
-                    .setAssignmentId(resultSet.getInt("id_asignacion"))
-                    .setFile(resultSet.getString("archivo"))
-                    .setStatus(resultSet.getString("estado"))
-                    .setDeliveryDate(resultSet.getDate("fecha_entrega"))
-                    .setDeadline(resultSet.getDate("fecha_limite"))
-                    .setReportedHours(resultSet.getInt("horas_reportadas"))
-                    .setScore(resultSet.getBigDecimal("calificacion"))
-                    .setComments(resultSet.getString("comentarios"))
-                    .build()
-                );
+                reports.add(mapResultSetToDTO(resultSet));
             }
 
             return reports;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -111,23 +113,13 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new ReporteMensualDTO.ReporteMensualBuilder()
-                        .setMonthlyReportId(resultSet.getInt("id_reporte"))
-                        .setAssignmentId(resultSet.getInt("id_asignacion"))
-                        .setFile(resultSet.getString("archivo"))
-                        .setStatus(resultSet.getString("estado"))
-                        .setDeliveryDate(resultSet.getDate("fecha_entrega"))
-                        .setDeadline(resultSet.getDate("fecha_limite"))
-                        .setReportedHours(resultSet.getInt("horas_reportadas"))
-                        .setScore(resultSet.getBigDecimal("calificacion"))
-                        .setComments(resultSet.getString("comentarios"))
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -138,7 +130,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
             statement.setInt(1, reportDTO.getAssignmentId());
-            statement.setString(2, "Mensual");
+            statement.setString(2, reportDTO.getDeliverableName());
             statement.setString(3, reportDTO.getFile());
             statement.setString(4, reportDTO.getStatus());
             statement.setDate(5, reportDTO.getDeliveryDate());
@@ -150,7 +142,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -163,7 +155,22 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
+    }
+    
+    private ReporteMensualDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new ReporteMensualDTO.ReporteMensualBuilder()
+            .setMonthlyReportId(resultSet.getInt("id_reporte"))
+            .setAssignmentId(resultSet.getInt("id_asignacion"))
+            .setDeliverableName(resultSet.getString("nombre_entregable"))
+            .setFile(resultSet.getString("archivo"))
+            .setStatus(resultSet.getString("estado"))
+            .setDeliveryDate(resultSet.getDate("fecha_entrega"))
+            .setDeadline(resultSet.getDate("fecha_limite"))
+            .setReportedHours(resultSet.getInt("horas_reportadas"))
+            .setScore(resultSet.getBigDecimal("calificacion"))
+            .setComments(resultSet.getString("comentarios"))
+            .build();
     }
 }

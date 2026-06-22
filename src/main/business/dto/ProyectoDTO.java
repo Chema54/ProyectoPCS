@@ -4,7 +4,7 @@ public class ProyectoDTO {
 
     private final int projectId;
     private final String name;
-    private final int titularId;
+    private final Integer titularId;
     private final String status;
     private final int totalCapacity;
     private final int availableSpaces;
@@ -28,7 +28,7 @@ public class ProyectoDTO {
         return name;
     }
 
-    public int getTitularId() {
+    public Integer getTitularId() {
         return titularId;
     }
 
@@ -49,23 +49,6 @@ public class ProyectoDTO {
     }
 
     @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        ProyectoDTO that = (ProyectoDTO) instance;
-        return projectId == that.projectId
-                && titularId == that.titularId
-                && totalCapacity == that.totalCapacity
-                && availableSpaces == that.availableSpaces
-                && name.equals(that.name)
-                && status.equals(that.status);
-    }
-
-    @Override
     public String toString() {
         return name + " (" + availableSpaces + "/" + totalCapacity + " disponibles)";
     }
@@ -74,7 +57,7 @@ public class ProyectoDTO {
 
         private int projectId;
         private String name;
-        private int titularId;
+        private Integer titularId;
         private String status;
         private int totalCapacity;
         private int availableSpaces;
@@ -90,7 +73,7 @@ public class ProyectoDTO {
             return this;
         }
 
-        public ProyectoBuilder setTitularId(int titularId) {
+        public ProyectoBuilder setTitularId(Integer titularId) {
             this.titularId = titularId;
             return this;
         }

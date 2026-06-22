@@ -37,21 +37,6 @@ public class OrganizacionVinculadaDTO {
     }
 
     @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        OrganizacionVinculadaDTO that = (OrganizacionVinculadaDTO) instance;
-        return organizationId == that.organizationId
-                && businessName.equals(that.businessName)
-                && location.equals(that.location)
-                && email.equals(that.email);
-    }
-
-    @Override
     public String toString() {
         return businessName;
     }

@@ -17,9 +17,10 @@ import org.apache.logging.log4j.Logger;
 public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(EvaluacionOVDAO.class);
+    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Evaluacion_OV (id_asignacion, archivo, estado, fecha_entrega, fecha_limite, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Evaluacion_OV (id_asignacion, nombre_entregable, archivo, estado, fecha_entrega, fecha_limite, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
             "SELECT * FROM Evaluacion_OV";
@@ -28,13 +29,13 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             "SELECT * FROM Evaluacion_OV WHERE id_evaluacion_ov = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Evaluacion_OV SET id_asignacion = ?, archivo = ?, estado = ?, fecha_entrega = ?, fecha_limite = ?, calificacion = ?, comentarios = ? WHERE id_evaluacion_ov = ?";
+            "UPDATE Evaluacion_OV SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_entrega = ?, fecha_limite = ?, calificacion = ?, comentarios = ? WHERE id_evaluacion_ov = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Evaluacion_OV WHERE id_evaluacion_ov = ?";
             
-    private static final String CREATE_SHELL_QUERY =
-            "INSERT INTO Evaluacion_OV (id_asignacion, estado) VALUES (?, 'Inhabilitado')";
+    private static final String BATCH_INSERT_QUERY =
+            "INSERT INTO Evaluacion_OV (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
 
     @Override
     public void createOne(EvaluacionOVDTO evaluationDTO) throws UserDisplayableException {
@@ -43,30 +44,38 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
             statement.setInt(1, evaluationDTO.getAssignmentId());
-            statement.setString(2, evaluationDTO.getFile());
-            statement.setString(3, evaluationDTO.getStatus() != null ? evaluationDTO.getStatus() : "Pendiente");
-            statement.setDate(4, evaluationDTO.getDeliveryDate());
-            statement.setDate(5, evaluationDTO.getDeadline());
-            statement.setBigDecimal(6, evaluationDTO.getScore());
-            statement.setString(7, evaluationDTO.getComments());
+            statement.setString(2, evaluationDTO.getDeliverableName());
+            statement.setString(3, evaluationDTO.getFile());
+            statement.setString(4, evaluationDTO.getStatus() != null ? evaluationDTO.getStatus() : "Pendiente");
+            statement.setDate(5, evaluationDTO.getDeliveryDate());
+            statement.setDate(6, evaluationDTO.getDeadline());
+            statement.setBigDecimal(7, evaluationDTO.getScore());
+            statement.setString(8, evaluationDTO.getComments());
 
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
-    public static void crearCascaron(int assignmentId) throws UserDisplayableException {
+    public void createDeliverables(List<Integer> assignmentIds) throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(CREATE_SHELL_QUERY)
+            PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
         ) {
-            statement.setInt(1, assignmentId);
-            statement.executeUpdate();
+            for (Integer assignmentId : assignmentIds) {
+                // 2 inserts required per assignment
+                statement.setInt(1, assignmentId);
+                statement.setString(2, "Primera evaluación de la OV");
+                statement.executeUpdate();
+                
+                statement.setInt(1, assignmentId);
+                statement.setString(2, "Segunda evaluación de la OV");
+                statement.executeUpdate();
+            }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la generación del cascarón de evaluacion OV, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -80,24 +89,13 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             List<EvaluacionOVDTO> evaluations = new ArrayList<>();
 
             while (resultSet.next()) {
-                evaluations.add(new EvaluacionOVDTO.EvaluacionOVBuilder()
-                    .setLinkedOrganizationEvaluationId(resultSet.getInt("id_evaluacion_ov"))
-                    .setAssignmentId(resultSet.getInt("id_asignacion"))
-                    .setFile(resultSet.getString("archivo"))
-                    .setStatus(resultSet.getString("estado"))
-                    .setDeliveryDate(resultSet.getDate("fecha_entrega"))
-                    .setDeadline(resultSet.getDate("fecha_limite"))
-                    .setScore(resultSet.getBigDecimal("calificacion"))
-                    .setComments(resultSet.getString("comentarios"))
-                    .build()
-                );
+                evaluations.add(mapResultSetToDTO(resultSet));
             }
 
             return evaluations;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la consulta de evaluaciones de organizacion vinculada, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -110,23 +108,13 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new EvaluacionOVDTO.EvaluacionOVBuilder()
-                        .setLinkedOrganizationEvaluationId(resultSet.getInt("id_evaluacion_ov"))
-                        .setAssignmentId(resultSet.getInt("id_asignacion"))
-                        .setFile(resultSet.getString("archivo"))
-                        .setStatus(resultSet.getString("estado"))
-                        .setDeliveryDate(resultSet.getDate("fecha_entrega"))
-                        .setDeadline(resultSet.getDate("fecha_limite"))
-                        .setScore(resultSet.getBigDecimal("calificacion"))
-                        .setComments(resultSet.getString("comentarios"))
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la búsqueda de la evaluacion de organizacion vinculada, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -137,18 +125,18 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
             statement.setInt(1, evaluationDTO.getAssignmentId());
-            statement.setString(2, evaluationDTO.getFile());
-            statement.setString(3, evaluationDTO.getStatus());
-            statement.setDate(4, evaluationDTO.getDeliveryDate());
-            statement.setDate(5, evaluationDTO.getDeadline());
-            statement.setBigDecimal(6, evaluationDTO.getScore());
-            statement.setString(7, evaluationDTO.getComments());
-            statement.setInt(8, evaluationDTO.getLinkedOrganizationEvaluationId());
+            statement.setString(2, evaluationDTO.getDeliverableName());
+            statement.setString(3, evaluationDTO.getFile());
+            statement.setString(4, evaluationDTO.getStatus());
+            statement.setDate(5, evaluationDTO.getDeliveryDate());
+            statement.setDate(6, evaluationDTO.getDeadline());
+            statement.setBigDecimal(7, evaluationDTO.getScore());
+            statement.setString(8, evaluationDTO.getComments());
+            statement.setInt(9, evaluationDTO.getLinkedOrganizationEvaluationId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la actualización de la evaluacion de organizacion vinculada, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
     }
 
@@ -161,8 +149,21 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la eliminación de la evaluacion de organizacion vinculada, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
         }
+    }
+    
+    private EvaluacionOVDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new EvaluacionOVDTO.EvaluacionOVBuilder()
+            .setLinkedOrganizationEvaluationId(resultSet.getInt("id_evaluacion_ov"))
+            .setAssignmentId(resultSet.getInt("id_asignacion"))
+            .setDeliverableName(resultSet.getString("nombre_entregable"))
+            .setFile(resultSet.getString("archivo"))
+            .setStatus(resultSet.getString("estado"))
+            .setDeliveryDate(resultSet.getDate("fecha_entrega"))
+            .setDeadline(resultSet.getDate("fecha_limite"))
+            .setScore(resultSet.getBigDecimal("calificacion"))
+            .setComments(resultSet.getString("comentarios"))
+            .build();
     }
 }

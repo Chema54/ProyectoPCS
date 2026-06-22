@@ -25,20 +25,6 @@ public class TitularProyectoDTO {
     }
 
     @Override
-    public boolean equals(Object instance) {
-        if (this == instance) {
-            return true;
-        }
-        if (instance == null || getClass() != instance.getClass()) {
-            return false;
-        }
-        TitularProyectoDTO that = (TitularProyectoDTO) instance;
-        return titularId == that.titularId
-                && organizationId == that.organizationId
-                && name.equals(that.name);
-    }
-
-    @Override
     public String toString() {
         return name;
     }
