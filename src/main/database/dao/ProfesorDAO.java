@@ -23,10 +23,13 @@ public class ProfesorDAO extends CompleteDAOShape<ProfesorDTO, Integer> {
             "INSERT INTO Profesor (numero_personal, nombre, apellido_paterno, apellido_materno, correo, estado, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT * FROM Profesor";
+            "SELECT p.*, u.username FROM Profesor p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario";
 
     private static final String GET_QUERY =
-            "SELECT * FROM Profesor WHERE id_profesor = ?";
+            "SELECT p.*, u.username FROM Profesor p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario WHERE p.id_profesor = ?";
+
+    private static final String GET_BY_EXPERIENCE_QUERY =
+            "SELECT p.*, u.username FROM Profesor p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario INNER JOIN ProfesorExperiencia pe ON p.id_profesor = pe.id_profesor WHERE pe.id_experiencia = ?";
 
     private static final String UPDATE_QUERY =
             "UPDATE Profesor SET numero_personal = ?, nombre = ?, apellido_paterno = ?, apellido_materno = ?, correo = ?, estado = ? WHERE id_profesor = ?";
@@ -133,6 +136,24 @@ public class ProfesorDAO extends CompleteDAOShape<ProfesorDTO, Integer> {
                     LOGGER, e, "No se ha podido realizar la eliminación del profesor, debido a un error de conexión con la Base de datos");
         }
     }
+
+    public ProfesorDTO getProfessorForExperience(int experienceId) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_BY_EXPERIENCE_QUERY)
+        ) {
+            statement.setInt(1, experienceId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapResultSetToDTO(resultSet);
+                }
+                return null;
+            }
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(
+                    LOGGER, e, "No se ha podido obtener el profesor para la experiencia.");
+        }
+    }
     
     private ProfesorDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
         return new ProfesorDTO.ProfesorBuilder()
@@ -144,6 +165,7 @@ public class ProfesorDAO extends CompleteDAOShape<ProfesorDTO, Integer> {
             .setEmail(resultSet.getString("correo"))
             .setStatus(resultSet.getString("estado"))
             .setUserId(resultSet.getInt("id_usuario"))
+            .setUsername(resultSet.getString("username"))
             .build();
     }
 }

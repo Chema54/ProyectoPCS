@@ -10,6 +10,7 @@ public class PracticanteDTO {
     private final String enrollment;
     private final String status;
     private final int userId;
+    private final String username;
 
     private PracticanteDTO(PracticanteBuilder builder) {
         this.internId = builder.internId;
@@ -20,6 +21,7 @@ public class PracticanteDTO {
         this.enrollment = builder.enrollment;
         this.status = builder.status;
         this.userId = builder.userId;
+        this.username = builder.username;
     }
 
     public int getInternId() {
@@ -54,6 +56,14 @@ public class PracticanteDTO {
         return userId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFullName() {
+        return name + " " + paternalSurname + (maternalSurname != null && !maternalSurname.trim().isEmpty() ? " " + maternalSurname : "");
+    }
+
     @Override
     public String toString() {
         return enrollment + " - " + name + " " + paternalSurname;
@@ -69,6 +79,7 @@ public class PracticanteDTO {
         private String enrollment;
         private String status;
         private int userId;
+        private String username;
 
         public PracticanteBuilder setInternId(int internId) {
             this.internId = internId;
@@ -107,6 +118,11 @@ public class PracticanteDTO {
 
         public PracticanteBuilder setUserId(int userId) {
             this.userId = userId;
+            return this;
+        }
+
+        public PracticanteBuilder setUsername(String username) {
+            this.username = username;
             return this;
         }
 

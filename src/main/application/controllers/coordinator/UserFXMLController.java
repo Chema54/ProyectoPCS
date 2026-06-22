@@ -35,6 +35,9 @@ import main.database.dao.PracticanteDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import main.business.dto.ProfesorDTO;
+import main.database.dao.ProfesorDAO;
+
 public class UserFXMLController implements Initializable {
 
     private static final Logger LOGGER
@@ -71,7 +74,7 @@ public class UserFXMLController implements Initializable {
     private Tab tabProfessor;
 
     @FXML
-    private TableView<?> tvProfessors;
+    private TableView<ProfesorDTO> tvProfessors;
 
     @FXML
     private ComboBox<String> cmbFilterProfessor;
@@ -112,6 +115,9 @@ public class UserFXMLController implements Initializable {
     private final PracticanteDAO practicanteDAO
             = new PracticanteDAO();
 
+    private final ProfesorDAO profesorDAO
+            = new ProfesorDAO();
+
     private ObservableList<CoordinatorDTO> coordinatorList;
 
     private FilteredList<CoordinatorDTO> filteredList;
@@ -120,12 +126,12 @@ public class UserFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         initializeCoordinatorTable();
-
         initializeInternTable();
+        initializeProfessorTable();
 
         loadCoordinators();
-
         loadInterns();
+        loadProfessors();
 
         configureSearch();
     }
@@ -133,7 +139,7 @@ public class UserFXMLController implements Initializable {
     private void initializeInternTable() {
 
         colInternUser.setCellValueFactory(
-                new PropertyValueFactory<>("email")
+                new PropertyValueFactory<>("username")
         );
 
         colInternEnrollment.setCellValueFactory(
@@ -141,7 +147,7 @@ public class UserFXMLController implements Initializable {
         );
 
         colInternName.setCellValueFactory(
-                new PropertyValueFactory<>("name")
+                new PropertyValueFactory<>("fullName")
         );
 
         colInternStatus.setCellValueFactory(
@@ -160,9 +166,26 @@ public class UserFXMLController implements Initializable {
             );
 
         } catch (UserDisplayableException e) {
-
             Modal.displayError(e);
+        }
+    }
 
+    private void initializeProfessorTable() {
+        if (tvProfessors.getColumns().size() >= 3) {
+            ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(0))
+                .setCellValueFactory(new PropertyValueFactory<>("username"));
+            ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(1))
+                .setCellValueFactory(new PropertyValueFactory<>("personalNumber"));
+            ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(2))
+                .setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        }
+    }
+
+    private void loadProfessors() {
+        try {
+            tvProfessors.setItems(FXCollections.observableArrayList(profesorDAO.getAll()));
+        } catch (UserDisplayableException e) {
+            Modal.displayError(e);
         }
     }
 

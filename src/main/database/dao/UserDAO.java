@@ -158,4 +158,14 @@ public class UserDAO extends CompleteDAOShape<UserDTO, String> {
             throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar el usuario.");
         }
     }
+
+    private UserDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new UserDTO.UserBuilder()
+            .setUserID(resultSet.getInt("id_usuario"))
+            .setUsername(resultSet.getString("username"))
+            .setPassword(resultSet.getString("password"))
+            .setRole(UserRole.valueOf(resultSet.getString("role")))
+            .setAccess(resultSet.getBoolean("access"))
+            .build();
+    }
 }

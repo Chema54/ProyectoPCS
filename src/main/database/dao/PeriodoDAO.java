@@ -156,7 +156,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             .setStartDate(resultSet.getDate("fecha_inicio"))
             .setEndDate(resultSet.getDate("fecha_fin"))
             .setCoordinatorId(coordIdOrNull)
-            .setCoordinatorName(resultSet.getString("coordinatorName") != null ? resultSet.getString("coordinatorName").trim() : "Sin asignar")
+            .setCoordinatorName((resultSet.getString("coordinatorName") != null && !resultSet.getString("coordinatorName").trim().isEmpty()) ? resultSet.getString("coordinatorName").trim() : "Sin asignar")
             .build();
     }
 }

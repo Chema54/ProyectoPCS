@@ -135,11 +135,20 @@ public class CoordinatorDAO extends CompleteDAOShape<CoordinatorDTO, Integer> {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                LOGGER, e, "No ha sido posible eliminar el coordinador."
-            );
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar el coordinador.");
         }
     }
 
-    
+    private CoordinatorDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new CoordinatorDTO.CoordinatorBuilder()
+            .setIDCoordinator(resultSet.getInt("id_coordinador"))
+            .setIDUser(resultSet.getInt("id_usuario"))
+            .setUsername(resultSet.getString("username"))
+            .setAcademicNumber(resultSet.getString("numeroPersonal"))
+            .setName(resultSet.getString("nombre"))
+            .setLastName(resultSet.getString("apellido_paterno"))
+            .setMotherLastName(resultSet.getString("apellido_materno"))
+            .setEmail(resultSet.getString("correo"))
+            .build();
+    }
 }

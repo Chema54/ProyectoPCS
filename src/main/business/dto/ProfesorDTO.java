@@ -10,6 +10,7 @@ public class ProfesorDTO {
     private final String email;
     private final String status;
     private final int userId;
+    private final String username;
 
     private ProfesorDTO(ProfesorBuilder builder) {
         this.professorId = builder.professorId;
@@ -20,6 +21,7 @@ public class ProfesorDTO {
         this.email = builder.email;
         this.status = builder.status;
         this.userId = builder.userId;
+        this.username = builder.username;
     }
 
     public int getProfessorId() {
@@ -54,6 +56,14 @@ public class ProfesorDTO {
         return userId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFullName() {
+        return name + " " + paternalSurname + (maternalSurname != null && !maternalSurname.trim().isEmpty() ? " " + maternalSurname : "");
+    }
+
     @Override
     public String toString() {
         return name + " " + paternalSurname + " " + maternalSurname;
@@ -69,6 +79,7 @@ public class ProfesorDTO {
         private String email;
         private String status;
         private int userId;
+        private String username;
 
         public ProfesorBuilder setProfessorId(int professorId) {
             this.professorId = professorId;
@@ -107,6 +118,11 @@ public class ProfesorDTO {
 
         public ProfesorBuilder setUserId(int userId) {
             this.userId = userId;
+            return this;
+        }
+
+        public ProfesorBuilder setUsername(String username) {
+            this.username = username;
             return this;
         }
 

@@ -23,10 +23,10 @@ public class PracticanteDAO extends CompleteDAOShape<PracticanteDTO, Integer> {
             "INSERT INTO Practicante (nombre, apellido_paterno, apellido_materno, correo, matricula, estado, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT * FROM Practicante";
+            "SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario";
 
     private static final String GET_QUERY =
-            "SELECT * FROM Practicante WHERE id_practicante = ?";
+            "SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario WHERE p.id_practicante = ?";
 
     private static final String UPDATE_QUERY =
             "UPDATE Practicante SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, correo = ?, matricula = ?, estado = ? WHERE id_practicante = ?";
@@ -199,5 +199,19 @@ public class PracticanteDAO extends CompleteDAOShape<PracticanteDTO, Integer> {
                     LOGGER, e, "No se ha podido verificar la matrícula, debido a un error de conexión con la Base de datos");
         }
         return false;
+    }
+
+    private PracticanteDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new PracticanteDTO.PracticanteBuilder()
+            .setInternId(resultSet.getInt("id_practicante"))
+            .setName(resultSet.getString("nombre"))
+            .setPaternalSurname(resultSet.getString("apellido_paterno"))
+            .setMaternalSurname(resultSet.getString("apellido_materno"))
+            .setEmail(resultSet.getString("correo"))
+            .setEnrollment(resultSet.getString("matricula"))
+            .setStatus(resultSet.getString("estado"))
+            .setUserId(resultSet.getInt("id_usuario"))
+            .setUsername(resultSet.getString("username"))
+            .build();
     }
 }
