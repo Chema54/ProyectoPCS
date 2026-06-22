@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacionDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(DocumentoAceptacionDAO.class);
-    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
+    
 
     private static final String CREATE_QUERY =
             "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, archivo, estado, fecha_entrega) VALUES (?, ?, ?, ?, ?)";
@@ -52,7 +52,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -66,7 +66,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -86,7 +86,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             return documents;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -105,7 +105,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -124,7 +124,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -137,7 +137,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
     

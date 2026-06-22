@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(EvaluacionOVDAO.class);
-    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
+    
 
     private static final String CREATE_QUERY =
             "INSERT INTO Evaluacion_OV (id_asignacion, nombre_entregable, archivo, estado, fecha_entrega, fecha_limite, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -55,7 +55,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -75,7 +75,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -95,7 +95,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             return evaluations;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -114,7 +114,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -136,7 +136,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -149,7 +149,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
     

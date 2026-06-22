@@ -97,17 +97,7 @@ public class PracticanteDAO extends CompleteDAOShape<PracticanteDTO, Integer> {
             List<PracticanteDTO> interns = new ArrayList<>();
 
             while (resultSet.next()) {
-                interns.add(new PracticanteDTO.PracticanteBuilder()
-                    .setInternId(resultSet.getInt("id_practicante"))
-                    .setName(resultSet.getString("nombre"))
-                    .setPaternalSurname(resultSet.getString("apellido_paterno"))
-                    .setMaternalSurname(resultSet.getString("apellido_materno"))
-                    .setEmail(resultSet.getString("correo"))
-                    .setEnrollment(resultSet.getString("matricula"))
-                    .setStatus(resultSet.getString("estado"))
-                    .setUserId(resultSet.getInt("id_usuario"))
-                    .build()
-                );
+                interns.add(mapResultSetToDTO(resultSet));
             }
 
             return interns;
@@ -127,16 +117,7 @@ public class PracticanteDAO extends CompleteDAOShape<PracticanteDTO, Integer> {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new PracticanteDTO.PracticanteBuilder()
-                        .setInternId(resultSet.getInt("id_practicante"))
-                        .setName(resultSet.getString("nombre"))
-                        .setPaternalSurname(resultSet.getString("apellido_paterno"))
-                        .setMaternalSurname(resultSet.getString("apellido_materno"))
-                        .setEmail(resultSet.getString("correo"))
-                        .setEnrollment(resultSet.getString("matricula"))
-                        .setStatus(resultSet.getString("estado"))
-                        .setUserId(resultSet.getInt("id_usuario"))
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }

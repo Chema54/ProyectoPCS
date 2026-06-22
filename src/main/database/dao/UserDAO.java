@@ -99,14 +99,7 @@ public class UserDAO extends CompleteDAOShape<UserDTO, String> {
             List<UserDTO> users = new ArrayList<>();
 
             while (resultSet.next()) {
-                users.add(new UserDTO.UserBuilder()
-                    .setUserID(resultSet.getInt("id_usuario"))
-                    .setUsername(resultSet.getString("username"))
-                    .setPassword(resultSet.getString("password"))
-                    .setRole(UserRole.fromId(resultSet.getInt("id_rol")))
-                    .setAccess(resultSet.getBoolean("access"))
-                    .build()
-                );
+                users.add(mapResultSetToDTO(resultSet));
             }
 
             return users;
@@ -126,13 +119,7 @@ public class UserDAO extends CompleteDAOShape<UserDTO, String> {
             statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new UserDTO.UserBuilder()
-                    .setUserID(resultSet.getInt("id_usuario"))
-                    .setUsername(resultSet.getString("username"))
-                    .setPassword(resultSet.getString("password"))
-                    .setRole(UserRole.fromId(resultSet.getInt("id_rol")))
-                    .setAccess(resultSet.getBoolean("access"))
-                    .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }

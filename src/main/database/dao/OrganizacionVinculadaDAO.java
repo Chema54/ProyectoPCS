@@ -47,8 +47,7 @@ public class OrganizacionVinculadaDAO extends CompleteDAOShape<OrganizacionVincu
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No ha sido posible registrar la organización vinculada.");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible registrar la organización vinculada.");
         }
     }
 
@@ -62,21 +61,13 @@ public class OrganizacionVinculadaDAO extends CompleteDAOShape<OrganizacionVincu
             List<OrganizacionVinculadaDTO> organizations = new ArrayList<>();
 
             while (resultSet.next()) {
-                organizations.add(new OrganizacionVinculadaDTO.OrganizacionVinculadaBuilder()
-                    .setOrganizationId(resultSet.getInt("id_organizacion"))
-                    .setBusinessName(resultSet.getString("razon_social"))
-                    .setLocation(resultSet.getString("ubicacion"))
-                    .setPhoneNumber(resultSet.getString("telefono"))
-                    .setEmail(resultSet.getString("correo"))
-                    .build()
-                );
+                organizations.add(mapResultSetToDTO(resultSet));
             }
 
             return organizations;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No ha sido posible cargar las organizaciones vinculadas.");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar las organizaciones vinculadas.");
         }
     }
 
@@ -89,13 +80,7 @@ public class OrganizacionVinculadaDAO extends CompleteDAOShape<OrganizacionVincu
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new OrganizacionVinculadaDTO.OrganizacionVinculadaBuilder()
-                        .setOrganizationId(resultSet.getInt("id_organizacion"))
-                        .setBusinessName(resultSet.getString("razon_social"))
-                        .setLocation(resultSet.getString("ubicacion"))
-                        .setPhoneNumber(resultSet.getString("telefono"))
-                        .setEmail(resultSet.getString("correo"))
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }
@@ -134,5 +119,15 @@ public class OrganizacionVinculadaDAO extends CompleteDAOShape<OrganizacionVincu
         } catch (SQLException e) {
             throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar la organización vinculada.");
         }
+    }
+    
+    private OrganizacionVinculadaDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new OrganizacionVinculadaDTO.OrganizacionVinculadaBuilder()
+            .setOrganizationId(resultSet.getInt("id_organizacion"))
+            .setBusinessName(resultSet.getString("razon_social"))
+            .setLocation(resultSet.getString("ubicacion"))
+            .setPhoneNumber(resultSet.getString("telefono"))
+            .setEmail(resultSet.getString("correo"))
+            .build();
     }
 }

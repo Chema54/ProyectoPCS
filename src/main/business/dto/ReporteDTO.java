@@ -3,7 +3,7 @@ package main.business.dto;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-public class ReporteMensualDTO {
+public class ReporteDTO {
 
     private final int monthlyReportId;
     private final int assignmentId;
@@ -16,7 +16,7 @@ public class ReporteMensualDTO {
     private final BigDecimal score;
     private final String comments;
 
-    private ReporteMensualDTO(ReporteMensualBuilder builder) {
+    private ReporteDTO(ReporteBuilder builder) {
         this.monthlyReportId = builder.monthlyReportId;
         this.assignmentId = builder.assignmentId;
         this.deliverableName = builder.deliverableName;
@@ -69,7 +69,7 @@ public class ReporteMensualDTO {
         return comments;
     }
 
-    public static class ReporteMensualBuilder {
+    public static class ReporteBuilder {
 
         private int monthlyReportId;
         private int assignmentId;
@@ -82,58 +82,58 @@ public class ReporteMensualDTO {
         private BigDecimal score;
         private String comments;
 
-        public ReporteMensualBuilder setMonthlyReportId(int monthlyReportId) {
+        public ReporteBuilder setMonthlyReportId(int monthlyReportId) {
             this.monthlyReportId = monthlyReportId;
             return this;
         }
 
-        public ReporteMensualBuilder setAssignmentId(int assignmentId) {
+        public ReporteBuilder setAssignmentId(int assignmentId) {
             this.assignmentId = assignmentId;
             return this;
         }
 
-        public ReporteMensualBuilder setDeliverableName(String deliverableName) {
+        public ReporteBuilder setDeliverableName(String deliverableName) {
             this.deliverableName = deliverableName;
             return this;
         }
 
-        public ReporteMensualBuilder setFile(String file) {
+        public ReporteBuilder setFile(String file) {
             this.file = file;
             return this;
         }
 
-        public ReporteMensualBuilder setStatus(String status) {
+        public ReporteBuilder setStatus(String status) {
             this.status = status;
             return this;
         }
 
-        public ReporteMensualBuilder setDeliveryDate(Date deliveryDate) {
+        public ReporteBuilder setDeliveryDate(Date deliveryDate) {
             this.deliveryDate = deliveryDate;
             return this;
         }
 
-        public ReporteMensualBuilder setDeadline(Date deadline) {
+        public ReporteBuilder setDeadline(Date deadline) {
             this.deadline = deadline;
             return this;
         }
 
-        public ReporteMensualBuilder setReportedHours(int reportedHours) {
+        public ReporteBuilder setReportedHours(int reportedHours) {
             this.reportedHours = reportedHours;
             return this;
         }
 
-        public ReporteMensualBuilder setScore(BigDecimal score) {
+        public ReporteBuilder setScore(BigDecimal score) {
             this.score = score;
             return this;
         }
 
-        public ReporteMensualBuilder setComments(String comments) {
+        public ReporteBuilder setComments(String comments) {
             this.comments = comments;
             return this;
         }
 
-        public ReporteMensualDTO build() {
-            return new ReporteMensualDTO(this);
+        public ReporteDTO build() {
+            return new ReporteDTO(this);
         }
     }
 }

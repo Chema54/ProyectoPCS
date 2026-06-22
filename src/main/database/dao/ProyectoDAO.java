@@ -19,7 +19,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(ProyectoDAO.class);
     
-    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
+    
 
     private static final String CREATE_QUERY =
             "INSERT INTO Proyecto (nombre, id_titular, estado, cupo_total, espacios_disponibles) VALUES (?, ?, ?, ?, ?)";
@@ -63,7 +63,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -83,7 +83,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             return projects;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -102,7 +102,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -127,7 +127,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -140,7 +140,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -152,7 +152,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             statement.setInt(1, projectId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
     
@@ -165,7 +165,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             statement.setInt(2, projectId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
     

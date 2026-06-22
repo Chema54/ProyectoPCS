@@ -19,7 +19,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(AsignacionDAO.class);
     
-    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
+    
 
     private static final String CREATE_ASSIGNMENT_QUERY =
             "INSERT INTO Asignacion (id_practicante, id_proyecto, id_experiencia, estado) VALUES (?, ?, ?, ?)";
@@ -42,6 +42,9 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
     private static final String GET_ASSIGNMENTS_BY_PERIOD_QUERY =
             "SELECT a.id_asignacion FROM Asignacion a INNER JOIN ExperienciaEducativa ee ON a.id_experiencia = ee.id_experiencia WHERE ee.id_periodo = ?";
 
+    private static final String GET_PROJECT_IDS_BY_PERIOD_QUERY =
+            "SELECT DISTINCT a.id_proyecto FROM Asignacion a INNER JOIN ExperienciaEducativa ee ON a.id_experiencia = ee.id_experiencia WHERE ee.id_periodo = ?";
+
     @Override
     public void createOne(AsignacionDTO assignmentDTO) throws UserDisplayableException {
         try (
@@ -56,7 +59,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -82,7 +85,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
         return generatedId;
     }
@@ -99,7 +102,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
         return false;
     }
@@ -118,7 +121,25 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
                 return assignmentIds;
             }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+        }
+    }
+
+    public List<Integer> getProjectIdsByPeriod(int periodId) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_PROJECT_IDS_BY_PERIOD_QUERY)
+        ) {
+            statement.setInt(1, periodId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                List<Integer> projectIds = new ArrayList<>();
+                while (resultSet.next()) {
+                    projectIds.add(resultSet.getInt("id_proyecto"));
+                }
+                return projectIds;
+            }
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -138,7 +159,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             return assignments;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -157,7 +178,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -175,7 +196,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -188,7 +209,7 @@ public class AsignacionDAO extends CompleteDAOShape<AsignacionDTO, Integer> {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
     

@@ -75,16 +75,7 @@ public class CoordinatorDAO extends CompleteDAOShape<CoordinatorDTO, Integer> {
         ) {
             List<CoordinatorDTO> coordinators = new ArrayList<>();
             while (resultSet.next()) {
-                CoordinatorDTO coordinator = new CoordinatorDTO.CoordinatorBuilder()
-                    .setIDCoordinator(resultSet.getInt("id_coordinador"))
-                    .setIDUser(resultSet.getInt("id_usuario"))
-                    .setUsername(resultSet.getString("username"))
-                    .setAcademicNumber(resultSet.getString("numeroPersonal"))
-                    .setName(resultSet.getString("nombre"))
-                    .setLastName(resultSet.getString("apellido_paterno"))
-                    .setMotherLastName(resultSet.getString("apellido_materno"))
-                    .build();
-                coordinators.add(coordinator);
+                coordinators.add(mapResultSetToDTO(resultSet));
             }
             return coordinators;
         } catch (SQLException e) {
@@ -103,15 +94,7 @@ public class CoordinatorDAO extends CompleteDAOShape<CoordinatorDTO, Integer> {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new CoordinatorDTO.CoordinatorBuilder()
-                        .setIDCoordinator(resultSet.getInt("id_coordinador"))
-                        .setIDUser(resultSet.getInt("id_usuario"))
-                        .setUsername(resultSet.getString("username"))    
-                        .setAcademicNumber(resultSet.getString("numeroPersonal"))
-                        .setName(resultSet.getString("nombre"))
-                        .setLastName(resultSet.getString("apellido_paterno"))
-                        .setMotherLastName(resultSet.getString("apellido_materno"))
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }

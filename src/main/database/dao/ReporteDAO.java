@@ -7,17 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import main.database.dao.shape.CompleteDAOShape;
-import main.business.dto.ReporteMensualDTO;
+import main.business.dto.ReporteDTO;
 import main.common.ExceptionHandler;
 import main.common.UserDisplayableException;
 import main.database.DBConnector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integer> {
+public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
 
-    private static final Logger LOGGER = LogManager.getLogger(ReporteMensualDAO.class);
-    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
+    private static final Logger LOGGER = LogManager.getLogger(ReporteDAO.class);
+    
 
     private static final String CREATE_QUERY =
             "INSERT INTO Reporte (id_asignacion, nombre_entregable, archivo, estado, fecha_entrega, fecha_limite, horas_reportadas, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -38,7 +38,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             "INSERT INTO Reporte (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
 
     @Override
-    public void createOne(ReporteMensualDTO reportDTO) throws UserDisplayableException {
+    public void createOne(ReporteDTO reportDTO) throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -56,7 +56,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -80,18 +80,18 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
     @Override
-    public List<ReporteMensualDTO> getAll() throws UserDisplayableException {
+    public List<ReporteDTO> getAll() throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
             ResultSet resultSet = statement.executeQuery()
         ) {
-            List<ReporteMensualDTO> reports = new ArrayList<>();
+            List<ReporteDTO> reports = new ArrayList<>();
 
             while (resultSet.next()) {
                 reports.add(mapResultSetToDTO(resultSet));
@@ -100,12 +100,12 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             return reports;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
     @Override
-    public ReporteMensualDTO getOne(Integer id) throws UserDisplayableException {
+    public ReporteDTO getOne(Integer id) throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -119,12 +119,12 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
     @Override
-    public void updateOne(ReporteMensualDTO reportDTO) throws UserDisplayableException {
+    public void updateOne(ReporteDTO reportDTO) throws UserDisplayableException {
         try (
             Connection connection = DBConnector.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -142,7 +142,7 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -155,12 +155,12 @@ public class ReporteMensualDAO extends CompleteDAOShape<ReporteMensualDTO, Integ
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
     
-    private ReporteMensualDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new ReporteMensualDTO.ReporteMensualBuilder()
+    private ReporteDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new ReporteDTO.ReporteBuilder()
             .setMonthlyReportId(resultSet.getInt("id_reporte"))
             .setAssignmentId(resultSet.getInt("id_asignacion"))
             .setDeliverableName(resultSet.getString("nombre_entregable"))

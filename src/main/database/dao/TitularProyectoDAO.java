@@ -45,8 +45,7 @@ public class TitularProyectoDAO extends CompleteDAOShape<TitularProyectoDTO, Int
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar el registro del titular, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar el registro del titular, debido a un error de conexión con la Base de datos");
         }
     }
 
@@ -60,19 +59,13 @@ public class TitularProyectoDAO extends CompleteDAOShape<TitularProyectoDTO, Int
             List<TitularProyectoDTO> titulares = new ArrayList<>();
 
             while (resultSet.next()) {
-                titulares.add(new TitularProyectoDTO.TitularBuilder()
-                    .setTitularId(resultSet.getInt("id_titular"))
-                    .setName(resultSet.getString("nombre"))
-                    .setOrganizationId(resultSet.getInt("id_organizacion"))
-                    .build()
-                );
+                titulares.add(mapResultSetToDTO(resultSet));
             }
 
             return titulares;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la consulta de titulares, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la consulta de titulares, debido a un error de conexión con la Base de datos");
         }
     }
 
@@ -85,18 +78,13 @@ public class TitularProyectoDAO extends CompleteDAOShape<TitularProyectoDTO, Int
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new TitularProyectoDTO.TitularBuilder()
-                        .setTitularId(resultSet.getInt("id_titular"))
-                        .setName(resultSet.getString("nombre"))
-                        .setOrganizationId(resultSet.getInt("id_organizacion"))
-                        .build();
+                    return mapResultSetToDTO(resultSet);
                 }
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la búsqueda del titular, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la búsqueda del titular, debido a un error de conexión con la Base de datos");
         }
     }
 
@@ -112,8 +100,7 @@ public class TitularProyectoDAO extends CompleteDAOShape<TitularProyectoDTO, Int
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la actualización del titular, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la actualización del titular, debido a un error de conexión con la Base de datos");
         }
     }
 
@@ -126,8 +113,15 @@ public class TitularProyectoDAO extends CompleteDAOShape<TitularProyectoDTO, Int
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(
-                    LOGGER, e, "No se ha podido realizar la eliminación del titular, debido a un error de conexión con la Base de datos");
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la eliminación del titular, debido a un error de conexión con la Base de datos");
         }
+    }
+    
+    private TitularProyectoDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new TitularProyectoDTO.TitularBuilder()
+            .setTitularId(resultSet.getInt("id_titular"))
+            .setName(resultSet.getString("nombre"))
+            .setOrganizationId(resultSet.getInt("id_organizacion"))
+            .build();
     }
 }

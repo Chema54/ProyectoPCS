@@ -19,7 +19,7 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
 
     private static final Logger LOGGER = LogManager.getLogger(ExperienciaEducativaDAO.class);
     
-    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
+    
 
     private static final String CREATE_QUERY =
             "INSERT INTO ExperienciaEducativa (nombre, id_periodo, nrc) VALUES (?, ?, ?)";
@@ -55,7 +55,7 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -75,7 +75,7 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             return experiences;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -94,7 +94,7 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -117,7 +117,7 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -130,7 +130,7 @@ public class ExperienciaEducativaDAO extends CompleteDAOShape<ExperienciaEducati
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
     

@@ -19,7 +19,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(PeriodoDAO.class);
     
-    private static final String MSG_SQL_EXCEPTION = "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos";
+    
 
     private static final String CREATE_QUERY =
             "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin, id_coordinador) VALUES (?, ?, ?, ?)";
@@ -66,7 +66,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -86,7 +86,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             return periods;
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -105,7 +105,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             }
 
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -129,7 +129,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
@@ -142,7 +142,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw ExceptionHandler.handleSQLException(LOGGER, e, MSG_SQL_EXCEPTION);
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
 
