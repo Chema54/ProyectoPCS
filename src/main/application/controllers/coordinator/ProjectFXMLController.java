@@ -26,12 +26,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.business.dto.AsignacionDTO;
-import main.business.dto.OrganizacionVinculadaDTO;
-import main.business.dto.ProyectoDTO;
-import main.database.dao.AsignacionDAO;
-import main.database.dao.OrganizacionVinculadaDAO;
-import main.database.dao.ProyectoDAO;
+import main.business.dto.AssignmentDTO;
+import main.business.dto.LinkedOrganizationDTO;
+import main.business.dto.ProjectDTO;
+import main.database.dao.AssignmentDAO;
+import main.database.dao.LinkedOrganizationDAO;
+import main.database.dao.ProjectDAO;
 
 /**
  * FXML Controller class
@@ -43,47 +43,47 @@ public class ProjectFXMLController implements Initializable {
     private static final Logger LOGGER = LogManager.getLogger(ProjectFXMLController.class);
 
     @FXML
-    private TableView<ProyectoDTO> tvProjects;
+    private TableView<ProjectDTO> tvProjects;
     @FXML
-    private TableColumn<ProyectoDTO, String> colProjectName;
+    private TableColumn<ProjectDTO, String> colProjectName;
     @FXML
-    private TableColumn<ProyectoDTO, String> colProjectOrg;
+    private TableColumn<ProjectDTO, String> colProjectOrg;
     @FXML
-    private TableColumn<ProyectoDTO, String> colProjectTitular;
+    private TableColumn<ProjectDTO, String> colProjectTitular;
     @FXML
-    private TableColumn<ProyectoDTO, String> colProjectStatus;
+    private TableColumn<ProjectDTO, String> colProjectStatus;
     @FXML
-    private TableColumn<ProyectoDTO, Integer> colProjectAvailable;
+    private TableColumn<ProjectDTO, Integer> colProjectAvailable;
     @FXML
-    private TableColumn<ProyectoDTO, Integer> colProjectTotal;
+    private TableColumn<ProjectDTO, Integer> colProjectTotal;
 
     @FXML
-    private TableView<AsignacionDTO> tvAssignments;
+    private TableView<AssignmentDTO> tvAssignments;
     @FXML
-    private TableColumn<AsignacionDTO, String> colAsigProject;
+    private TableColumn<AssignmentDTO, String> colAsigProject;
     @FXML
-    private TableColumn<AsignacionDTO, String> colAsigMatricula;
+    private TableColumn<AssignmentDTO, String> colAsigMatricula;
     @FXML
-    private TableColumn<AsignacionDTO, String> colAsigIntern;
+    private TableColumn<AssignmentDTO, String> colAsigIntern;
     @FXML
-    private TableColumn<AsignacionDTO, String> colAsigNrc;
+    private TableColumn<AssignmentDTO, String> colAsigNrc;
     @FXML
-    private TableColumn<AsignacionDTO, String> colAsigStatus;
+    private TableColumn<AssignmentDTO, String> colAsigStatus;
 
     @FXML
-    private TableView<OrganizacionVinculadaDTO> tvOrganizations;
+    private TableView<LinkedOrganizationDTO> tvOrganizations;
     @FXML
-    private TableColumn<OrganizacionVinculadaDTO, String> colOrgName;
+    private TableColumn<LinkedOrganizationDTO, String> colOrgName;
     @FXML
-    private TableColumn<OrganizacionVinculadaDTO, String> colOrgLocation;
+    private TableColumn<LinkedOrganizationDTO, String> colOrgLocation;
     @FXML
-    private TableColumn<OrganizacionVinculadaDTO, String> colOrgEmail;
+    private TableColumn<LinkedOrganizationDTO, String> colOrgEmail;
     @FXML
-    private TableColumn<OrganizacionVinculadaDTO, String> colOrgPhone;
+    private TableColumn<LinkedOrganizationDTO, String> colOrgPhone;
 
-    private final ProyectoDAO proyectoDAO = new ProyectoDAO();
-    private final AsignacionDAO asignacionDAO = new AsignacionDAO();
-    private final OrganizacionVinculadaDAO organizacionDAO = new OrganizacionVinculadaDAO();
+    private final ProjectDAO proyectoDAO = new ProjectDAO();
+    private final AssignmentDAO asignacionDAO = new AssignmentDAO();
+    private final LinkedOrganizationDAO organizacionDAO = new LinkedOrganizationDAO();
 
     /**
      * Initializes the controller class.
@@ -135,7 +135,7 @@ public class ProjectFXMLController implements Initializable {
 
     @FXML
     private void handleModifyProject(ActionEvent event) {
-        ProyectoDTO selected = tvProjects.getSelectionModel().getSelectedItem();
+        ProjectDTO selected = tvProjects.getSelectionModel().getSelectedItem();
         if (selected == null) {
             Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar un proyecto de la tabla", "No se ha seleccionado ningún elemento para modificar."));
             return;
@@ -157,7 +157,7 @@ public class ProjectFXMLController implements Initializable {
 
     @FXML
     private void handleModifyOrganization(ActionEvent event) {
-        OrganizacionVinculadaDTO selected = tvOrganizations.getSelectionModel().getSelectedItem();
+        LinkedOrganizationDTO selected = tvOrganizations.getSelectionModel().getSelectedItem();
         if (selected == null) {
             Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar una organización de la tabla", "No se ha seleccionado ningún elemento para modificar."));
             return;
@@ -165,7 +165,7 @@ public class ProjectFXMLController implements Initializable {
         openModifyOrganizationWindow(selected);
     }
 
-    private void openModifyProjectWindow(ProyectoDTO proyecto) {
+    private void openModifyProjectWindow(ProjectDTO proyecto) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/application/views/coordinator/project/RegisterProjectFXML.fxml"));
             Parent root = loader.load();
@@ -184,7 +184,7 @@ public class ProjectFXMLController implements Initializable {
         }
     }
 
-    private void openModifyOrganizationWindow(OrganizacionVinculadaDTO organizacion) {
+    private void openModifyOrganizationWindow(LinkedOrganizationDTO organizacion) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/application/views/coordinator/organization/RegisterOrganizationFXML.fxml"));
             Parent root = loader.load();

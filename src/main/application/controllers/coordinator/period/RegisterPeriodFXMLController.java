@@ -17,12 +17,12 @@ import javafx.collections.FXCollections;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.stage.Stage;
-import main.business.dto.PeriodoDTO;
-import main.business.dto.ProyectoDTO;
-import main.database.dao.ProyectoDAO;
+import main.business.dto.PeriodDTO;
+import main.business.dto.ProjectDTO;
+import main.database.dao.ProjectDAO;
 import main.common.Modal;
 import main.common.UserDisplayableException;
-import main.service.PeriodoService;
+import main.service.PeriodService;
 
 public class RegisterPeriodFXMLController implements Initializable {
 
@@ -41,7 +41,7 @@ public class RegisterPeriodFXMLController implements Initializable {
     @FXML
     private Label labelErrorProjects;
     @FXML
-    private ListView<ProyectoDTO> listViewProjects;
+    private ListView<ProjectDTO> listViewProjects;
     @FXML
     private Button btnFinalizar;
     @FXML
@@ -52,7 +52,7 @@ public class RegisterPeriodFXMLController implements Initializable {
         clearErrorLabels();
         listViewProjects.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         try {
-            ProyectoDAO proyectoDAO = new ProyectoDAO();
+            ProjectDAO proyectoDAO = new ProjectDAO();
             listViewProjects.setItems(FXCollections.observableArrayList(proyectoDAO.getAll()));
         } catch (UserDisplayableException e) {
             Modal.displayError(e);
@@ -80,13 +80,13 @@ public class RegisterPeriodFXMLController implements Initializable {
         }
 
         try {
-            PeriodoDTO periodo = new PeriodoDTO.PeriodoBuilder()
+            PeriodDTO periodo = new PeriodDTO.PeriodBuilder()
                     .setName(textFieldName.getText().trim())
                     .setStartDate(java.sql.Date.valueOf(datePickerStartDate.getValue()))
                     .setEndDate(java.sql.Date.valueOf(datePickerEndDate.getValue()))
                     .build();
 
-            PeriodoService.registerNewPeriod(periodo);
+            PeriodService.registerNewPeriod(periodo);
 
             // 8. Despliega ventana de Acción Realizada
             Modal.displayInformation("Registro Exitoso", "El Periodo ha sido registrado y abierto exitosamente.");

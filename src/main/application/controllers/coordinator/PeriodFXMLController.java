@@ -20,17 +20,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import main.business.dto.PeriodoDTO;
+import main.business.dto.PeriodDTO;
 import main.common.ExceptionHandler;
 import main.common.Modal;
 import main.common.UserDisplayableException;
-import main.database.dao.PeriodoDAO;
-import main.service.PeriodoService;
+import main.database.dao.PeriodDAO;
+import main.service.PeriodService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import main.business.dto.ExperienciaEducativaDTO;
-import main.database.dao.ExperienciaEducativaDAO;
+import main.business.dto.EducationalExperienceDTO;
+import main.database.dao.EducationalExperienceDAO;
 
 /**
  * FXML Controller class
@@ -42,29 +42,29 @@ public class PeriodFXMLController implements Initializable {
     private static final Logger LOGGER = LogManager.getLogger(PeriodFXMLController.class);
 
     @FXML
-    private TableView<PeriodoDTO> tvPeriods;
+    private TableView<PeriodDTO> tvPeriods;
     @FXML
-    private TableColumn<PeriodoDTO, String> colPeriodName;
+    private TableColumn<PeriodDTO, String> colPeriodName;
     @FXML
-    private TableColumn<PeriodoDTO, String> colStartDate;
+    private TableColumn<PeriodDTO, String> colStartDate;
     @FXML
-    private TableColumn<PeriodoDTO, String> colEndDate;
+    private TableColumn<PeriodDTO, String> colEndDate;
     @FXML
-    private TableColumn<PeriodoDTO, String> colPeriodStatus;
+    private TableColumn<PeriodDTO, String> colPeriodStatus;
 
     @FXML
-    private TableView<ExperienciaEducativaDTO> tvEducationalExperiences;
+    private TableView<EducationalExperienceDTO> tvEducationalExperiences;
     @FXML
-    private TableColumn<ExperienciaEducativaDTO, String> colEENrc;
+    private TableColumn<EducationalExperienceDTO, String> colEENrc;
     @FXML
-    private TableColumn<ExperienciaEducativaDTO, String> colEEName;
+    private TableColumn<EducationalExperienceDTO, String> colEEName;
     @FXML
-    private TableColumn<ExperienciaEducativaDTO, String> colEEPeriod;
+    private TableColumn<EducationalExperienceDTO, String> colEEPeriod;
     @FXML
-    private TableColumn<ExperienciaEducativaDTO, String> colEEProfessor;
+    private TableColumn<EducationalExperienceDTO, String> colEEProfessor;
 
-    private final PeriodoDAO periodoDAO = new PeriodoDAO();
-    private final ExperienciaEducativaDAO eeDAO = new ExperienciaEducativaDAO();
+    private final PeriodDAO periodoDAO = new PeriodDAO();
+    private final EducationalExperienceDAO eeDAO = new EducationalExperienceDAO();
 
     /**
      * Initializes the controller class.
@@ -110,7 +110,7 @@ public class PeriodFXMLController implements Initializable {
 
     @FXML
     private void handleOpenPeriod(ActionEvent event) {
-        PeriodoDTO selected = tvPeriods.getSelectionModel().getSelectedItem();
+        PeriodDTO selected = tvPeriods.getSelectionModel().getSelectedItem();
         if (selected == null) {
             Modal.displayError(new UserDisplayableException("Selección requerida", "No se ha seleccionado ningún periodo", "Por favor seleccione un periodo de la tabla para abrirlo."));
             return;
@@ -122,7 +122,7 @@ public class PeriodFXMLController implements Initializable {
         }
         
         try {
-            PeriodoService.openPeriod(selected.getPeriodId());
+            PeriodService.openPeriod(selected.getPeriodId());
             Modal.displayInformation("Éxito", "El periodo escolar se ha abierto exitosamente.");
             loadAllData();
         } catch (UserDisplayableException e) {

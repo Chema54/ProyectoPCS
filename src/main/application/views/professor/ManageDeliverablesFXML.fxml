@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="554.0" prefWidth="663.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.application.controllers.professor.ManageDeliverablesFXMLController">
+   <children>
+      <Label fx:id="labelTitle" layoutX="20.0" layoutY="15.0" text="Entregables de la Experiencia">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="20.0" layoutY="510.0" mnemonicParsing="false" onAction="#regresar" text="Volver a mis Experiencias" />
+      <TabPane layoutX="20.0" layoutY="50.0" prefHeight="440.0" prefWidth="623.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Reportes">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableReportes" layoutX="10.0" layoutY="15.0" prefHeight="340.0" prefWidth="600.0">
+                          <columns>
+                            <TableColumn fx:id="colRepName" prefWidth="400.0" text="Nombre del Entregable" />
+                            <TableColumn fx:id="colRepStatus" prefWidth="198.0" text="Estado General" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="250.0" layoutY="370.0" mnemonicParsing="false" onAction="#configurarReporte" text="Configurar Entrega" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Evaluaciones">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableEvals" layoutX="10.0" layoutY="15.0" prefHeight="340.0" prefWidth="600.0">
+                          <columns>
+                            <TableColumn fx:id="colEvalName" prefWidth="400.0" text="Nombre del Entregable" />
+                            <TableColumn fx:id="colEvalStatus" prefWidth="198.0" text="Estado General" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="250.0" layoutY="370.0" mnemonicParsing="false" onAction="#configurarEvaluacion" text="Configurar Entrega" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

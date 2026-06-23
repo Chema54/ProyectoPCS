@@ -13,10 +13,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.business.dto.DocumentoAceptacionDTO;
+import main.business.dto.AcceptanceDocumentDTO;
 import main.common.Modal;
 import main.common.UserDisplayableException;
-import main.database.dao.DocumentoAceptacionDAO;
+import main.database.dao.AcceptanceDocumentDAO;
 
 /**
  * FXML Controller class
@@ -26,17 +26,17 @@ import main.database.dao.DocumentoAceptacionDAO;
 public class AcceptanceFXMLController implements Initializable {
 
     @FXML
-    private TableView<DocumentoAceptacionDTO> tvAcceptance;
+    private TableView<AcceptanceDocumentDTO> tvAcceptance;
     @FXML
-    private TableColumn<DocumentoAceptacionDTO, Integer> colAsigId;
+    private TableColumn<AcceptanceDocumentDTO, Integer> colAsigId;
     @FXML
-    private TableColumn<DocumentoAceptacionDTO, String> colFile;
+    private TableColumn<AcceptanceDocumentDTO, String> colFile;
     @FXML
-    private TableColumn<DocumentoAceptacionDTO, String> colStatus;
+    private TableColumn<AcceptanceDocumentDTO, String> colStatus;
     @FXML
-    private TableColumn<DocumentoAceptacionDTO, String> colDate;
+    private TableColumn<AcceptanceDocumentDTO, String> colDate;
 
-    private final DocumentoAceptacionDAO documentoDAO = new DocumentoAceptacionDAO();
+    private final AcceptanceDocumentDAO documentoDAO = new AcceptanceDocumentDAO();
 
     /**
      * Initializes the controller class.

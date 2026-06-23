@@ -11,25 +11,25 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import main.business.dto.AsignacionDTO;
-import main.business.dto.ExperienciaEducativaDTO;
-import main.business.dto.PracticanteDTO;
-import main.business.dto.ProyectoDTO;
+import main.business.dto.AssignmentDTO;
+import main.business.dto.EducationalExperienceDTO;
+import main.business.dto.InternDTO;
+import main.business.dto.ProjectDTO;
 import main.common.Modal;
 import main.common.UserDisplayableException;
-import main.service.AsignacionService;
-import main.service.ExperienciaEducativaService;
-import main.service.PracticanteService;
-import main.service.ProyectoService;
+import main.service.AssignmentService;
+import main.service.EducationalExperienceService;
+import main.service.InternService;
+import main.service.ProjectService;
 
 public class RegisterAssignmentFXMLController implements Initializable {
 
     @FXML
-    private ComboBox<PracticanteDTO> comboBoxIntern;
+    private ComboBox<InternDTO> comboBoxIntern;
     @FXML
-    private ComboBox<ProyectoDTO> comboBoxProject;
+    private ComboBox<ProjectDTO> comboBoxProject;
     @FXML
-    private ComboBox<ExperienciaEducativaDTO> comboBoxEducationalExperience;
+    private ComboBox<EducationalExperienceDTO> comboBoxEducationalExperience;
     @FXML
     private Button btnGuardar;
     @FXML
@@ -38,17 +38,17 @@ public class RegisterAssignmentFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            List<PracticanteDTO> unassignedInterns = PracticanteService.getAllPracticantes().stream()
+            List<InternDTO> unassignedInterns = InternService.getAllPracticantes().stream()
                     .filter(p -> !"Asignado".equals(p.getStatus()))
                     .collect(Collectors.toList());
             comboBoxIntern.setItems(FXCollections.observableArrayList(unassignedInterns));
 
-            List<ProyectoDTO> availableProjects = ProyectoService.getAllProyectos().stream()
+            List<ProjectDTO> availableProjects = ProjectService.getAllProyectos().stream()
                     .filter(p -> p.getAvailableSpaces() > 0)
                     .collect(Collectors.toList());
             comboBoxProject.setItems(FXCollections.observableArrayList(availableProjects));
 
-            comboBoxEducationalExperience.setItems(FXCollections.observableArrayList(ExperienciaEducativaService.getAllExperiencias()));
+            comboBoxEducationalExperience.setItems(FXCollections.observableArrayList(EducationalExperienceService.getAllExperiencias()));
             
             if (unassignedInterns.isEmpty() || availableProjects.isEmpty()) {
                 Modal.displayError(new UserDisplayableException(
@@ -69,14 +69,14 @@ public class RegisterAssignmentFXMLController implements Initializable {
         }
 
         try {
-            AsignacionDTO asignacion = new AsignacionDTO.AsignacionBuilder()
+            AssignmentDTO asignacion = new AssignmentDTO.AssignmentBuilder()
                     .setInternId(comboBoxIntern.getValue().getInternId())
                     .setProjectId(comboBoxProject.getValue().getProjectId())
                     .setEducationalExperienceId(comboBoxEducationalExperience.getValue().getEducationalExperienceId())
                     .setStatus("Activa")
                     .build();
 
-            AsignacionService.registerNewAssignment(asignacion);
+            AssignmentService.registerNewAssignment(asignacion);
 
             Modal.displayInformation("Asignación Exitosa", "La operación se ha realizado exitosamente");
             closeWindow();

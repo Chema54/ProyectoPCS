@@ -1,0 +1,227 @@
+package main.database.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import main.database.dao.shape.CompleteDAOShape;
+import main.business.dto.ReportDTO;
+import main.common.ExceptionHandler;
+import main.common.UserDisplayableException;
+import main.database.DBConnector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class ReportDAO extends CompleteDAOShape<ReportDTO, Integer> {
+
+    private static final Logger LOGGER = LogManager.getLogger(ReportDAO.class);
+    
+
+    private static final String CREATE_QUERY =
+            "INSERT INTO Reporte (id_asignacion, nombre_entregable, archivo, estado, fecha_limite, horas_reportadas, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    private static final String GET_ALL_QUERY =
+            "SELECT * FROM Reporte";
+
+    private static final String GET_QUERY =
+            "SELECT * FROM Reporte WHERE id_reporte = ?";
+
+    private static final String UPDATE_QUERY =
+            "UPDATE Reporte SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_limite = ?, horas_reportadas = ?, calificacion = ?, comentarios = ? WHERE id_reporte = ?";
+
+    private static final String DELETE_QUERY =
+            "DELETE FROM Reporte WHERE id_reporte = ?";
+            
+    private static final String BATCH_INSERT_QUERY =
+            "INSERT INTO Reporte (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
+
+    @Override
+    public void createOne(ReportDTO reportDTO) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+        ) {
+            statement.setInt(1, reportDTO.getAssignmentId());
+            statement.setString(2, reportDTO.getDeliverableName());
+            statement.setBytes(3, reportDTO.getFile());
+            statement.setString(4, reportDTO.getStatus() != null ? reportDTO.getStatus() : "Pendiente");
+            statement.setDate(5, reportDTO.getDeadline());
+            statement.setInt(6, reportDTO.getReportedHours());
+            statement.setBigDecimal(7, reportDTO.getScore());
+            statement.setString(8, reportDTO.getComments());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+        }
+    }
+
+    public void createDeliverables(List<Integer> assignmentIds) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
+        ) {
+            for (Integer assignmentId : assignmentIds) {
+                for (int i = 1; i <= 4; i++) {
+                    statement.setInt(1, assignmentId);
+                    statement.setString(2, "Reporte mensual " + i);
+                    statement.executeUpdate();
+                }
+                
+                statement.setInt(1, assignmentId);
+                statement.setString(2, "Primer informe 210 hrs");
+                statement.executeUpdate();
+                
+                statement.setInt(1, assignmentId);
+                statement.setString(2, "Segundo informe 420 hrs.");
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+        }
+    }
+
+    @Override
+    public List<ReportDTO> getAll() throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
+            ResultSet resultSet = statement.executeQuery()
+        ) {
+            List<ReportDTO> reports = new ArrayList<>();
+
+            while (resultSet.next()) {
+                reports.add(mapResultSetToDTO(resultSet));
+            }
+
+            return reports;
+
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+        }
+    }
+
+    @Override
+    public ReportDTO getOne(Integer id) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_QUERY)
+        ) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapResultSetToDTO(resultSet);
+                }
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+        }
+    }
+
+    @Override
+    public void updateOne(ReportDTO reportDTO) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
+        ) {
+            statement.setInt(1, reportDTO.getAssignmentId());
+            statement.setString(2, reportDTO.getDeliverableName());
+            statement.setBytes(3, reportDTO.getFile());
+            statement.setString(4, reportDTO.getStatus());
+            statement.setDate(5, reportDTO.getDeadline());
+            statement.setInt(6, reportDTO.getReportedHours());
+            statement.setBigDecimal(7, reportDTO.getScore());
+            statement.setString(8, reportDTO.getComments());
+            statement.setInt(9, reportDTO.getMonthlyReportId());
+            
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+        }
+    }
+
+    @Override
+    public void deleteOne(Integer id) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
+        ) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+        }
+    }
+    
+    public List<ReportDTO> getAllByAssignmentId(int assignmentId) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Reporte WHERE id_asignacion = ?")
+        ) {
+            statement.setInt(1, assignmentId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                List<ReportDTO> list = new ArrayList<>();
+                while (resultSet.next()) {
+                    list.add(mapResultSetToDTO(resultSet));
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "Error consultando los reportes.");
+        }
+    }
+
+        public List<ReportDTO> getUniqueDeliverablesByExperiencia(int idExperiencia) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT r.nombre_entregable, r.estado FROM Reporte r INNER JOIN Asignacion a ON r.id_asignacion = a.id_asignacion WHERE a.id_experiencia = ?")
+        ) {
+            statement.setInt(1, idExperiencia);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                List<ReportDTO> list = new ArrayList<>();
+                while (resultSet.next()) {
+                    list.add(new ReportDTO.ReportBuilder()
+                        .setDeliverableName(resultSet.getString("nombre_entregable"))
+                        .setStatus(resultSet.getString("estado"))
+                        .build());
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "Error consultando los reportes únicos.");
+        }
+    }
+
+    public void enableDeliverablesMasive(String nombreDoc, int idExperiencia, java.sql.Date fechaLimite) throws UserDisplayableException {
+        try (
+            Connection connection = DBConnector.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement("UPDATE Reporte SET estado = 'Habilitado', fecha_limite = ? WHERE nombre_entregable = ? AND id_asignacion IN (SELECT id_asignacion FROM Asignacion WHERE id_experiencia = ?)")
+        ) {
+            statement.setDate(1, fechaLimite);
+            statement.setString(2, nombreDoc);
+            statement.setInt(3, idExperiencia);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw ExceptionHandler.handleSQLException(LOGGER, e, "Error habilitando reportes.");
+        }
+    }
+
+private ReportDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        return new ReportDTO.ReportBuilder()
+            .setMonthlyReportId(resultSet.getInt("id_reporte"))
+            .setAssignmentId(resultSet.getInt("id_asignacion"))
+            .setDeliverableName(resultSet.getString("nombre_entregable"))
+            .setFile(resultSet.getBytes("archivo"))
+            .setStatus(resultSet.getString("estado"))
+            .setDeadline(resultSet.getDate("fecha_limite"))
+            .setReportedHours(resultSet.getInt("horas_reportadas"))
+            .setScore(resultSet.getBigDecimal("calificacion"))
+            .setComments(resultSet.getString("comentarios"))
+            .build();
+    }
+}

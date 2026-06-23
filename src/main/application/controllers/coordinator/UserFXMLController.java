@@ -25,18 +25,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import main.business.dto.CoordinatorDTO;
-import main.business.dto.PracticanteDTO;
+import main.business.dto.InternDTO;
 import main.common.ExceptionHandler;
 import main.common.Modal;
 import main.common.UserDisplayableException;
 import main.database.dao.CoordinatorDAO;
-import main.database.dao.PracticanteDAO;
+import main.database.dao.InternDAO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import main.business.dto.ProfesorDTO;
-import main.database.dao.ProfesorDAO;
+import main.business.dto.ProfessorDTO;
+import main.database.dao.ProfessorDAO;
 
 public class UserFXMLController implements Initializable {
 
@@ -47,19 +47,19 @@ public class UserFXMLController implements Initializable {
     private Tab tabIntern;
 
     @FXML
-    private TableView<PracticanteDTO> tvInterns;
+    private TableView<InternDTO> tvInterns;
 
     @FXML
-    private TableColumn<PracticanteDTO, String> colInternUser;
+    private TableColumn<InternDTO, String> colInternUser;
 
     @FXML
-    private TableColumn<PracticanteDTO, String> colInternEnrollment;
+    private TableColumn<InternDTO, String> colInternEnrollment;
 
     @FXML
-    private TableColumn<PracticanteDTO, String> colInternName;
+    private TableColumn<InternDTO, String> colInternName;
 
     @FXML
-    private TableColumn<PracticanteDTO, String> colInternStatus;
+    private TableColumn<InternDTO, String> colInternStatus;
 
     @FXML
     private TextField txtSearchIntern;
@@ -77,7 +77,7 @@ public class UserFXMLController implements Initializable {
     private Tab tabProfessor;
 
     @FXML
-    private TableView<ProfesorDTO> tvProfessors;
+    private TableView<ProfessorDTO> tvProfessors;
 
     @FXML
     private ComboBox<String> cmbFilterProfessor;
@@ -118,11 +118,11 @@ public class UserFXMLController implements Initializable {
     private final CoordinatorDAO coordinatorDAO
             = new CoordinatorDAO();
 
-    private final PracticanteDAO practicanteDAO
-            = new PracticanteDAO();
+    private final InternDAO practicanteDAO
+            = new InternDAO();
 
-    private final ProfesorDAO profesorDAO
-            = new ProfesorDAO();
+    private final ProfessorDAO profesorDAO
+            = new ProfessorDAO();
 
     private ObservableList<CoordinatorDTO> coordinatorList;
 
@@ -178,11 +178,11 @@ public class UserFXMLController implements Initializable {
 
     private void initializeProfessorTable() {
         if (tvProfessors.getColumns().size() >= 3) {
-            ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(0))
+            ((TableColumn<ProfessorDTO, String>) tvProfessors.getColumns().get(0))
                 .setCellValueFactory(new PropertyValueFactory<>("username"));
-            ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(1))
+            ((TableColumn<ProfessorDTO, String>) tvProfessors.getColumns().get(1))
                 .setCellValueFactory(new PropertyValueFactory<>("personalNumber"));
-            ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(2))
+            ((TableColumn<ProfessorDTO, String>) tvProfessors.getColumns().get(2))
                 .setCellValueFactory(new PropertyValueFactory<>("fullName"));
         }
     }
@@ -302,7 +302,7 @@ public class UserFXMLController implements Initializable {
 
     @FXML
     private void handleModifyIntern(ActionEvent event) {
-        PracticanteDTO selected = tvInterns.getSelectionModel().getSelectedItem();
+        InternDTO selected = tvInterns.getSelectionModel().getSelectedItem();
         if (selected == null) {
             Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar un practicante de la tabla", "No se ha seleccionado ningún elemento para modificar."));
             return;
@@ -310,7 +310,7 @@ public class UserFXMLController implements Initializable {
         openModifyInternWindow(selected);
     }
 
-    private void openModifyInternWindow(PracticanteDTO practicante) {
+    private void openModifyInternWindow(InternDTO practicante) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/application/views/coordinator/intern/RegisterInternFXML.fxml"));
             Parent root = loader.load();
@@ -331,7 +331,7 @@ public class UserFXMLController implements Initializable {
 
     @FXML
     private void handleModifyProfessor(ActionEvent event) {
-        ProfesorDTO selected = tvProfessors.getSelectionModel().getSelectedItem();
+        ProfessorDTO selected = tvProfessors.getSelectionModel().getSelectedItem();
         if (selected == null) {
             Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar un profesor de la tabla", "No se ha seleccionado ningún elemento para modificar."));
             return;

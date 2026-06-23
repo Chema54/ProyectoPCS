@@ -10,21 +10,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import main.business.dto.OrganizacionVinculadaDTO;
-import main.business.dto.ProyectoDTO;
-import main.business.dto.TitularProyectoDTO;
+import main.business.dto.LinkedOrganizationDTO;
+import main.business.dto.ProjectDTO;
+import main.business.dto.ProjectManagerDTO;
 import main.common.Modal;
 import main.common.UserDisplayableException;
-import main.service.OrganizacionService;
-import main.service.ProyectoService;
-import main.service.ProyectoService;
+import main.service.LinkedOrganizationService;
+import main.service.ProjectService;
+import main.service.ProjectService;
 
 public class RegisterProjectFXMLController implements Initializable {
 
     @FXML
     private TextField textFieldName;
     @FXML
-    private ComboBox<OrganizacionVinculadaDTO> comboBoxOrganization; 
+    private ComboBox<LinkedOrganizationDTO> comboBoxOrganization; 
     @FXML
     private TextField textFieldTitularName; 
     @FXML
@@ -36,22 +36,22 @@ public class RegisterProjectFXMLController implements Initializable {
     @FXML
     private Button btnCancelar;
 
-    private ProyectoDTO proyectoToUpdate = null;
-    private TitularProyectoDTO titularToUpdate = null;
+    private ProjectDTO proyectoToUpdate = null;
+    private ProjectManagerDTO titularToUpdate = null;
 
-    public void initUpdate(ProyectoDTO proyecto) {
+    public void initUpdate(ProjectDTO proyecto) {
         this.proyectoToUpdate = proyecto;
         textFieldName.setText(proyecto.getName());
         textFieldTotalCapacity.setText(String.valueOf(proyecto.getTotalCapacity()));
         
         try {
-            main.database.dao.TitularProyectoDAO titularDAO = new main.database.dao.TitularProyectoDAO();
+            main.database.dao.ProjectManagerDAO titularDAO = new main.database.dao.ProjectManagerDAO();
             if (proyecto.getTitularId() != null) {
                 this.titularToUpdate = titularDAO.getOne(proyecto.getTitularId());
                 if (this.titularToUpdate != null) {
                     textFieldTitularName.setText(this.titularToUpdate.getName());
                     textFieldTitularPersonalNumber.setText(this.titularToUpdate.getNumeroPersonal());
-                    for (OrganizacionVinculadaDTO org : comboBoxOrganization.getItems()) {
+                    for (LinkedOrganizationDTO org : comboBoxOrganization.getItems()) {
                         if (org.getOrganizationId() == this.titularToUpdate.getOrganizationId()) {
                             comboBoxOrganization.setValue(org);
                             break;
@@ -69,7 +69,7 @@ public class RegisterProjectFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            comboBoxOrganization.setItems(FXCollections.observableArrayList(OrganizacionService.getAllOrganizaciones()));
+            comboBoxOrganization.setItems(FXCollections.observableArrayList(LinkedOrganizationService.getAllOrganizaciones()));
         } catch (UserDisplayableException e) {
             Modal.displayError(e);
         }
@@ -84,14 +84,14 @@ public class RegisterProjectFXMLController implements Initializable {
         try {
             int capacity = Integer.parseInt(textFieldTotalCapacity.getText().trim());
 
-            TitularProyectoDTO titular = new TitularProyectoDTO.TitularBuilder()
+            ProjectManagerDTO titular = new ProjectManagerDTO.TitularBuilder()
                     .setTitularId(titularToUpdate != null ? titularToUpdate.getTitularId() : 0)
                     .setName(textFieldTitularName.getText().trim())
                     .setNumeroPersonal(textFieldTitularPersonalNumber.getText().trim())
                     .setOrganizationId(comboBoxOrganization.getValue().getOrganizationId())
                     .build();
 
-            ProyectoDTO proyecto = new ProyectoDTO.ProyectoBuilder()
+            ProjectDTO proyecto = new ProjectDTO.ProjectBuilder()
                     .setProjectId(proyectoToUpdate != null ? proyectoToUpdate.getProjectId() : 0)
                     .setName(textFieldName.getText().trim())
                     .setTotalCapacity(capacity)
@@ -100,10 +100,10 @@ public class RegisterProjectFXMLController implements Initializable {
                     .build();
 
             if (proyectoToUpdate != null) {
-                ProyectoService.actualizarProyecto(proyecto, titular);
+                ProjectService.actualizarProyecto(proyecto, titular);
                 Modal.displayInformation("Actualización Exitosa", "La operación se ha realizado exitosamente");
             } else {
-                ProyectoService.registrarNuevoProyecto(proyecto, titular);
+                ProjectService.registrarNuevoProyecto(proyecto, titular);
                 Modal.displayInformation("Registro Exitoso", "La operación se ha realizado exitosamente");
             }
             closeWindow();

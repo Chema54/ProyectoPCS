@@ -8,10 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import main.business.dto.OrganizacionVinculadaDTO;
+import main.business.dto.LinkedOrganizationDTO;
 import main.common.Modal;
 import main.common.UserDisplayableException;
-import main.service.OrganizacionService;
+import main.service.LinkedOrganizationService;
 
 public class RegisterOrganizationFXMLController implements Initializable {
 
@@ -28,9 +28,9 @@ public class RegisterOrganizationFXMLController implements Initializable {
     @FXML
     private Button btnCancelar;
 
-    private OrganizacionVinculadaDTO organizacionToUpdate = null;
+    private LinkedOrganizationDTO organizacionToUpdate = null;
 
-    public void initUpdate(OrganizacionVinculadaDTO organizacion) {
+    public void initUpdate(LinkedOrganizationDTO organizacion) {
         this.organizacionToUpdate = organizacion;
         textFieldBusinessName.setText(organizacion.getBusinessName());
         textFieldLocation.setText(organizacion.getLocation());
@@ -50,7 +50,7 @@ public class RegisterOrganizationFXMLController implements Initializable {
         }
 
         try {
-            OrganizacionVinculadaDTO organizacion = new OrganizacionVinculadaDTO.OrganizacionVinculadaBuilder()
+            LinkedOrganizationDTO organizacion = new LinkedOrganizationDTO.LinkedOrganizationBuilder()
                     .setOrganizationId(organizacionToUpdate != null ? organizacionToUpdate.getOrganizationId() : 0)
                     .setBusinessName(textFieldBusinessName.getText().trim())
                     .setLocation(textFieldLocation.getText().trim())
@@ -59,10 +59,10 @@ public class RegisterOrganizationFXMLController implements Initializable {
                     .build();
 
             if (organizacionToUpdate != null) {
-                OrganizacionService.actualizarOrganizacion(organizacion);
+                LinkedOrganizationService.actualizarOrganizacion(organizacion);
                 Modal.displayInformation("Actualización Exitosa", "La operación se ha realizado exitosamente");
             } else {
-                OrganizacionService.registrarNuevaOrganizacion(organizacion);
+                LinkedOrganizationService.registrarNuevaOrganizacion(organizacion);
                 Modal.displayInformation("Registro Exitoso", "La operación se ha realizado exitosamente");
             }
             closeWindow();
