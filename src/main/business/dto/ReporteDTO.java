@@ -8,7 +8,7 @@ public class ReporteDTO {
     private final int monthlyReportId;
     private final int assignmentId;
     private final String deliverableName;
-    private final String file;
+    private final byte[] file;
     private final String status;
     private final Date deliveryDate;
     private final Date deadline;
@@ -41,7 +41,7 @@ public class ReporteDTO {
         return deliverableName;
     }
 
-    public String getFile() {
+    public byte[] getFile() {
         return file;
     }
 
@@ -74,7 +74,7 @@ public class ReporteDTO {
         private int monthlyReportId;
         private int assignmentId;
         private String deliverableName;
-        private String file;
+        private byte[] file;
         private String status;
         private Date deliveryDate;
         private Date deadline;
@@ -97,7 +97,7 @@ public class ReporteDTO {
             return this;
         }
 
-        public ReporteBuilder setFile(String file) {
+        public ReporteBuilder setFile(byte[] file) {
             this.file = file;
             return this;
         }

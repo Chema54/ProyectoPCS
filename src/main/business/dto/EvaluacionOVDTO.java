@@ -8,7 +8,7 @@ public class EvaluacionOVDTO {
     private final int linkedOrganizationEvaluationId;
     private final int assignmentId;
     private final String deliverableName;
-    private final String file;
+    private final byte[] file;
     private final String status;
     private final Date deliveryDate;
     private final Date deadline;
@@ -39,7 +39,7 @@ public class EvaluacionOVDTO {
         return deliverableName;
     }
 
-    public String getFile() {
+    public byte[] getFile() {
         return file;
     }
 
@@ -68,7 +68,7 @@ public class EvaluacionOVDTO {
         private int linkedOrganizationEvaluationId;
         private int assignmentId;
         private String deliverableName;
-        private String file;
+        private byte[] file;
         private String status;
         private Date deliveryDate;
         private Date deadline;
@@ -90,7 +90,7 @@ public class EvaluacionOVDTO {
             return this;
         }
 
-        public EvaluacionOVBuilder setFile(String file) {
+        public EvaluacionOVBuilder setFile(byte[] file) {
             this.file = file;
             return this;
         }

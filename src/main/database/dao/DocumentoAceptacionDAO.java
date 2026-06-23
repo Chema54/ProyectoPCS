@@ -45,7 +45,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
         ) {
             statement.setInt(1, documentDTO.getAssignmentId());
             statement.setString(2, documentDTO.getDeliverableName());
-            statement.setString(3, documentDTO.getFile());
+            statement.setBytes(3, documentDTO.getFile());
             statement.setString(4, documentDTO.getStatus() != null ? documentDTO.getStatus() : "Pendiente");
             statement.setDate(5, documentDTO.getDeliveryDate());
 
@@ -117,7 +117,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
         ) {
             statement.setInt(1, documentDTO.getAssignmentId());
             statement.setString(2, documentDTO.getDeliverableName());
-            statement.setString(3, documentDTO.getFile());
+            statement.setBytes(3, documentDTO.getFile());
             statement.setString(4, documentDTO.getStatus());
             statement.setDate(5, documentDTO.getDeliveryDate());
             statement.setInt(6, documentDTO.getAcceptanceDocumentId());
@@ -146,7 +146,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             .setAcceptanceDocumentId(resultSet.getInt("id_doc_aceptacion"))
             .setAssignmentId(resultSet.getInt("id_asignacion"))
             .setDeliverableName(resultSet.getString("nombre_entregable"))
-            .setFile(resultSet.getString("archivo"))
+            .setFile(resultSet.getBytes("archivo"))
             .setStatus(resultSet.getString("estado"))
             .setDeliveryDate(resultSet.getDate("fecha_entrega"))
             .build();

@@ -7,7 +7,7 @@ public class DocumentoAceptacionDTO {
     private final int acceptanceDocumentId;
     private final int assignmentId;
     private final String deliverableName;
-    private final String file;
+    private final byte[] file;
     private final String status;
     private final Date deliveryDate;
 
@@ -32,7 +32,7 @@ public class DocumentoAceptacionDTO {
         return deliverableName;
     }
 
-    public String getFile() {
+    public byte[] getFile() {
         return file;
     }
 
@@ -49,7 +49,7 @@ public class DocumentoAceptacionDTO {
         private int acceptanceDocumentId;
         private int assignmentId;
         private String deliverableName;
-        private String file;
+        private byte[] file;
         private String status;
         private Date deliveryDate;
 
@@ -68,7 +68,7 @@ public class DocumentoAceptacionDTO {
             return this;
         }
 
-        public DocumentoAceptacionBuilder setFile(String file) {
+        public DocumentoAceptacionBuilder setFile(byte[] file) {
             this.file = file;
             return this;
         }

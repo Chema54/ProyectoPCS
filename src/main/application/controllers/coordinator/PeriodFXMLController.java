@@ -25,6 +25,7 @@ import main.common.ExceptionHandler;
 import main.common.Modal;
 import main.common.UserDisplayableException;
 import main.database.dao.PeriodoDAO;
+import main.service.PeriodoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -108,6 +109,30 @@ public class PeriodFXMLController implements Initializable {
     private void handleRegisterPeriod(ActionEvent event) {
         openModalWindow("/main/application/views/coordinator/period/RegisterPeriodFXML.fxml", "Abrir Periodo Escolar");
         loadAllData();
+    }
+
+    @FXML
+    private void handleOpenPeriod(ActionEvent event) {
+        PeriodoDTO selected = tvPeriods.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Modal.displayError(new UserDisplayableException("Selección requerida", "No se ha seleccionado ningún periodo", "Por favor seleccione un periodo de la tabla para abrirlo."));
+            return;
+        }
+        
+        boolean confirm = Modal.displayConfirmation("¿Está seguro que desea abrir el periodo " + selected.getName() + "?\nEsto activará los proyectos y generará los documentos de asignación.");
+        if (!confirm) {
+            return;
+        }
+        
+        try {
+            PeriodoService.openPeriod(selected.getPeriodId());
+            Modal.displayInformation("Éxito", "El periodo escolar se ha abierto exitosamente.");
+            loadAllData();
+        } catch (UserDisplayableException e) {
+            Modal.displayError(e);
+        } catch (Exception e) {
+            Modal.displayError(new UserDisplayableException("Error del Sistema", "No se pudo abrir el periodo", "Ocurrió un error inesperado", e));
+        }
     }
 
     private void openModalWindow(String fxmlPath, String title) {

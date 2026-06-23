@@ -7,6 +7,7 @@ public class AutoevaluacionDTO {
     private final int selfAssessmentId;
     private final int assignmentId;
     private final String deliverableName;
+    private final byte[] file;
     private final BigDecimal score;
     private final String comments;
     private final String status; // Added because all deliverables have status
@@ -15,6 +16,7 @@ public class AutoevaluacionDTO {
         this.selfAssessmentId = builder.selfAssessmentId;
         this.assignmentId = builder.assignmentId;
         this.deliverableName = builder.deliverableName;
+        this.file = builder.file;
         this.score = builder.score;
         this.comments = builder.comments;
         this.status = builder.status;
@@ -30,6 +32,10 @@ public class AutoevaluacionDTO {
 
     public String getDeliverableName() {
         return deliverableName;
+    }
+
+    public byte[] getFile() {
+        return file;
     }
 
     public BigDecimal getScore() {
@@ -49,6 +55,7 @@ public class AutoevaluacionDTO {
         private int selfAssessmentId;
         private int assignmentId;
         private String deliverableName;
+        private byte[] file;
         private BigDecimal score;
         private String comments;
         private String status;
@@ -65,6 +72,11 @@ public class AutoevaluacionDTO {
 
         public AutoevaluacionBuilder setDeliverableName(String deliverableName) {
             this.deliverableName = deliverableName;
+            return this;
+        }
+
+        public AutoevaluacionBuilder setFile(byte[] file) {
+            this.file = file;
             return this;
         }
 

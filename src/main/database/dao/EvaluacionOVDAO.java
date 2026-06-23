@@ -45,7 +45,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
         ) {
             statement.setInt(1, evaluationDTO.getAssignmentId());
             statement.setString(2, evaluationDTO.getDeliverableName());
-            statement.setString(3, evaluationDTO.getFile());
+            statement.setBytes(3, evaluationDTO.getFile());
             statement.setString(4, evaluationDTO.getStatus() != null ? evaluationDTO.getStatus() : "Pendiente");
             statement.setDate(5, evaluationDTO.getDeliveryDate());
             statement.setDate(6, evaluationDTO.getDeadline());
@@ -126,7 +126,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
         ) {
             statement.setInt(1, evaluationDTO.getAssignmentId());
             statement.setString(2, evaluationDTO.getDeliverableName());
-            statement.setString(3, evaluationDTO.getFile());
+            statement.setBytes(3, evaluationDTO.getFile());
             statement.setString(4, evaluationDTO.getStatus());
             statement.setDate(5, evaluationDTO.getDeliveryDate());
             statement.setDate(6, evaluationDTO.getDeadline());
@@ -158,7 +158,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             .setLinkedOrganizationEvaluationId(resultSet.getInt("id_evaluacion_ov"))
             .setAssignmentId(resultSet.getInt("id_asignacion"))
             .setDeliverableName(resultSet.getString("nombre_entregable"))
-            .setFile(resultSet.getString("archivo"))
+            .setFile(resultSet.getBytes("archivo"))
             .setStatus(resultSet.getString("estado"))
             .setDeliveryDate(resultSet.getDate("fecha_entrega"))
             .setDeadline(resultSet.getDate("fecha_limite"))

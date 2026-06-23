@@ -20,7 +20,7 @@ public class AutoevaluacionDAO extends CompleteDAOShape<AutoevaluacionDTO, Integ
     
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Autoevaluacion (id_asignacion, nombre_entregable, calificacion, comentarios, estado) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO Autoevaluacion (id_asignacion, nombre_entregable, archivo, calificacion, comentarios, estado) VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
             "SELECT * FROM Autoevaluacion";
@@ -29,7 +29,7 @@ public class AutoevaluacionDAO extends CompleteDAOShape<AutoevaluacionDTO, Integ
             "SELECT * FROM Autoevaluacion WHERE id_autoevaluacion = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Autoevaluacion SET id_asignacion = ?, nombre_entregable = ?, calificacion = ?, comentarios = ?, estado = ? WHERE id_autoevaluacion = ?";
+            "UPDATE Autoevaluacion SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, calificacion = ?, comentarios = ?, estado = ? WHERE id_autoevaluacion = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Autoevaluacion WHERE id_autoevaluacion = ?";
@@ -45,9 +45,10 @@ public class AutoevaluacionDAO extends CompleteDAOShape<AutoevaluacionDTO, Integ
         ) {
             statement.setInt(1, selfAssessmentDTO.getAssignmentId());
             statement.setString(2, selfAssessmentDTO.getDeliverableName());
-            statement.setBigDecimal(3, selfAssessmentDTO.getScore());
-            statement.setString(4, selfAssessmentDTO.getComments());
-            statement.setString(5, selfAssessmentDTO.getStatus() != null ? selfAssessmentDTO.getStatus() : "Pendiente");
+            statement.setBytes(3, selfAssessmentDTO.getFile());
+            statement.setBigDecimal(4, selfAssessmentDTO.getScore());
+            statement.setString(5, selfAssessmentDTO.getComments());
+            statement.setString(6, selfAssessmentDTO.getStatus() != null ? selfAssessmentDTO.getStatus() : "Pendiente");
 
             statement.executeUpdate();
 
@@ -117,10 +118,11 @@ public class AutoevaluacionDAO extends CompleteDAOShape<AutoevaluacionDTO, Integ
         ) {
             statement.setInt(1, selfAssessmentDTO.getAssignmentId());
             statement.setString(2, selfAssessmentDTO.getDeliverableName());
-            statement.setBigDecimal(3, selfAssessmentDTO.getScore());
-            statement.setString(4, selfAssessmentDTO.getComments());
-            statement.setString(5, selfAssessmentDTO.getStatus());
-            statement.setInt(6, selfAssessmentDTO.getSelfAssessmentId());
+            statement.setBytes(3, selfAssessmentDTO.getFile());
+            statement.setBigDecimal(4, selfAssessmentDTO.getScore());
+            statement.setString(5, selfAssessmentDTO.getComments());
+            statement.setString(6, selfAssessmentDTO.getStatus());
+            statement.setInt(7, selfAssessmentDTO.getSelfAssessmentId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -146,6 +148,7 @@ public class AutoevaluacionDAO extends CompleteDAOShape<AutoevaluacionDTO, Integ
             .setSelfAssessmentId(resultSet.getInt("id_autoevaluacion"))
             .setAssignmentId(resultSet.getInt("id_asignacion"))
             .setDeliverableName(resultSet.getString("nombre_entregable"))
+            .setFile(resultSet.getBytes("archivo"))
             .setScore(resultSet.getBigDecimal("calificacion"))
             .setComments(resultSet.getString("comentarios"))
             .setStatus(resultSet.getString("estado"))

@@ -45,7 +45,7 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
         ) {
             statement.setInt(1, reportDTO.getAssignmentId());
             statement.setString(2, reportDTO.getDeliverableName());
-            statement.setString(3, reportDTO.getFile());
+            statement.setBytes(3, reportDTO.getFile());
             statement.setString(4, reportDTO.getStatus() != null ? reportDTO.getStatus() : "Pendiente");
             statement.setDate(5, reportDTO.getDeliveryDate());
             statement.setDate(6, reportDTO.getDeadline());
@@ -131,7 +131,7 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
         ) {
             statement.setInt(1, reportDTO.getAssignmentId());
             statement.setString(2, reportDTO.getDeliverableName());
-            statement.setString(3, reportDTO.getFile());
+            statement.setBytes(3, reportDTO.getFile());
             statement.setString(4, reportDTO.getStatus());
             statement.setDate(5, reportDTO.getDeliveryDate());
             statement.setDate(6, reportDTO.getDeadline());
@@ -164,7 +164,7 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
             .setMonthlyReportId(resultSet.getInt("id_reporte"))
             .setAssignmentId(resultSet.getInt("id_asignacion"))
             .setDeliverableName(resultSet.getString("nombre_entregable"))
-            .setFile(resultSet.getString("archivo"))
+            .setFile(resultSet.getBytes("archivo"))
             .setStatus(resultSet.getString("estado"))
             .setDeliveryDate(resultSet.getDate("fecha_entrega"))
             .setDeadline(resultSet.getDate("fecha_limite"))
