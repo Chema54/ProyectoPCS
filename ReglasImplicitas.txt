@@ -1,0 +1,24 @@
+# Reglas Arquitectónicas y Estándares Implícitos (ProyectoPCS)
+*Copia y pega este contenido en un archivo (ej. `ReglasImplicitas.txt`) para mantener el contexto con futuras instancias de IA.*
+
+### 1. Principio de Responsabilidad Única (SRP) en Capas
+*   **DAOs (Capa de Persistencia):** DEBEN ser puros. Un DAO solo puede ejecutar operaciones CRUD (`INSERT`, `SELECT`, `UPDATE`, `DELETE`) sobre una **única tabla** que le corresponde. Está estrictamente prohibido que un DAO inyecte reglas de negocio, genere datos (como contraseñas UUID) o haga transacciones que afecten a múltiples tablas.
+*   **Services (Capa de Negocio Opcional):** Ubicados en `main.service.<Entidad>Service`. Se utilizan para orquestar lógica de negocio compleja, validaciones estrictas (ej. Regex de correos) o transacciones multi-tabla (Ej. `AsignacionService` que genera cascarones en cascada o `PracticanteService` que crea el usuario y contraseña antes del practicante). Para operaciones CRUD simples, los Controladores pueden llamar directamente a los DAOs.
+
+### 2. Interfaz de Usuario y Validaciones Visuales (Regla Visual Estricta)
+*   **Presentación a nivel de Negocio:** Los usuarios finales NUNCA deben ver IDs de base de datos (`id_proyecto`, `id_practicante`, etc.) en pantalla (ni en DataGrids, ni en TextFields). Se deben mostrar siempre datos legibles (Nombres, Matrículas, Razones Sociales).
+*   **Validaciones de Formularios (Flujos Alternos):** Las validaciones de campos vacíos o formatos superficiales incorrectos **NO DEBEN** lanzar pop-ups (Modals) de error. Deben mostrarse mensajes en rojo en `Labels` específicos debajo de cada campo (Ej: `"El campo [nombre del campo] es obligatorio"`). Los Modals de error quedan reservados estrictamente para excepciones del sistema (conexión, BD) o restricciones severas de negocio validadas en el Service.
+*   **Ventanas de Confirmación:** Las acciones críticas de registro deben invocar a `Modal.displayConfirmation()` y evaluar su retorno booleano antes de procesar el guardado.
+*   **Uso de DAOs en Controladores:** Los Controladores FXML (`application.controllers`) **SÍ PUEDEN** importar `java.sql.*` e instanciar clases `DAO` directamente para realizar operaciones a la base de datos (Ej. llenar un ComboBox).
+*   Para los `ComboBox` de selección de llaves foráneas, el Controlador debe cargar la lista de `DTOs` desde el DAO/Service. La GUI mostrará el texto amigable gracias al método `toString()` sobreescrito en el DTO.
+
+### 3. Idioma y Nomenclatura Híbrida
+*   **SQL y Nombres de Clases (Español):** Las sentencias SQL, los nombres de tablas, nombres de columnas, y los nombres de los archivos Java (`ProyectoDAO`, `ReporteMensualDTO`) DEBEN ir en **español** para hacer match con el Dump de la BD. (Clases en `PascalCase`).
+*   **Código Interno (Inglés):** Las variables de instancia de los DTOs, los parámetros de los métodos y las variables locales dentro del código Java DEBEN escribirse en **inglés** (`camelCase`).
+
+### 4. Constructores Específicos
+*   **Excepciones:** Para mostrar mensajes en pantalla siempre se debe usar `new UserDisplayableException(String title, String header, String detail)`. Los strings de *detail* deben ser estrictamente los marcados en el archivo de instrucciones (`Dato asignado tiene un valor invalido...`, etc.), pero los de *title* y *header* pueden adaptarse al contexto.
+
+### 5. Estética Visual FXML
+*   **PromptText Obligatorio:** Todos los `TextField` y `ComboBox` en los archivos `.fxml` deben tener el atributo `promptText="Ej. X..."` para evitar que la interfaz luzca vacía antes de que el usuario interactúe.
+*   **Dimensiones Fijas:** Los formularios modales y pantallas de registro deben diseñarse en paneles estáticos (`AnchorPane` sin auto-resize complejo) para mantener consistencia.

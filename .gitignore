@@ -1,14 +1,17 @@
-/nbproject/private/
-/nbbuild/
-/build/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Archivos de compilación de NetBeans
+build/
+dist/
 
+# Configuraciones privadas de tu IDE local
+nbproject/private/
+nbproject/Makefile-*.mk
+nbproject/Package-*.bash
+build-before-profiler.xml
+
+# Otros archivos autogenerados o temporales
 *.class
 *.log
-*.tmp
-*.swp
 
-.DS_Store
-Thumbs.db
+# Excluidos temporalmente (no son los finales)
+practicas_pro_v11.sql
+cusfinal.txt
