@@ -65,6 +65,7 @@
                            </columns>
                         </TableView>
                         <TextField fx:id="txtSearchOrganization" layoutX="38.0" layoutY="29.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el nombre de la Organizacion vinculada" />
+                        <Button fx:id="btnModifyOrganization" layoutX="520.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleModifyOrganization" prefHeight="25.0" prefWidth="160.0" text="Modificar Organizacion" />
                         <Button fx:id="btnRegisterOrganization" layoutX="690.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleRegisterOrganization" prefHeight="25.0" prefWidth="160.0" text="Registrar Organizacion" />
                      </children>
                   </AnchorPane>

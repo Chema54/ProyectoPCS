@@ -8,6 +8,7 @@ import main.business.dto.enumeration.UserRole;
 import main.database.dao.PracticanteDAO;
 import main.database.dao.UserDAO;
 import main.common.UserDisplayableException;
+import main.common.Validator;
 
 public class PracticanteService {
 
@@ -22,7 +23,7 @@ public class PracticanteService {
         String enrollment = practicante.getEnrollment();
         String email = practicante.getEmail();
         
-        if (enrollment == null || !enrollment.matches("^S\\d{8}$")) {
+        if (!Validator.isValidEnrollment(enrollment)) {
             throw new UserDisplayableException(
                 "Restricción de Practicante",
                 "Formato de matrícula inválido",
@@ -30,10 +31,20 @@ public class PracticanteService {
             );
         }
         
-        if (email == null || !email.matches("^zS\\d{8}@estudiantes\\.uv\\.mx$")) {
+        if (!Validator.isValidStudentEmail(email)) {
             throw new UserDisplayableException(
                 "Restricción de Practicante",
                 "Formato de correo electrónico inválido",
+                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
+            );
+        }
+
+        if (!Validator.isAlphabeticWithAccents(practicante.getName()) || 
+            !Validator.isAlphabeticWithAccents(practicante.getPaternalSurname()) || 
+            !Validator.isAlphabeticWithAccents(practicante.getMaternalSurname())) {
+            throw new UserDisplayableException(
+                "Restricción de Practicante", 
+                "El nombre y apellidos solo pueden contener letras y acentos", 
                 "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
             );
         }
@@ -76,5 +87,23 @@ public class PracticanteService {
         
         // 5. Guardar Practicante en la BD
         practicanteDAO.createOne(practicanteAInsertar);
+    }
+
+    public static void actualizarPracticante(PracticanteDTO practicante) throws UserDisplayableException {
+        // Validaciones
+        if (!Validator.isValidEnrollment(practicante.getEnrollment())) {
+            throw new UserDisplayableException("Restricción de Practicante", "Formato de matrícula inválido", "Dato asignado tiene un valor invalido");
+        }
+        if (!Validator.isValidStudentEmail(practicante.getEmail())) {
+            throw new UserDisplayableException("Restricción de Practicante", "Formato de correo electrónico inválido", "Dato asignado tiene un valor invalido");
+        }
+        if (!Validator.isAlphabeticWithAccents(practicante.getName()) || 
+            !Validator.isAlphabeticWithAccents(practicante.getPaternalSurname()) || 
+            !Validator.isAlphabeticWithAccents(practicante.getMaternalSurname())) {
+            throw new UserDisplayableException("Restricción de Practicante", "El nombre y apellidos solo pueden contener letras y acentos", "Dato asignado tiene un valor invalido");
+        }
+
+        PracticanteDAO dao = new PracticanteDAO();
+        dao.updateOne(practicante);
     }
 }

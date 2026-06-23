@@ -27,10 +27,10 @@
         <TextField fx:id="textFieldMaternalSurname" layoutX="180.0" layoutY="175.0" prefWidth="300.0" promptText="Ej. Gómez" />
 
         <Label layoutX="40.0" layoutY="230.0" text="Matrícula" />
-        <TextField fx:id="textFieldEnrollment" layoutX="180.0" layoutY="225.0" prefWidth="300.0" promptText="zS00000000" />
+        <TextField fx:id="textFieldEnrollment" layoutX="180.0" layoutY="225.0" prefWidth="300.0" promptText="S24013264" />
 
         <Label layoutX="40.0" layoutY="280.0" text="Correo Electrónico" />
-        <TextField fx:id="textFieldEmail" layoutX="180.0" layoutY="275.0" prefWidth="300.0" promptText="zs00000000@estudiantes.uv.mx" />
+        <TextField fx:id="textFieldEmail" layoutX="180.0" layoutY="275.0" prefWidth="300.0" promptText="zs24013264@estudiantes.uv.mx" />
 
         <Label layoutX="40.0" layoutY="330.0" text="Estado" />
         <ComboBox fx:id="comboBoxStatus" layoutX="180.0" layoutY="325.0" prefWidth="300.0" promptText="Seleccione el estado" />

@@ -307,7 +307,26 @@ public class UserFXMLController implements Initializable {
             Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar un practicante de la tabla", "No se ha seleccionado ningún elemento para modificar."));
             return;
         }
-        Modal.displayInformation("Modificar", "Abrir ventana de modificación para: " + selected.getFullName());
+        openModifyInternWindow(selected);
+    }
+
+    private void openModifyInternWindow(PracticanteDTO practicante) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/application/views/coordinator/intern/RegisterInternFXML.fxml"));
+            Parent root = loader.load();
+            main.application.controllers.coordinator.intern.RegisterInternFXMLController controller = loader.getController();
+            controller.initUpdate(practicante);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Modificar Practicante: " + practicante.getFullName());
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            loadInterns();
+        } catch (IOException e) {
+            Modal.displayError(ExceptionHandler.handleGUILoadIOException(LOGGER, e));
+        } catch (Exception e) {
+            Modal.displayError(ExceptionHandler.handleUnexpectedException(LOGGER, e, "Error al abrir la ventana de modificación"));
+        }
     }
 
     @FXML

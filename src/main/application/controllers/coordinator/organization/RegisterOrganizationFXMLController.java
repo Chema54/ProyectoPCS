@@ -28,6 +28,17 @@ public class RegisterOrganizationFXMLController implements Initializable {
     @FXML
     private Button btnCancelar;
 
+    private OrganizacionVinculadaDTO organizacionToUpdate = null;
+
+    public void initUpdate(OrganizacionVinculadaDTO organizacion) {
+        this.organizacionToUpdate = organizacion;
+        textFieldBusinessName.setText(organizacion.getBusinessName());
+        textFieldLocation.setText(organizacion.getLocation());
+        textFieldPhoneNumber.setText(organizacion.getPhoneNumber());
+        textFieldEmail.setText(organizacion.getEmail());
+        btnGuardar.setText("Actualizar");
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -40,15 +51,20 @@ public class RegisterOrganizationFXMLController implements Initializable {
 
         try {
             OrganizacionVinculadaDTO organizacion = new OrganizacionVinculadaDTO.OrganizacionVinculadaBuilder()
+                    .setOrganizationId(organizacionToUpdate != null ? organizacionToUpdate.getOrganizationId() : 0)
                     .setBusinessName(textFieldBusinessName.getText().trim())
                     .setLocation(textFieldLocation.getText().trim())
                     .setPhoneNumber(textFieldPhoneNumber.getText().trim())
                     .setEmail(textFieldEmail.getText().trim())
                     .build();
 
-            OrganizacionService.registrarNuevaOrganizacion(organizacion);
-
-            Modal.displayInformation("Registro Exitoso", "La operación se ha realizado exitosamente");
+            if (organizacionToUpdate != null) {
+                OrganizacionService.actualizarOrganizacion(organizacion);
+                Modal.displayInformation("Actualización Exitosa", "La operación se ha realizado exitosamente");
+            } else {
+                OrganizacionService.registrarNuevaOrganizacion(organizacion);
+                Modal.displayInformation("Registro Exitoso", "La operación se ha realizado exitosamente");
+            }
             closeWindow();
 
         } catch (UserDisplayableException e) {

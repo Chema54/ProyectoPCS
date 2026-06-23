@@ -34,6 +34,19 @@ public class RegisterInternFXMLController implements Initializable {
     @FXML
     private Button btnCancelar;
 
+    private PracticanteDTO practicanteToUpdate = null;
+
+    public void initUpdate(PracticanteDTO practicante) {
+        this.practicanteToUpdate = practicante;
+        textFieldName.setText(practicante.getName());
+        textFieldPaternalSurname.setText(practicante.getPaternalSurname());
+        textFieldMaternalSurname.setText(practicante.getMaternalSurname());
+        textFieldEnrollment.setText(practicante.getEnrollment());
+        textFieldEmail.setText(practicante.getEmail());
+        comboBoxStatus.setValue(practicante.getStatus());
+        btnGuardar.setText("Actualizar");
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         comboBoxStatus.setItems(FXCollections.observableArrayList("Activo", "Inactivo"));
@@ -48,6 +61,7 @@ public class RegisterInternFXMLController implements Initializable {
 
         try {
             PracticanteDTO practicante = new PracticanteDTO.PracticanteBuilder()
+                    .setInternId(practicanteToUpdate != null ? practicanteToUpdate.getInternId() : 0)
                     .setName(textFieldName.getText().trim())
                     .setPaternalSurname(textFieldPaternalSurname.getText().trim())
                     .setMaternalSurname(textFieldMaternalSurname.getText().trim())
@@ -56,9 +70,13 @@ public class RegisterInternFXMLController implements Initializable {
                     .setStatus(comboBoxStatus.getValue())
                     .build();
 
-            PracticanteService.registrarNuevoPracticante(practicante);
-
-            Modal.displayInformation("Registro Exitoso", "La operación se ha realizado exitosamente");
+            if (practicanteToUpdate != null) {
+                PracticanteService.actualizarPracticante(practicante);
+                Modal.displayInformation("Actualización Exitosa", "La operación se ha realizado exitosamente");
+            } else {
+                PracticanteService.registrarNuevoPracticante(practicante);
+                Modal.displayInformation("Registro Exitoso", "La operación se ha realizado exitosamente");
+            }
             closeWindow();
 
         } catch (UserDisplayableException e) {

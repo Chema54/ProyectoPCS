@@ -140,7 +140,7 @@ public class ProjectFXMLController implements Initializable {
             Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar un proyecto de la tabla", "No se ha seleccionado ningún elemento para modificar."));
             return;
         }
-        Modal.displayInformation("Modificar", "Abrir ventana de modificación para: " + selected.getName());
+        openModifyProjectWindow(selected);
     }
 
     @FXML
@@ -153,6 +153,54 @@ public class ProjectFXMLController implements Initializable {
     private void handleRegisterOrganization(ActionEvent event) {
         openModalWindow("/main/application/views/coordinator/organization/RegisterOrganizationFXML.fxml", "Registrar Organización Vinculada");
         loadAllData();
+    }
+
+    @FXML
+    private void handleModifyOrganization(ActionEvent event) {
+        OrganizacionVinculadaDTO selected = tvOrganizations.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar una organización de la tabla", "No se ha seleccionado ningún elemento para modificar."));
+            return;
+        }
+        openModifyOrganizationWindow(selected);
+    }
+
+    private void openModifyProjectWindow(ProyectoDTO proyecto) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/application/views/coordinator/project/RegisterProjectFXML.fxml"));
+            Parent root = loader.load();
+            main.application.controllers.coordinator.project.RegisterProjectFXMLController controller = loader.getController();
+            controller.initUpdate(proyecto);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Modificar Proyecto: " + proyecto.getName());
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            loadAllData();
+        } catch (IOException e) {
+            Modal.displayError(ExceptionHandler.handleGUILoadIOException(LOGGER, e));
+        } catch (Exception e) {
+            Modal.displayError(ExceptionHandler.handleUnexpectedException(LOGGER, e, "Error al abrir la ventana de modificación"));
+        }
+    }
+
+    private void openModifyOrganizationWindow(OrganizacionVinculadaDTO organizacion) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/application/views/coordinator/organization/RegisterOrganizationFXML.fxml"));
+            Parent root = loader.load();
+            main.application.controllers.coordinator.organization.RegisterOrganizationFXMLController controller = loader.getController();
+            controller.initUpdate(organizacion);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Modificar Organización: " + organizacion.getBusinessName());
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            loadAllData();
+        } catch (IOException e) {
+            Modal.displayError(ExceptionHandler.handleGUILoadIOException(LOGGER, e));
+        } catch (Exception e) {
+            Modal.displayError(ExceptionHandler.handleUnexpectedException(LOGGER, e, "Error al abrir la ventana de modificación"));
+        }
     }
 
     private void openModalWindow(String fxmlPath, String title) {

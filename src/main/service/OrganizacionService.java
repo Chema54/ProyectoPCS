@@ -25,4 +25,9 @@ public class OrganizacionService {
         
         dao.createOne(organizacion);
     }
+
+    public static void actualizarOrganizacion(OrganizacionVinculadaDTO organizacion) throws UserDisplayableException {
+        OrganizacionVinculadaDAO dao = new OrganizacionVinculadaDAO();
+        dao.updateOne(organizacion);
+    }
 }
