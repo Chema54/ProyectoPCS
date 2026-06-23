@@ -18,9 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.stage.Stage;
 import main.business.dto.PeriodoDTO;
-import main.business.dto.CoordinatorDTO;
 import main.business.dto.ProyectoDTO;
-import main.database.dao.CoordinatorDAO;
 import main.database.dao.ProyectoDAO;
 import main.common.Modal;
 import main.common.UserDisplayableException;
@@ -41,11 +39,7 @@ public class RegisterPeriodFXMLController implements Initializable {
     @FXML
     private Label labelErrorEndDate;
     @FXML
-    private Label labelErrorCoordinator;
-    @FXML
     private Label labelErrorProjects;
-    @FXML
-    private ComboBox<CoordinatorDTO> comboBoxCoordinator;
     @FXML
     private ListView<ProyectoDTO> listViewProjects;
     @FXML
@@ -58,9 +52,6 @@ public class RegisterPeriodFXMLController implements Initializable {
         clearErrorLabels();
         listViewProjects.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         try {
-            CoordinatorDAO coordinatorDAO = new CoordinatorDAO();
-            comboBoxCoordinator.setItems(FXCollections.observableArrayList(coordinatorDAO.getAll()));
-
             ProyectoDAO proyectoDAO = new ProyectoDAO();
             listViewProjects.setItems(FXCollections.observableArrayList(proyectoDAO.getAll()));
         } catch (UserDisplayableException e) {
@@ -72,7 +63,6 @@ public class RegisterPeriodFXMLController implements Initializable {
         labelErrorName.setText("");
         labelErrorStartDate.setText("");
         labelErrorEndDate.setText("");
-        if (labelErrorCoordinator != null) labelErrorCoordinator.setText("");
         if (labelErrorProjects != null) labelErrorProjects.setText("");
     }
 
@@ -94,7 +84,6 @@ public class RegisterPeriodFXMLController implements Initializable {
                     .setName(textFieldName.getText().trim())
                     .setStartDate(java.sql.Date.valueOf(datePickerStartDate.getValue()))
                     .setEndDate(java.sql.Date.valueOf(datePickerEndDate.getValue()))
-                    .setCoordinatorId(comboBoxCoordinator.getValue().getIDCoordinator())
                     .build();
 
             PeriodoService.registerNewPeriod(periodo);
@@ -135,10 +124,6 @@ public class RegisterPeriodFXMLController implements Initializable {
         }
         if (endDate == null) {
             labelErrorEndDate.setText("El campo Fecha de Fin es obligatorio");
-            isValid = false;
-        }
-        if (comboBoxCoordinator.getValue() == null) {
-            labelErrorCoordinator.setText("El campo Coordinador es obligatorio");
             isValid = false;
         }
         if (listViewProjects.getSelectionModel().getSelectedItems().isEmpty()) {

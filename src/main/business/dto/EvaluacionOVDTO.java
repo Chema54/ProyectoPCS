@@ -10,7 +10,6 @@ public class EvaluacionOVDTO {
     private final String deliverableName;
     private final byte[] file;
     private final String status;
-    private final Date deliveryDate;
     private final Date deadline;
     private final BigDecimal score;
     private final String comments;
@@ -21,7 +20,6 @@ public class EvaluacionOVDTO {
         this.deliverableName = builder.deliverableName;
         this.file = builder.file;
         this.status = builder.status;
-        this.deliveryDate = builder.deliveryDate;
         this.deadline = builder.deadline;
         this.score = builder.score;
         this.comments = builder.comments;
@@ -47,10 +45,6 @@ public class EvaluacionOVDTO {
         return status;
     }
 
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
-
     public Date getDeadline() {
         return deadline;
     }
@@ -70,7 +64,6 @@ public class EvaluacionOVDTO {
         private String deliverableName;
         private byte[] file;
         private String status;
-        private Date deliveryDate;
         private Date deadline;
         private BigDecimal score;
         private String comments;
@@ -97,11 +90,6 @@ public class EvaluacionOVDTO {
 
         public EvaluacionOVBuilder setStatus(String status) {
             this.status = status;
-            return this;
-        }
-
-        public EvaluacionOVBuilder setDeliveryDate(Date deliveryDate) {
-            this.deliveryDate = deliveryDate;
             return this;
         }
 

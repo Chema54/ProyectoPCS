@@ -22,16 +22,16 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
     
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin, id_coordinador) VALUES (?, ?, ?, ?)";
+            "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin) VALUES (?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT p.*, CONCAT_WS(' ', c.nombre, c.apellido_paterno, c.apellido_materno) as coordinatorName FROM Periodo p LEFT JOIN Coordinador c ON p.id_coordinador = c.id_coordinador";
+            "SELECT * FROM Periodo";
 
     private static final String GET_QUERY =
-            "SELECT p.*, CONCAT_WS(' ', c.nombre, c.apellido_paterno, c.apellido_materno) as coordinatorName FROM Periodo p LEFT JOIN Coordinador c ON p.id_coordinador = c.id_coordinador WHERE p.id_periodo = ?";
+            "SELECT * FROM Periodo WHERE id_periodo = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Periodo SET nombre = ?, fecha_inicio = ?, fecha_fin = ?, id_coordinador = ? WHERE id_periodo = ?";
+            "UPDATE Periodo SET nombre = ?, fecha_inicio = ?, fecha_fin = ? WHERE id_periodo = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Periodo WHERE id_periodo = ?";
@@ -49,12 +49,6 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             statement.setString(1, periodDTO.getName());
             statement.setDate(2, periodDTO.getStartDate());
             statement.setDate(3, periodDTO.getEndDate());
-            
-            if (periodDTO.getCoordinatorId() != null) {
-                statement.setInt(4, periodDTO.getCoordinatorId());
-            } else {
-                statement.setNull(4, Types.INTEGER);
-            }
 
             statement.executeUpdate();
 
@@ -118,14 +112,7 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
             statement.setString(1, periodDTO.getName());
             statement.setDate(2, periodDTO.getStartDate());
             statement.setDate(3, periodDTO.getEndDate());
-            
-            if (periodDTO.getCoordinatorId() != null) {
-                statement.setInt(4, periodDTO.getCoordinatorId());
-            } else {
-                statement.setNull(4, Types.INTEGER);
-            }
-            
-            statement.setInt(5, periodDTO.getPeriodId());
+            statement.setInt(4, periodDTO.getPeriodId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -147,16 +134,11 @@ public class PeriodoDAO extends CompleteDAOShape<PeriodoDTO, Integer> {
     }
 
     private PeriodoDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        int coordinatorId = resultSet.getInt("id_coordinador");
-        Integer coordIdOrNull = resultSet.wasNull() ? null : coordinatorId;
-        
         return new PeriodoDTO.PeriodoBuilder()
             .setPeriodId(resultSet.getInt("id_periodo"))
             .setName(resultSet.getString("nombre"))
             .setStartDate(resultSet.getDate("fecha_inicio"))
             .setEndDate(resultSet.getDate("fecha_fin"))
-            .setCoordinatorId(coordIdOrNull)
-            .setCoordinatorName((resultSet.getString("coordinatorName") != null && !resultSet.getString("coordinatorName").trim().isEmpty()) ? resultSet.getString("coordinatorName").trim() : "Sin asignar")
             .build();
     }
 }

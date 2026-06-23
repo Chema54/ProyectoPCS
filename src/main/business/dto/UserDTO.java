@@ -5,7 +5,7 @@
 package main.business.dto;
 
 import main.business.dto.enumeration.UserRole;
-import main.common.BCrypt;
+
 
 /**
  *
@@ -52,12 +52,8 @@ public class UserDTO {
         return username;
     }
 
-    public boolean hasPasswordMatch(String candidate) {
-        return BCrypt.checkpw(candidate, this.password);
-    }
-
-    public static String getGeneratedHashedPassword(String plain) {
-        return BCrypt.hashpw(plain + "@Password", BCrypt.gensalt());
+    public boolean verifyPassword(String candidate) {
+        return this.password.equals(candidate);
     }
 
     public static class UserBuilder {

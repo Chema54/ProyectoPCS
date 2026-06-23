@@ -20,7 +20,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
     
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, archivo, estado, fecha_entrega) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, archivo, estado) VALUES (?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
             "SELECT * FROM Documento_Aceptacion";
@@ -29,13 +29,13 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             "SELECT * FROM Documento_Aceptacion WHERE id_doc_aceptacion = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Documento_Aceptacion SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_entrega = ? WHERE id_doc_aceptacion = ?";
+            "UPDATE Documento_Aceptacion SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ? WHERE id_doc_aceptacion = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Documento_Aceptacion WHERE id_doc_aceptacion = ?";
             
     private static final String BATCH_INSERT_QUERY =
-            "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, estado) VALUES (?, 'Documentos iniciales', 'Inhabilitado')";
+            "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
 
     @Override
     public void createOne(DocumentoAceptacionDTO documentDTO) throws UserDisplayableException {
@@ -47,7 +47,6 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             statement.setString(2, documentDTO.getDeliverableName());
             statement.setBytes(3, documentDTO.getFile());
             statement.setString(4, documentDTO.getStatus() != null ? documentDTO.getStatus() : "Pendiente");
-            statement.setDate(5, documentDTO.getDeliveryDate());
 
             statement.executeUpdate();
 
@@ -63,6 +62,11 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
         ) {
             for (Integer assignmentId : assignmentIds) {
                 statement.setInt(1, assignmentId);
+                statement.setString(2, "Oficio de aceptacion");
+                statement.executeUpdate();
+                
+                statement.setInt(1, assignmentId);
+                statement.setString(2, "Cronograma de actividades");
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -119,8 +123,7 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             statement.setString(2, documentDTO.getDeliverableName());
             statement.setBytes(3, documentDTO.getFile());
             statement.setString(4, documentDTO.getStatus());
-            statement.setDate(5, documentDTO.getDeliveryDate());
-            statement.setInt(6, documentDTO.getAcceptanceDocumentId());
+            statement.setInt(5, documentDTO.getAcceptanceDocumentId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -148,7 +151,6 @@ public class DocumentoAceptacionDAO extends CompleteDAOShape<DocumentoAceptacion
             .setDeliverableName(resultSet.getString("nombre_entregable"))
             .setFile(resultSet.getBytes("archivo"))
             .setStatus(resultSet.getString("estado"))
-            .setDeliveryDate(resultSet.getDate("fecha_entrega"))
             .build();
     }
 }

@@ -20,7 +20,7 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
     
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Reporte (id_asignacion, nombre_entregable, archivo, estado, fecha_entrega, fecha_limite, horas_reportadas, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Reporte (id_asignacion, nombre_entregable, archivo, estado, fecha_limite, horas_reportadas, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
             "SELECT * FROM Reporte";
@@ -29,7 +29,7 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
             "SELECT * FROM Reporte WHERE id_reporte = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Reporte SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_entrega = ?, fecha_limite = ?, horas_reportadas = ?, calificacion = ?, comentarios = ? WHERE id_reporte = ?";
+            "UPDATE Reporte SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_limite = ?, horas_reportadas = ?, calificacion = ?, comentarios = ? WHERE id_reporte = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Reporte WHERE id_reporte = ?";
@@ -47,11 +47,10 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
             statement.setString(2, reportDTO.getDeliverableName());
             statement.setBytes(3, reportDTO.getFile());
             statement.setString(4, reportDTO.getStatus() != null ? reportDTO.getStatus() : "Pendiente");
-            statement.setDate(5, reportDTO.getDeliveryDate());
-            statement.setDate(6, reportDTO.getDeadline());
-            statement.setInt(7, reportDTO.getReportedHours());
-            statement.setBigDecimal(8, reportDTO.getScore());
-            statement.setString(9, reportDTO.getComments());
+            statement.setDate(5, reportDTO.getDeadline());
+            statement.setInt(6, reportDTO.getReportedHours());
+            statement.setBigDecimal(7, reportDTO.getScore());
+            statement.setString(8, reportDTO.getComments());
 
             statement.executeUpdate();
 
@@ -66,10 +65,11 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
             PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
         ) {
             for (Integer assignmentId : assignmentIds) {
-                // 3 inserts required per assignment
-                statement.setInt(1, assignmentId);
-                statement.setString(2, "Reportes mensuales (4)");
-                statement.executeUpdate();
+                for (int i = 1; i <= 4; i++) {
+                    statement.setInt(1, assignmentId);
+                    statement.setString(2, "Reporte mensual " + i);
+                    statement.executeUpdate();
+                }
                 
                 statement.setInt(1, assignmentId);
                 statement.setString(2, "Primer informe 210 hrs");
@@ -133,12 +133,11 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
             statement.setString(2, reportDTO.getDeliverableName());
             statement.setBytes(3, reportDTO.getFile());
             statement.setString(4, reportDTO.getStatus());
-            statement.setDate(5, reportDTO.getDeliveryDate());
-            statement.setDate(6, reportDTO.getDeadline());
-            statement.setInt(7, reportDTO.getReportedHours());
-            statement.setBigDecimal(8, reportDTO.getScore());
-            statement.setString(9, reportDTO.getComments());
-            statement.setInt(10, reportDTO.getMonthlyReportId());
+            statement.setDate(5, reportDTO.getDeadline());
+            statement.setInt(6, reportDTO.getReportedHours());
+            statement.setBigDecimal(7, reportDTO.getScore());
+            statement.setString(8, reportDTO.getComments());
+            statement.setInt(9, reportDTO.getMonthlyReportId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -166,7 +165,6 @@ public class ReporteDAO extends CompleteDAOShape<ReporteDTO, Integer> {
             .setDeliverableName(resultSet.getString("nombre_entregable"))
             .setFile(resultSet.getBytes("archivo"))
             .setStatus(resultSet.getString("estado"))
-            .setDeliveryDate(resultSet.getDate("fecha_entrega"))
             .setDeadline(resultSet.getDate("fecha_limite"))
             .setReportedHours(resultSet.getInt("horas_reportadas"))
             .setScore(resultSet.getBigDecimal("calificacion"))

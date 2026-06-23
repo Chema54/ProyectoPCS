@@ -9,7 +9,6 @@ public class DocumentoAceptacionDTO {
     private final String deliverableName;
     private final byte[] file;
     private final String status;
-    private final Date deliveryDate;
 
     private DocumentoAceptacionDTO(DocumentoAceptacionBuilder builder) {
         this.acceptanceDocumentId = builder.acceptanceDocumentId;
@@ -17,7 +16,6 @@ public class DocumentoAceptacionDTO {
         this.deliverableName = builder.deliverableName;
         this.file = builder.file;
         this.status = builder.status;
-        this.deliveryDate = builder.deliveryDate;
     }
 
     public int getAcceptanceDocumentId() {
@@ -40,10 +38,6 @@ public class DocumentoAceptacionDTO {
         return status;
     }
 
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
-
     public static class DocumentoAceptacionBuilder {
 
         private int acceptanceDocumentId;
@@ -51,7 +45,6 @@ public class DocumentoAceptacionDTO {
         private String deliverableName;
         private byte[] file;
         private String status;
-        private Date deliveryDate;
 
         public DocumentoAceptacionBuilder setAcceptanceDocumentId(int acceptanceDocumentId) {
             this.acceptanceDocumentId = acceptanceDocumentId;
@@ -75,11 +68,6 @@ public class DocumentoAceptacionDTO {
 
         public DocumentoAceptacionBuilder setStatus(String status) {
             this.status = status;
-            return this;
-        }
-
-        public DocumentoAceptacionBuilder setDeliveryDate(Date deliveryDate) {
-            this.deliveryDate = deliveryDate;
             return this;
         }
 

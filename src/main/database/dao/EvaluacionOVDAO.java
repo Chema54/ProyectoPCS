@@ -20,7 +20,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
     
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Evaluacion_OV (id_asignacion, nombre_entregable, archivo, estado, fecha_entrega, fecha_limite, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Evaluacion_OV (id_asignacion, nombre_entregable, archivo, estado, fecha_limite, calificacion, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
             "SELECT * FROM Evaluacion_OV";
@@ -29,7 +29,7 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             "SELECT * FROM Evaluacion_OV WHERE id_evaluacion_ov = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Evaluacion_OV SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_entrega = ?, fecha_limite = ?, calificacion = ?, comentarios = ? WHERE id_evaluacion_ov = ?";
+            "UPDATE Evaluacion_OV SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_limite = ?, calificacion = ?, comentarios = ? WHERE id_evaluacion_ov = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Evaluacion_OV WHERE id_evaluacion_ov = ?";
@@ -47,10 +47,9 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             statement.setString(2, evaluationDTO.getDeliverableName());
             statement.setBytes(3, evaluationDTO.getFile());
             statement.setString(4, evaluationDTO.getStatus() != null ? evaluationDTO.getStatus() : "Pendiente");
-            statement.setDate(5, evaluationDTO.getDeliveryDate());
-            statement.setDate(6, evaluationDTO.getDeadline());
-            statement.setBigDecimal(7, evaluationDTO.getScore());
-            statement.setString(8, evaluationDTO.getComments());
+            statement.setDate(5, evaluationDTO.getDeadline());
+            statement.setBigDecimal(6, evaluationDTO.getScore());
+            statement.setString(7, evaluationDTO.getComments());
 
             statement.executeUpdate();
 
@@ -128,11 +127,10 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             statement.setString(2, evaluationDTO.getDeliverableName());
             statement.setBytes(3, evaluationDTO.getFile());
             statement.setString(4, evaluationDTO.getStatus());
-            statement.setDate(5, evaluationDTO.getDeliveryDate());
-            statement.setDate(6, evaluationDTO.getDeadline());
-            statement.setBigDecimal(7, evaluationDTO.getScore());
-            statement.setString(8, evaluationDTO.getComments());
-            statement.setInt(9, evaluationDTO.getLinkedOrganizationEvaluationId());
+            statement.setDate(5, evaluationDTO.getDeadline());
+            statement.setBigDecimal(6, evaluationDTO.getScore());
+            statement.setString(7, evaluationDTO.getComments());
+            statement.setInt(8, evaluationDTO.getLinkedOrganizationEvaluationId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -160,7 +158,6 @@ public class EvaluacionOVDAO extends CompleteDAOShape<EvaluacionOVDTO, Integer> 
             .setDeliverableName(resultSet.getString("nombre_entregable"))
             .setFile(resultSet.getBytes("archivo"))
             .setStatus(resultSet.getString("estado"))
-            .setDeliveryDate(resultSet.getDate("fecha_entrega"))
             .setDeadline(resultSet.getDate("fecha_limite"))
             .setScore(resultSet.getBigDecimal("calificacion"))
             .setComments(resultSet.getString("comentarios"))

@@ -50,8 +50,6 @@ public class PeriodFXMLController implements Initializable {
     @FXML
     private TableColumn<PeriodoDTO, String> colEndDate;
     @FXML
-    private TableColumn<PeriodoDTO, String> colPeriodCoordinator;
-    @FXML
     private TableColumn<PeriodoDTO, String> colPeriodStatus;
 
     @FXML
@@ -82,7 +80,6 @@ public class PeriodFXMLController implements Initializable {
         colPeriodName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        colPeriodCoordinator.setCellValueFactory(new PropertyValueFactory<>("coordinatorName"));
         colPeriodStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         // Educational Experiences

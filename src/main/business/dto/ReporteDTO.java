@@ -10,7 +10,6 @@ public class ReporteDTO {
     private final String deliverableName;
     private final byte[] file;
     private final String status;
-    private final Date deliveryDate;
     private final Date deadline;
     private final int reportedHours;
     private final BigDecimal score;
@@ -22,7 +21,6 @@ public class ReporteDTO {
         this.deliverableName = builder.deliverableName;
         this.file = builder.file;
         this.status = builder.status;
-        this.deliveryDate = builder.deliveryDate;
         this.deadline = builder.deadline;
         this.reportedHours = builder.reportedHours;
         this.score = builder.score;
@@ -49,10 +47,6 @@ public class ReporteDTO {
         return status;
     }
 
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
-
     public Date getDeadline() {
         return deadline;
     }
@@ -76,7 +70,6 @@ public class ReporteDTO {
         private String deliverableName;
         private byte[] file;
         private String status;
-        private Date deliveryDate;
         private Date deadline;
         private int reportedHours;
         private BigDecimal score;
@@ -104,11 +97,6 @@ public class ReporteDTO {
 
         public ReporteBuilder setStatus(String status) {
             this.status = status;
-            return this;
-        }
-
-        public ReporteBuilder setDeliveryDate(Date deliveryDate) {
-            this.deliveryDate = deliveryDate;
             return this;
         }
 

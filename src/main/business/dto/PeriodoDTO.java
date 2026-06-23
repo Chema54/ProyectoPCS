@@ -8,16 +8,12 @@ public class PeriodoDTO {
     private final String name;
     private final Date startDate;
     private final Date endDate;
-    private final Integer coordinatorId;
-    private final String coordinatorName;
 
     private PeriodoDTO(PeriodoBuilder builder) {
         this.periodId = builder.periodId;
         this.name = builder.name;
         this.startDate = builder.startDate;
         this.endDate = builder.endDate;
-        this.coordinatorId = builder.coordinatorId;
-        this.coordinatorName = builder.coordinatorName;
     }
 
     public int getPeriodId() {
@@ -34,14 +30,6 @@ public class PeriodoDTO {
 
     public Date getEndDate() {
         return endDate;
-    }
-
-    public Integer getCoordinatorId() {
-        return coordinatorId;
-    }
-
-    public String getCoordinatorName() {
-        return coordinatorName;
     }
 
     public String getStatus() {
@@ -65,8 +53,6 @@ public class PeriodoDTO {
         private String name;
         private Date startDate;
         private Date endDate;
-        private Integer coordinatorId;
-        private String coordinatorName;
 
         public PeriodoBuilder setPeriodId(int periodId) {
             this.periodId = periodId;
@@ -85,16 +71,6 @@ public class PeriodoDTO {
 
         public PeriodoBuilder setEndDate(Date endDate) {
             this.endDate = endDate;
-            return this;
-        }
-
-        public PeriodoBuilder setCoordinatorId(Integer coordinatorId) {
-            this.coordinatorId = coordinatorId;
-            return this;
-        }
-
-        public PeriodoBuilder setCoordinatorName(String coordinatorName) {
-            this.coordinatorName = coordinatorName;
             return this;
         }
 
