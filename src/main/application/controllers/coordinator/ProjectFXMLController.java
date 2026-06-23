@@ -49,6 +49,8 @@ public class ProjectFXMLController implements Initializable {
     @FXML
     private TableColumn<ProyectoDTO, String> colProjectOrg;
     @FXML
+    private TableColumn<ProyectoDTO, String> colProjectTitular;
+    @FXML
     private TableColumn<ProyectoDTO, String> colProjectStatus;
     @FXML
     private TableColumn<ProyectoDTO, Integer> colProjectAvailable;
@@ -96,6 +98,7 @@ public class ProjectFXMLController implements Initializable {
         // Projects
         colProjectName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colProjectOrg.setCellValueFactory(new PropertyValueFactory<>("organizationName"));
+        colProjectTitular.setCellValueFactory(new PropertyValueFactory<>("titularDisplay"));
         colProjectStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         colProjectAvailable.setCellValueFactory(new PropertyValueFactory<>("availableSpaces"));
         colProjectTotal.setCellValueFactory(new PropertyValueFactory<>("totalCapacity"));
@@ -128,6 +131,16 @@ public class ProjectFXMLController implements Initializable {
     private void handleRegisterProject(ActionEvent event) {
         openModalWindow("/main/application/views/coordinator/project/RegisterProjectFXML.fxml", "Registrar Nuevo Proyecto");
         loadAllData();
+    }
+
+    @FXML
+    private void handleModifyProject(ActionEvent event) {
+        ProyectoDTO selected = tvProjects.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar un proyecto de la tabla", "No se ha seleccionado ningún elemento para modificar."));
+            return;
+        }
+        Modal.displayInformation("Modificar", "Abrir ventana de modificación para: " + selected.getName());
     }
 
     @FXML

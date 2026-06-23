@@ -6,23 +6,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/SubMenuStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.application.controllers.coordinator.AcceptanceFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="900.0" stylesheets="@../styles/SubMenuStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.application.controllers.coordinator.AcceptanceFXMLController">
     <children>
-      <TabPane prefHeight="549.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="549.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Cursos Habilitados">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                        <TableView layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="820.0">
                           <columns>
-                            <TableColumn minWidth="-1.0" prefWidth="198.0" text="NRC&#10;" />
-                              <TableColumn minWidth="-1.0" prefWidth="180.0" text="Periodo Escolar" />
-                              <TableColumn minWidth="-1.0" prefWidth="205.0" text="Estado Habilitado" />
+                            <TableColumn minWidth="-1.0" prefWidth="250.0" text="NRC&#10;" />
+                              <TableColumn minWidth="-1.0" prefWidth="300.0" text="Periodo Escolar" />
+                              <TableColumn minWidth="-1.0" prefWidth="270.0" text="Estado Habilitado" />
                           </columns>
                         </TableView>
-                        <TextField layoutX="38.0" layoutY="32.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el nombre del Curso" />
-                        <ComboBox layoutX="352.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <TextField layoutX="38.0" layoutY="32.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el nombre del Curso" />
+                        <ComboBox layoutX="400.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
                      </children>
                   </AnchorPane>
             </content>
@@ -31,16 +31,16 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tvAcceptance" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                        <TableView fx:id="tvAcceptance" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="820.0">
                            <columns>
-                              <TableColumn fx:id="colAsigId" minWidth="-1.0" prefWidth="100.0" text="ID Asignación" />
-                              <TableColumn fx:id="colFile" minWidth="-1.0" prefWidth="200.0" text="Archivo" />
-                              <TableColumn fx:id="colStatus" minWidth="-1.0" prefWidth="144.0" text="Estado" />
-                              <TableColumn fx:id="colDate" minWidth="-1.0" prefWidth="139.0" text="Fecha Entrega" />
+                              <TableColumn fx:id="colAsigId" minWidth="-1.0" prefWidth="120.0" text="ID Asignación" />
+                              <TableColumn fx:id="colFile" minWidth="-1.0" prefWidth="350.0" text="Archivo" />
+                              <TableColumn fx:id="colStatus" minWidth="-1.0" prefWidth="180.0" text="Estado" />
+                              <TableColumn fx:id="colDate" minWidth="-1.0" prefWidth="170.0" text="Fecha Entrega" />
                            </columns>
                         </TableView>
-                        <ComboBox fx:id="cmbFilterDoc" layoutX="350.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <TextField fx:id="txtSearchDoc" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el ID o nombre del documento" />
+                        <TextField fx:id="txtSearchDoc" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el ID o nombre del documento" />
+                        <ComboBox fx:id="cmbFilterDoc" layoutX="400.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
                      </children>
                   </AnchorPane>
             </content>

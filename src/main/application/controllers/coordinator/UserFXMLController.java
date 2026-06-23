@@ -71,6 +71,9 @@ public class UserFXMLController implements Initializable {
     private Button btnRegisterIntern;
 
     @FXML
+    private Button btnModifyIntern;
+
+    @FXML
     private Tab tabProfessor;
 
     @FXML
@@ -84,6 +87,9 @@ public class UserFXMLController implements Initializable {
 
     @FXML
     private Button btnRegisterProfessor;
+
+    @FXML
+    private Button btnModifyProfessor;
 
     @FXML
     private Tab tabCoordinator;
@@ -292,6 +298,26 @@ public class UserFXMLController implements Initializable {
     private void handleRegisterProfessor(ActionEvent event) {
 
         // Próximamente
+    }
+
+    @FXML
+    private void handleModifyIntern(ActionEvent event) {
+        PracticanteDTO selected = tvInterns.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar un practicante de la tabla", "No se ha seleccionado ningún elemento para modificar."));
+            return;
+        }
+        Modal.displayInformation("Modificar", "Abrir ventana de modificación para: " + selected.getFullName());
+    }
+
+    @FXML
+    private void handleModifyProfessor(ActionEvent event) {
+        ProfesorDTO selected = tvProfessors.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Modal.displayError(new UserDisplayableException("Selección requerida", "Debe seleccionar un profesor de la tabla", "No se ha seleccionado ningún elemento para modificar."));
+            return;
+        }
+        Modal.displayInformation("Modificar", "Abrir ventana de modificación para: " + selected.getFullName());
     }
 
     @FXML

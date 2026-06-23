@@ -17,7 +17,7 @@ import main.common.Modal;
 import main.common.UserDisplayableException;
 import main.service.OrganizacionService;
 import main.service.ProyectoService;
-import main.service.TitularService;
+import main.service.ProyectoService;
 
 public class RegisterProjectFXMLController implements Initializable {
 
@@ -26,11 +26,11 @@ public class RegisterProjectFXMLController implements Initializable {
     @FXML
     private ComboBox<OrganizacionVinculadaDTO> comboBoxOrganization; 
     @FXML
-    private ComboBox<TitularProyectoDTO> comboBoxTitular; 
+    private TextField textFieldTitularName; 
+    @FXML
+    private TextField textFieldTitularPersonalNumber; 
     @FXML
     private TextField textFieldTotalCapacity;
-    @FXML
-    private ComboBox<String> comboBoxStatus;
     @FXML
     private Button btnGuardar;
     @FXML
@@ -38,24 +38,8 @@ public class RegisterProjectFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        comboBoxStatus.setItems(FXCollections.observableArrayList("Sin asignar", "Asignado", "Concluido"));
-        comboBoxStatus.getSelectionModel().selectFirst();
-        
         try {
-            // Llenado dinámico sin datos hardcodeados. El combobox mostrará el nombre por el toString() del DTO.
             comboBoxOrganization.setItems(FXCollections.observableArrayList(OrganizacionService.getAllOrganizaciones()));
-            comboBoxTitular.setItems(FXCollections.observableArrayList(TitularService.getAllTitulares()));
-            
-            comboBoxTitular.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-                if (newVal != null) {
-                    for (OrganizacionVinculadaDTO org : comboBoxOrganization.getItems()) {
-                        if (org.getOrganizationId() == newVal.getOrganizationId()) {
-                            comboBoxOrganization.getSelectionModel().select(org);
-                            break;
-                        }
-                    }
-                }
-            });
         } catch (UserDisplayableException e) {
             Modal.displayError(e);
         }
@@ -70,16 +54,20 @@ public class RegisterProjectFXMLController implements Initializable {
         try {
             int capacity = Integer.parseInt(textFieldTotalCapacity.getText().trim());
 
-            // Usando el ID extraído transparentemente desde la selección del ComboBox
-            ProyectoDTO proyecto = new ProyectoDTO.ProyectoBuilder()
-                    .setName(textFieldName.getText().trim())
-                    .setTitularId(comboBoxTitular.getValue().getTitularId())
-                    .setTotalCapacity(capacity)
-                    .setAvailableSpaces(capacity)
-                    .setStatus(comboBoxStatus.getValue())
+            TitularProyectoDTO titular = new TitularProyectoDTO.TitularBuilder()
+                    .setName(textFieldTitularName.getText().trim())
+                    .setNumeroPersonal(textFieldTitularPersonalNumber.getText().trim())
+                    .setOrganizationId(comboBoxOrganization.getValue().getOrganizationId())
                     .build();
 
-            ProyectoService.registrarNuevoProyecto(proyecto);
+            ProyectoDTO proyecto = new ProyectoDTO.ProyectoBuilder()
+                    .setName(textFieldName.getText().trim())
+                    .setTotalCapacity(capacity)
+                    .setAvailableSpaces(capacity)
+                    .setStatus("Sin asignar")
+                    .build();
+
+            ProyectoService.registrarNuevoProyecto(proyecto, titular);
 
             Modal.displayInformation("Registro Exitoso", "La operación se ha realizado exitosamente");
             closeWindow();
@@ -111,8 +99,12 @@ public class RegisterProjectFXMLController implements Initializable {
             Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Cupo Total es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
             return false;
         }
-        if (comboBoxTitular.getValue() == null) {
-            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Titular es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+        if (textFieldTitularName.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo Nombre del Titular es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
+            return false;
+        }
+        if (textFieldTitularPersonalNumber.getText().trim().isEmpty()) {
+            Modal.displayError(new UserDisplayableException("Campos Incompletos", "El campo No. Personal del Titular es obligatorio", "Dato asignado tiene un valor invalido, debe seguir un formato asignado"));
             return false;
         }
         if (comboBoxOrganization.getValue() == null) {

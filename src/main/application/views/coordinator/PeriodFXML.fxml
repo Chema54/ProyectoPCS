@@ -6,26 +6,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.application.controllers.coordinator.PeriodFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="900.0" stylesheets="@../styles/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.application.controllers.coordinator.PeriodFXMLController">
     <children>
-      <TabPane prefHeight="549.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="549.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Periodo Escolar">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tvPeriods" layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                        <TableView fx:id="tvPeriods" layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="820.0">
                           <columns>
-                            <TableColumn fx:id="colPeriodName" minWidth="-1.0" prefWidth="176.0" text="Periodo Escolar&#10;" />
-                              <TableColumn fx:id="colStartDate" minWidth="-1.0" prefWidth="152.0" text="Fecha de Inicio" />
-                              <TableColumn fx:id="colEndDate" minWidth="-1.0" prefWidth="120.0" text="Fecha de Fin" />
-                              <TableColumn fx:id="colPeriodCoordinator" prefWidth="180.0" text="Coordinador" />
-                              <TableColumn fx:id="colPeriodStatus" prefWidth="113.0" text="Estado" />
+                            <TableColumn fx:id="colPeriodName" minWidth="-1.0" prefWidth="256.0" text="Periodo Escolar&#10;" />
+                              <TableColumn fx:id="colStartDate" minWidth="-1.0" prefWidth="180.0" text="Fecha de Inicio" />
+                              <TableColumn fx:id="colEndDate" minWidth="-1.0" prefWidth="180.0" text="Fecha de Fin" />
+                              <TableColumn fx:id="colPeriodCoordinator" prefWidth="120.0" text="Coordinador" />
+                              <TableColumn fx:id="colPeriodStatus" prefWidth="83.0" text="Estado" />
                           </columns>
                         </TableView>
-                        <TextField fx:id="txtSearchPeriod" layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el Periodo Escolar" />
-                        <ComboBox fx:id="cmbFilterPeriod" layoutX="352.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <Button fx:id="btnRegisterPeriod" layoutX="500.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleRegisterPeriod" prefHeight="25.0" prefWidth="124.0" text="Registrar Periodo" />
+                        <TextField fx:id="txtSearchPeriod" layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el Periodo Escolar" />
+                        <ComboBox fx:id="cmbFilterPeriod" layoutX="400.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <Button fx:id="btnRegisterPeriod" layoutX="690.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleRegisterPeriod" prefHeight="25.0" prefWidth="140.0" text="Registrar Periodo" />
                      </children>
                   </AnchorPane>
             </content>
@@ -34,17 +34,17 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tvEducationalExperiences" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="584.0">
+                        <TableView fx:id="tvEducationalExperiences" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="820.0">
                            <columns>
-                              <TableColumn fx:id="colEENrc" minWidth="-1.0" prefWidth="100.0" text="NRC" />
-                              <TableColumn fx:id="colEEName" minWidth="-1.0" prefWidth="150.0" text="Nombre" />
-                              <TableColumn fx:id="colEEPeriod" minWidth="-1.0" prefWidth="150.0" text="Periodo Escolar" />
-                              <TableColumn fx:id="colEEProfessor" minWidth="-1.0" prefWidth="180.0" text="Profesor Asignado" />
+                              <TableColumn fx:id="colEENrc" minWidth="-1.0" prefWidth="120.0" text="NRC" />
+                              <TableColumn fx:id="colEEName" minWidth="-1.0" prefWidth="250.0" text="Nombre" />
+                              <TableColumn fx:id="colEEPeriod" minWidth="-1.0" prefWidth="200.0" text="Periodo Escolar" />
+                              <TableColumn fx:id="colEEProfessor" minWidth="-1.0" prefWidth="250.0" text="Profesor Asignado" />
                            </columns>
                         </TableView>
-                        <Button fx:id="btnRegisterEE" layoutX="483.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Registrar Experiencia &#10;Educativa" />
-                        <ComboBox fx:id="cmbFilterEE" layoutX="350.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <TextField fx:id="txtSearchNRC" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="295.0" promptText="Ingrese el NRC" />
+                        <TextField fx:id="txtSearchNRC" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el NRC" />
+                        <ComboBox fx:id="cmbFilterEE" layoutX="400.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <Button fx:id="btnRegisterEE" layoutX="690.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" text="Registrar Experiencia &#10;Educativa" />
                      </children>
                   </AnchorPane>
             </content>

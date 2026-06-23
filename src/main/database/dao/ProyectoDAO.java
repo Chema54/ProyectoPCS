@@ -25,10 +25,10 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             "INSERT INTO Proyecto (nombre, id_titular, estado, cupo_total, espacios_disponibles) VALUES (?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
-            "SELECT p.*, o.razon_social as organizationName FROM Proyecto p INNER JOIN TitularProyecto t ON p.id_titular = t.id_titular INNER JOIN OrganizacionVinculada o ON t.id_organizacion = o.id_organizacion";
+            "SELECT p.*, o.razon_social as organizationName, t.nombre as titularName, t.numero_personal as titularNumeroPersonal FROM Proyecto p INNER JOIN TitularProyecto t ON p.id_titular = t.id_titular INNER JOIN OrganizacionVinculada o ON t.id_organizacion = o.id_organizacion";
 
     private static final String GET_QUERY =
-            "SELECT p.*, o.razon_social as organizationName FROM Proyecto p INNER JOIN TitularProyecto t ON p.id_titular = t.id_titular INNER JOIN OrganizacionVinculada o ON t.id_organizacion = o.id_organizacion WHERE p.id_proyecto = ?";
+            "SELECT p.*, o.razon_social as organizationName, t.nombre as titularName, t.numero_personal as titularNumeroPersonal FROM Proyecto p INNER JOIN TitularProyecto t ON p.id_titular = t.id_titular INNER JOIN OrganizacionVinculada o ON t.id_organizacion = o.id_organizacion WHERE p.id_proyecto = ?";
 
     private static final String UPDATE_QUERY =
             "UPDATE Proyecto SET nombre = ?, id_titular = ?, estado = ?, cupo_total = ?, espacios_disponibles = ? WHERE id_proyecto = ?";
@@ -181,6 +181,7 @@ public class ProyectoDAO extends CompleteDAOShape<ProyectoDTO, Integer> {
             .setTotalCapacity(resultSet.getInt("cupo_total"))
             .setAvailableSpaces(resultSet.getInt("espacios_disponibles"))
             .setOrganizationName(resultSet.getString("organizationName"))
+            .setTitularDisplay(resultSet.getString("titularNumeroPersonal") + " - " + resultSet.getString("titularName"))
             .build();
     }
 }

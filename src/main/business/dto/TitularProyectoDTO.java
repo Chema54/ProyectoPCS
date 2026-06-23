@@ -4,11 +4,13 @@ public class TitularProyectoDTO {
 
     private final int titularId;
     private final String name;
+    private final String numeroPersonal;
     private final int organizationId;
 
     private TitularProyectoDTO(TitularBuilder builder) {
         this.titularId = builder.titularId;
         this.name = builder.name;
+        this.numeroPersonal = builder.numeroPersonal;
         this.organizationId = builder.organizationId;
     }
 
@@ -18,6 +20,10 @@ public class TitularProyectoDTO {
 
     public String getName() {
         return name;
+    }
+
+    public String getNumeroPersonal() {
+        return numeroPersonal;
     }
 
     public int getOrganizationId() {
@@ -33,6 +39,7 @@ public class TitularProyectoDTO {
 
         private int titularId;
         private String name;
+        private String numeroPersonal;
         private int organizationId;
 
         public TitularBuilder setTitularId(int titularId) {
@@ -42,6 +49,11 @@ public class TitularProyectoDTO {
 
         public TitularBuilder setName(String name) {
             this.name = name;
+            return this;
+        }
+
+        public TitularBuilder setNumeroPersonal(String numeroPersonal) {
+            this.numeroPersonal = numeroPersonal;
             return this;
         }
 
