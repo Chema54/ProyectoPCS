@@ -60,12 +60,11 @@ public class PracticanteService {
         
         // 2. Generación automática de contraseña
         String rawPassword = UUID.randomUUID().toString().substring(0, 8);
-        String hashedPassword = UserDTO.getGeneratedHashedPassword(rawPassword);
         
         // 3. Crear DTO de Usuario y guardarlo para obtener el ID
         UserDTO nuevoUsuario = new UserDTO.UserBuilder()
             .setUsername(practicante.getEnrollment())
-            .setPassword(hashedPassword)
+            .setPassword(rawPassword)
             .setRole(UserRole.INTERN)
             .setAccess(true)
             .build();
