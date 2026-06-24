@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilos/SidebarStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.practicante.GUIMenuPracticante">
+    <children>
+      <HBox prefHeight="46.0" prefWidth="800.0" spacing="20.0" style="-fx-background-color: #25A794;">
+         <children>
+            <Button fx:id="buttonCloseSesion" mnemonicParsing="false" onAction="#handleCloseSesion" prefHeight="46.0" prefWidth="137.0" style="-fx-background-color: #424242;" text="Cerrar sesión" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets top="5.0" />
+               </opaqueInsets>
+            </Button>
+            <Label fx:id="labelTitleMenu" prefHeight="46.0" prefWidth="235.0" text="Menu Principal-Practicante" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelInternName" prefHeight="46.0" prefWidth="388.0" text="Nombre de Practicante" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+      <VBox layoutY="46.0" prefHeight="554.0" prefWidth="137.0" spacing="10.0" style="-fx-border-color: #BDBDBD; -fx-border-width: 0 1 0 0; -fx-background-color: #999999;">
+         <children>
+            <ToggleButton fx:id="toggleButtonAssignment" mnemonicParsing="false" prefHeight="45.0" prefWidth="138.0" style="-fx-background-color: #FF9800;" text="Asignacion &#10;de Proyecto" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="toggleButtonProgress" layoutX="10.0" layoutY="88.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="138.0" style="-fx-background-color: #FF9800;" text="Avance del &#10;Proyecto" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
+      <AnchorPane fx:id="anchorPaneCentral" layoutX="137.0" layoutY="47.0" prefHeight="554.0" prefWidth="663.0" />
+   </children>
+</AnchorPane>

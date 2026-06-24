@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="550.0" prefWidth="500.0" stylesheets="@../../estilos/FormsStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.coordinador.periodo.GUIRegistrarPeriodo">
+
+    <children>
+        <Label layoutX="40.0" layoutY="30.0" text="Abrir Periodo Escolar">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="40.0" layoutY="80.0" text="Nombre del Periodo" />
+        <TextField fx:id="textFieldName" layoutX="180.0" layoutY="75.0" prefWidth="250.0" promptText="Ej. FEB-JUL 2026" />
+        <Label fx:id="labelErrorName" layoutX="180.0" layoutY="105.0" textFill="red">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="40.0" layoutY="130.0" text="Fecha de Inicio" />
+        <DatePicker fx:id="datePickerStartDate" layoutX="180.0" layoutY="125.0" prefWidth="250.0" promptText="Seleccione una fecha" />
+        <Label fx:id="labelErrorStartDate" layoutX="180.0" layoutY="155.0" textFill="red">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="40.0" layoutY="180.0" text="Fecha de Fin" />
+        <DatePicker fx:id="datePickerEndDate" layoutX="180.0" layoutY="175.0" prefWidth="250.0" promptText="Seleccione una fecha" />
+        <Label fx:id="labelErrorEndDate" layoutX="180.0" layoutY="205.0" textFill="red">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="40.0" layoutY="230.0" text="Proyectos Disponibles" />
+        <ListView fx:id="listViewProjects" layoutX="180.0" layoutY="230.0" prefHeight="150.0" prefWidth="250.0" />
+        <Label fx:id="labelErrorProjects" layoutX="180.0" layoutY="385.0" textFill="red">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+
+        <Button fx:id="btnFinalizar" layoutX="140.0" layoutY="430.0" mnemonicParsing="false" onAction="#registerPeriod" prefWidth="130.0" text="Finalizar Registro" />
+        <Button fx:id="btnCancelar" layoutX="290.0" layoutY="430.0" mnemonicParsing="false" onAction="#cancel" prefWidth="130.0" text="Cancelar" />
+    </children>
+
+</AnchorPane>

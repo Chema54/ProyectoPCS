@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.database.DBConnector;
+import main.basedatos.ConexionBD;
 
 /**
  *
@@ -19,7 +19,7 @@ public class ProyectoPCS extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/application/views/LoginFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/aplicacion/vistas/GUIIniciarSesion.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setTitle("Portal de Prácticas Profesionales");
@@ -30,7 +30,7 @@ public class ProyectoPCS extends Application {
     
     @Override
     public void stop() {
-        DBConnector.deleteConfiguration();
+        ConexionBD.deleteConfiguration();
     }
 
         public static void main(String[] args) {

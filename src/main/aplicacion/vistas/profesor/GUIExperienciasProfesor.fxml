@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="554.0" prefWidth="663.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.aplicacion.controladores.profesor.GUIExperienciasProfesor">
+   <children>
+      <Label layoutX="20.0" layoutY="20.0" text="Mis Experiencias Educativas">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableViewExperiencias" layoutX="20.0" layoutY="60.0" prefHeight="400.0" prefWidth="623.0">
+        <columns>
+          <TableColumn fx:id="colNRC" prefWidth="100.0" text="NRC" />
+          <TableColumn fx:id="colName" prefWidth="323.0" text="Nombre" />
+          <TableColumn fx:id="colPeriod" prefWidth="200.0" text="Periodo" />
+        </columns>
+      </TableView>
+      <Button layoutX="250.0" layoutY="480.0" mnemonicParsing="false" onAction="#administrarEntregas" text="Administrar Entregas" />
+   </children>
+</AnchorPane>

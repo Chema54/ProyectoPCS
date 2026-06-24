@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilos/SubMenuStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.aplicacion.controladores.practicante.GUIEntregarEntregables">
+    <children>
+      <TabPane prefHeight="549.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Reportes Asignados">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Mis Reportes de Prácticas">
+                           <font><Font size="24.0" /></font>
+                        </Label>
+                        <TableView fx:id="tableViewReports" layoutX="20.0" layoutY="60.0" prefHeight="350.0" prefWidth="620.0">
+                          <columns>
+                            <TableColumn fx:id="colReportName" prefWidth="400.0" text="Reporte" />
+                            <TableColumn fx:id="colReportStatus" prefWidth="200.0" text="Estado" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="250.0" layoutY="440.0" mnemonicParsing="false" onAction="#entregarReporte" text="Entregar Reporte" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Evaluaciones de Organizacion">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Entregar Evaluación OV">
+                           <font><Font size="24.0" /></font>
+                        </Label>
+                        <TableView fx:id="tableViewEvaluations" layoutX="20.0" layoutY="60.0" prefHeight="350.0" prefWidth="620.0">
+                          <columns>
+                            <TableColumn fx:id="colEvalName" prefWidth="400.0" text="Evaluación" />
+                            <TableColumn fx:id="colEvalStatus" prefWidth="200.0" text="Estado" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="250.0" layoutY="440.0" mnemonicParsing="false" onAction="#entregarEvaluacion" text="Entregar Evaluación" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Autoevaluacion">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="20.0" layoutY="20.0" text="Realizar Autoevaluación">
+                           <font><Font size="24.0" /></font>
+                        </Label>
+                        <TableView fx:id="tableViewSelfAssessments" layoutX="20.0" layoutY="60.0" prefHeight="350.0" prefWidth="620.0">
+                          <columns>
+                            <TableColumn fx:id="colSelfName" prefWidth="400.0" text="Autoevaluación" />
+                            <TableColumn fx:id="colSelfStatus" prefWidth="200.0" text="Estado" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="260.0" layoutY="380.0" mnemonicParsing="false" onAction="#uploadSelfAssessment" text="Realizar Formulario" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

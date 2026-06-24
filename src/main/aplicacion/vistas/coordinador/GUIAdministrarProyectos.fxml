@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="900.0" stylesheets="@../estilos/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.coordinador.GUIAdministrarProyectos">
+   <children>
+      <TabPane prefHeight="549.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Proyectos">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvProjects" layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="820.0">
+                          <columns>
+                            <TableColumn fx:id="colProjectName" minWidth="-1.0" prefWidth="176.0" text="Nombre &#10;del Proyecto" />
+                              <TableColumn fx:id="colProjectOrg" minWidth="-1.0" prefWidth="170.0" text="Organizacion &#10;Vinculada" />
+                              <TableColumn fx:id="colProjectTitular" minWidth="-1.0" prefWidth="250.0" text="Titular del Proyecto" />
+                              <TableColumn fx:id="colProjectStatus" minWidth="-1.0" prefWidth="84.0" text="Estado" />
+                              <TableColumn fx:id="colProjectTotal" text="Cupo Total" prefWidth="80.0" />
+                              <TableColumn fx:id="colProjectAvailable" text="Espacios &#10;Disponibles" prefWidth="100.0" />
+                          </columns>
+                        </TableView>
+                        <TextField fx:id="txtSearchProject" layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el nombre del Proyecto" />
+                        <ComboBox fx:id="cmbFilterProject" layoutX="400.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <Button fx:id="btnModifyProject" layoutX="540.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleModifyProject" prefHeight="25.0" prefWidth="140.0" text="Modificar Proyecto" />
+                        <Button fx:id="btnRegisterProject" layoutX="690.0" layoutY="32.0" mnemonicParsing="false" onAction="#abrirRegistroProyecto" prefHeight="25.0" prefWidth="140.0" text="Registrar Proyecto" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Asignaciones">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvAssignments" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="820.0">
+                           <columns>
+                              <TableColumn fx:id="colAsigProject" minWidth="-1.0" prefWidth="233.0" text="Nombre del Proyecto" />
+                              <TableColumn fx:id="colAsigMatricula" minWidth="-1.0" prefWidth="119.0" text="Matricula" />
+                              <TableColumn fx:id="colAsigIntern" minWidth="-1.0" prefWidth="262.0" text="Practicante" />
+                              <TableColumn fx:id="colAsigNrc" minWidth="-1.0" prefWidth="88.0" text="NRC" />
+                              <TableColumn fx:id="colAsigStatus" text="Estado" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="btnAssignProject" layoutX="710.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleAssignProject" prefHeight="25.0" prefWidth="130.0" text="Asignar Proyecto" />
+                        <ComboBox fx:id="cmbFilterAssignment" layoutX="570.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
+                        <TextField fx:id="txtSearchIntern" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el nombre del Practicante" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Organizaciones Vinculadas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvOrganizations" layoutX="38.0" layoutY="74.0" prefHeight="378.0" prefWidth="820.0">
+                           <columns>
+                              <TableColumn fx:id="colOrgName" minWidth="-1.0" prefWidth="260.0" text="Nombre de Organizacion" />
+                              <TableColumn fx:id="colOrgLocation" minWidth="-1.0" prefWidth="244.0" text="Direccion" />
+                              <TableColumn fx:id="colOrgEmail" prefWidth="202.0" text="Correo" />
+                              <TableColumn fx:id="colOrgPhone" prefWidth="114.0" text="Telefono" />
+                           </columns>
+                        </TableView>
+                        <TextField fx:id="txtSearchOrganization" layoutX="38.0" layoutY="29.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el nombre de la Organizacion vinculada" />
+                        <Button fx:id="btnModifyOrganization" layoutX="520.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleModifyOrganization" prefHeight="25.0" prefWidth="160.0" text="Modificar Organizacion" />
+                        <Button fx:id="btnRegisterOrganization" layoutX="690.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleRegisterOrganization" prefHeight="25.0" prefWidth="160.0" text="Registrar Organizacion" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
