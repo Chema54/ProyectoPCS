@@ -79,6 +79,14 @@ public class GUIIniciarSesion implements Initializable{
                     null
                 );
             }
+            if (!user.hasAccess()) {
+                throw new ExcepcionMostrableUsuario(
+                    "Usuario Inactivo",
+                    "Acceso Denegado",
+                    "Su cuenta ha sido deshabilitada. Por favor, comuníquese con el coordinador para más información.",
+                    null
+                );
+            }
             Sesion.setCurrentUser(user);
             openMenuByRole(user.getRole());
         } catch (ExcepcionMostrableUsuario e) {
