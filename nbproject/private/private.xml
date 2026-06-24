@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/servicio/ServicioPeriodo.java</file>
-            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/basedatos/dao/DocumentoAceptacionDAO.java</file>
-            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/servicio/ServicioDocumento.java</file>
-            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/aplicacion/controladores/coordinador/GUIRevisarDocumentos.java</file>
-            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/aplicacion/controladores/GUIIniciarSesion.java</file>
+            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/ProyectoPCS.java</file>
+            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/aplicacion/controladores/practicante/ValidadorEntrega.java</file>
         </group>
     </open-files>
 </project-private>

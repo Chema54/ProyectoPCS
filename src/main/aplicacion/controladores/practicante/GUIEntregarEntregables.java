@@ -18,7 +18,6 @@ import main.comun.Modal;
 import main.comun.ExcepcionMostrableUsuario;
 import main.basedatos.Sesion;
 import main.basedatos.dao.*;
-import main.negocio.servicio.ValidadorEntrega;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
