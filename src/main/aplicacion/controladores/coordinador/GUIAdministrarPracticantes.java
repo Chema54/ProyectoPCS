@@ -249,7 +249,7 @@ public class GUIAdministrarPracticantes implements Initializable {
                 "/main/aplicacion/vistas/coordinador/practicante/GUIRegistrarPracticante.fxml",
                 "Registrar Nuevo Practicante"
         );
-
+        loadInterns();
     }
 
     @FXML
@@ -258,6 +258,7 @@ public class GUIAdministrarPracticantes implements Initializable {
             "/main/aplicacion/vistas/coordinador/profesor/GUIDarAltaProfesor.fxml",
             "Registrar Nuevo Profesor"
         );
+        loadProfessors();
     }
 
     @FXML

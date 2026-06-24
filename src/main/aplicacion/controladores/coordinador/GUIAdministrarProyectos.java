@@ -137,6 +137,7 @@ public class GUIAdministrarProyectos implements Initializable {
 
     @FXML
     private void abrirRegistroProyecto(ActionEvent event) {
+        cargarDatosTabla();        
         openModalWindow("/main/aplicacion/vistas/coordinador/proyecto/GUIRegistrarProyecto.fxml", "Registrar Nuevo Proyecto");
         cargarDatosTabla();
     }
@@ -159,6 +160,7 @@ public class GUIAdministrarProyectos implements Initializable {
 
     @FXML
     private void handleRegisterOrganization(ActionEvent event) {
+        cargarDatosTabla();        
         openModalWindow("/main/aplicacion/vistas/coordinador/organizacion/GUIRegistrarOrganizacion.fxml", "Registrar Organización Vinculada");
         cargarDatosTabla();
     }

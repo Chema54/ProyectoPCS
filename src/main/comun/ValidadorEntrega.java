@@ -1,4 +1,4 @@
-package main.aplicacion.controladores.practicante;
+package main.comun;
 
 import main.negocio.dto.Entregable;
 import java.time.LocalDate;

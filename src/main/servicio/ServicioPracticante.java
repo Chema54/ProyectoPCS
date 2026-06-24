@@ -58,11 +58,11 @@ public class ServicioPracticante {
             );
         }
 
-        String rawPassword = practicante.getMatricula().toLowerCase();
+        String clave = practicante.getMatricula().toLowerCase();
 
         UsuarioDTO nuevoUsuario = new UsuarioDTO.UsuarioBuilder()
                 .setNombreUsuario(practicante.getMatricula())
-                .setContrasenia(rawPassword)
+                .setContrasenia(clave)
                 .setRol(RolUsuario.INTERN)
                 .setAcceso(true)
                 .build();

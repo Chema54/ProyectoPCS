@@ -18,10 +18,10 @@
                           <columns>
                             <TableColumn fx:id="colProjectName" minWidth="-1.0" prefWidth="176.0" text="Nombre &#10;del Proyecto" />
                               <TableColumn fx:id="colProjectOrg" minWidth="-1.0" prefWidth="188.0" text="Organizacion &#10;Vinculada" />
-                              <TableColumn fx:id="colProjectTitular" minWidth="-1.0" prefWidth="161.0" text="Titular del Proyecto" />
-                              <TableColumn fx:id="colProjectStatus" minWidth="-1.0" prefWidth="88.0" text="Estado" />
-                              <TableColumn fx:id="colProjectTotal" prefWidth="82.0" text="Cupo &#10;Total" />
-                              <TableColumn fx:id="colProjectAvailable" prefWidth="123.0" text="Espacios &#10;Disponibles" />
+                              <TableColumn fx:id="colProjectTitular" minWidth="-1.0" prefWidth="214.0" text="Titular del Proyecto" />
+                              <TableColumn fx:id="colProjectStatus" minWidth="-1.0" prefWidth="91.0" text="Estado" />
+                              <TableColumn fx:id="colProjectTotal" prefWidth="57.0" text="Cupo &#10;Total" />
+                              <TableColumn fx:id="colProjectAvailable" prefWidth="92.0" text="Espacios &#10;Disponibles" />
                           </columns>
                         </TableView>
                         <Button fx:id="btnModifyProject" layoutX="40.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleModifyProject" prefHeight="28.0" prefWidth="171.0" text="Modificar Proyecto" />
@@ -40,7 +40,7 @@
                               <TableColumn fx:id="colAsigMatricula" minWidth="-1.0" prefWidth="119.0" text="Matricula" />
                               <TableColumn fx:id="colAsigIntern" minWidth="-1.0" prefWidth="262.0" text="Practicante" />
                               <TableColumn fx:id="colAsigNrc" minWidth="-1.0" prefWidth="88.0" text="NRC" />
-                              <TableColumn fx:id="colAsigStatus" text="Estado" />
+                              <TableColumn fx:id="colAsigStatus" prefWidth="116.0" text="Estado" />
                            </columns>
                         </TableView>
                         <Button fx:id="btnAssignProject" layoutX="728.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleAssignProject" prefHeight="25.0" prefWidth="130.0" text="Asignar Proyecto" />

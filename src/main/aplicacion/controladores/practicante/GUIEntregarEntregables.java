@@ -1,5 +1,6 @@
 package main.aplicacion.controladores.practicante;
 
+import main.comun.ValidadorEntrega;
 import java.io.File;
 import java.nio.file.Files;
 import java.net.URL;

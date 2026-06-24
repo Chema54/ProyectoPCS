@@ -89,6 +89,7 @@ public class GUIRegistrarPracticante implements Initializable {
                 e
             ));
         }
+        
     }
 
     private boolean validateFields() {
