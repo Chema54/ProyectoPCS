@@ -51,11 +51,11 @@ public class CoordinadorDAO extends MoldeDAOCompleto<CoordinadorDTO, Integer> {
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
-            statement.setInt(1, coordinatorDTO.getIDUser());
+            statement.setInt(1, coordinatorDTO.getUsuarioId());
             statement.setString(2, coordinatorDTO.getNumeroPersonal());
             statement.setString(3, coordinatorDTO.getNombre());
-            statement.setString(4, coordinatorDTO.getLastName()); 
-            statement.setString(5, coordinatorDTO.getMotherLastName());
+            statement.setString(4, coordinatorDTO.getApellidoPaterno()); 
+            statement.setString(5, coordinatorDTO.getApellidoMaterno());
             statement.setString(6, coordinatorDTO.getCorreo());
             
             statement.executeUpdate();
@@ -112,10 +112,10 @@ public class CoordinadorDAO extends MoldeDAOCompleto<CoordinadorDTO, Integer> {
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
 
-            statement.setInt(1, coordinatorDTO.getIDUser());
+            statement.setInt(1, coordinatorDTO.getUsuarioId());
             statement.setString(2, coordinatorDTO.getNumeroPersonal());
             statement.setString(3, coordinatorDTO.getNombre());
-            statement.setInt(4, coordinatorDTO.getIDCoordinator());
+            statement.setInt(4, coordinatorDTO.getCoordinadorId());
 
             statement.executeUpdate();
 
@@ -141,13 +141,13 @@ public class CoordinadorDAO extends MoldeDAOCompleto<CoordinadorDTO, Integer> {
 
     private CoordinadorDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
         return new CoordinadorDTO.CoordinadorBuilder()
-            .setIDCoordinator(resultSet.getInt("id_coordinador"))
-            .setIDUser(resultSet.getInt("id_usuario"))
+            .setCoordinadorId(resultSet.getInt("id_coordinador"))
+            .setUsuarioId(resultSet.getInt("id_usuario"))
             .setNombreUsuario(resultSet.getString("username"))
             .setNumeroPersonal(resultSet.getString("numeroPersonal"))
             .setNombre(resultSet.getString("nombre"))
-            .setLastName(resultSet.getString("apellido_paterno"))
-            .setMotherLastName(resultSet.getString("apellido_materno"))
+            .setApellidoPaterno(resultSet.getString("apellido_paterno"))
+            .setApellidoMaterno(resultSet.getString("apellido_materno"))
             .setCorreo(resultSet.getString("correo"))
             .build();
     }

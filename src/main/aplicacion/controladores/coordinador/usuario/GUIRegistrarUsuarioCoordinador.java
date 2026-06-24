@@ -57,15 +57,15 @@ public class GUIRegistrarUsuarioCoordinador implements Initializable {
 
             UsuarioDTO user = new UsuarioDTO.UsuarioBuilder()
                 .setNombreUsuario(username)
-                .setPassword(password)
-                .setRole(RolUsuario.COORDINADOR)
-                .setAccess(true)
+                .setContrasenia(password)
+                .setRol(RolUsuario.COORDINADOR)
+                .setAcceso(true)
                 .build();
 
             userDAO.createOne(user);
             UsuarioDTO createdUser = userDAO.getOne(username);
             CoordinadorDTO coordinator = new CoordinadorDTO.CoordinadorBuilder()
-                .setIDUser(createdUser.getUserID())
+                .setUsuarioId(createdUser.getUsuarioId())
                 .setNumeroPersonal(academicNumber)
                 .setNombre(name)
                 .build();

@@ -38,18 +38,18 @@ public class EvaluacionOVDAO extends MoldeDAOCompleto<EvaluacionOVDTO, Integer> 
             "INSERT INTO Evaluacion_OV (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
 
     @Override
-    public void createOne(EvaluacionOVDTO evaluationDTO) throws ExcepcionMostrableUsuario {
+    public void createOne(EvaluacionOVDTO evaluacionDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
-            statement.setInt(1, evaluationDTO.getAsignacionId());
-            statement.setString(2, evaluationDTO.getNombreEntregable());
-            statement.setBytes(3, evaluationDTO.getArchivo());
-            statement.setString(4, evaluationDTO.getEstado() != null ? evaluationDTO.getEstado() : "Pendiente");
-            statement.setDate(5, evaluationDTO.getFechaLimite());
-            statement.setBigDecimal(6, evaluationDTO.getScore());
-            statement.setString(7, evaluationDTO.getComments());
+            statement.setInt(1, evaluacionDTO.getAsignacionId());
+            statement.setString(2, evaluacionDTO.getNombreEntregable());
+            statement.setBytes(3, evaluacionDTO.getArchivo());
+            statement.setString(4, evaluacionDTO.getEstado() != null ? evaluacionDTO.getEstado() : "Pendiente");
+            statement.setDate(5, evaluacionDTO.getFechaLimite());
+            statement.setBigDecimal(6, evaluacionDTO.getPuntaje());
+            statement.setString(7, evaluacionDTO.getComentarios());
 
             statement.executeUpdate();
 
@@ -85,13 +85,13 @@ public class EvaluacionOVDAO extends MoldeDAOCompleto<EvaluacionOVDTO, Integer> 
             PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
             ResultSet resultSet = statement.executeQuery()
         ) {
-            List<EvaluacionOVDTO> evaluations = new ArrayList<>();
+            List<EvaluacionOVDTO> evaluaciones = new ArrayList<>();
 
             while (resultSet.next()) {
-                evaluations.add(mapResultSetToDTO(resultSet));
+                evaluaciones.add(mapResultSetToDTO(resultSet));
             }
 
-            return evaluations;
+            return evaluaciones;
 
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
@@ -118,19 +118,19 @@ public class EvaluacionOVDAO extends MoldeDAOCompleto<EvaluacionOVDTO, Integer> 
     }
 
     @Override
-    public void updateOne(EvaluacionOVDTO evaluationDTO) throws ExcepcionMostrableUsuario {
+    public void updateOne(EvaluacionOVDTO evaluacionDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            statement.setInt(1, evaluationDTO.getAsignacionId());
-            statement.setString(2, evaluationDTO.getNombreEntregable());
-            statement.setBytes(3, evaluationDTO.getArchivo());
-            statement.setString(4, evaluationDTO.getEstado());
-            statement.setDate(5, evaluationDTO.getFechaLimite());
-            statement.setBigDecimal(6, evaluationDTO.getScore());
-            statement.setString(7, evaluationDTO.getComments());
-            statement.setInt(8, evaluationDTO.getLinkedOrganizationEvaluationId());
+            statement.setInt(1, evaluacionDTO.getAsignacionId());
+            statement.setString(2, evaluacionDTO.getNombreEntregable());
+            statement.setBytes(3, evaluacionDTO.getArchivo());
+            statement.setString(4, evaluacionDTO.getEstado());
+            statement.setDate(5, evaluacionDTO.getFechaLimite());
+            statement.setBigDecimal(6, evaluacionDTO.getPuntaje());
+            statement.setString(7, evaluacionDTO.getComentarios());
+            statement.setInt(8, evaluacionDTO.getEvaluacionId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -178,7 +178,7 @@ public class EvaluacionOVDAO extends MoldeDAOCompleto<EvaluacionOVDTO, Integer> 
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<EvaluacionOVDTO> list = new ArrayList<>();
                 while (resultSet.next()) {
-                    list.add(new EvaluacionOVDTO.LinkedOrganizationEvaluationBuilder()
+                    list.add(new EvaluacionOVDTO.EvaluacionOVBuilder()
                         .setNombreEntregable(resultSet.getString("nombre_entregable"))
                         .setEstado(resultSet.getString("estado"))
                         .build());
@@ -205,15 +205,15 @@ public class EvaluacionOVDAO extends MoldeDAOCompleto<EvaluacionOVDTO, Integer> 
     }
 
 private EvaluacionOVDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new EvaluacionOVDTO.LinkedOrganizationEvaluationBuilder()
-            .setLinkedOrganizationEvaluationId(resultSet.getInt("id_evaluacion_ov"))
+        return new EvaluacionOVDTO.EvaluacionOVBuilder()
+            .setEvaluacionId(resultSet.getInt("id_evaluacion_ov"))
             .setAsignacionId(resultSet.getInt("id_asignacion"))
             .setNombreEntregable(resultSet.getString("nombre_entregable"))
             .setArchivo(resultSet.getBytes("archivo"))
             .setEstado(resultSet.getString("estado"))
             .setFechaLimite(resultSet.getDate("fecha_limite"))
-            .setScore(resultSet.getBigDecimal("calificacion"))
-            .setComments(resultSet.getString("comentarios"))
+            .setPuntaje(resultSet.getBigDecimal("calificacion"))
+            .setComentarios(resultSet.getString("comentarios"))
             .build();
     }
 }

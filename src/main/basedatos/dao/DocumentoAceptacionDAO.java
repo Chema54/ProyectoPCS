@@ -38,16 +38,16 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
             "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
 
     @Override
-    public void createOne(DocumentoAceptacionDTO documentDTO) throws ExcepcionMostrableUsuario {
+    public void createOne(DocumentoAceptacionDTO documentoDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
-            statement.setInt(1, documentDTO.getAsignacionId());
-            statement.setString(2, documentDTO.getNombreEntregable());
-            statement.setBytes(3, documentDTO.getArchivo());
-            statement.setString(4, documentDTO.getEstado() != null ? documentDTO.getEstado() : "Pendiente");
-            statement.setDate(5, documentDTO.getFechaLimite());
+            statement.setInt(1, documentoDTO.getAsignacionId());
+            statement.setString(2, documentoDTO.getNombreEntregable());
+            statement.setBytes(3, documentoDTO.getArchivo());
+            statement.setString(4, documentoDTO.getEstado() != null ? documentoDTO.getEstado() : "Pendiente");
+            statement.setDate(5, documentoDTO.getFechaLimite());
 
             statement.executeUpdate();
 
@@ -82,13 +82,13 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
             PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
             ResultSet resultSet = statement.executeQuery()
         ) {
-            List<DocumentoAceptacionDTO> documents = new ArrayList<>();
+            List<DocumentoAceptacionDTO> documentos = new ArrayList<>();
 
             while (resultSet.next()) {
-                documents.add(mapResultSetToDTO(resultSet));
+                documentos.add(mapResultSetToDTO(resultSet));
             }
 
-            return documents;
+            return documentos;
 
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
@@ -115,17 +115,17 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
     }
 
     @Override
-    public void updateOne(DocumentoAceptacionDTO documentDTO) throws ExcepcionMostrableUsuario {
+    public void updateOne(DocumentoAceptacionDTO documentoDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            statement.setInt(1, documentDTO.getAsignacionId());
-            statement.setString(2, documentDTO.getNombreEntregable());
-            statement.setBytes(3, documentDTO.getArchivo());
-            statement.setString(4, documentDTO.getEstado());
-            statement.setDate(5, documentDTO.getFechaLimite());
-            statement.setInt(6, documentDTO.getDocumentoAceptacionId());
+            statement.setInt(1, documentoDTO.getAsignacionId());
+            statement.setString(2, documentoDTO.getNombreEntregable());
+            statement.setBytes(3, documentoDTO.getArchivo());
+            statement.setString(4, documentoDTO.getEstado());
+            statement.setDate(5, documentoDTO.getFechaLimite());
+            statement.setInt(6, documentoDTO.getDocumentoAceptacionId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -165,7 +165,7 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
     }
 
     private DocumentoAceptacionDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new DocumentoAceptacionDTO.AcceptanceDocumentBuilder()
+        return new DocumentoAceptacionDTO.DocumentoAceptacionBuilder()
             .setDocumentoAceptacionId(resultSet.getInt("id_doc_aceptacion"))
             .setAsignacionId(resultSet.getInt("id_asignacion"))
             .setNombreEntregable(resultSet.getString("nombre_entregable"))

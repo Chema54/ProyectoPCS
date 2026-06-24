@@ -5,30 +5,30 @@ import java.sql.Date;
 
 public class ReporteDTO implements Entregable {
 
-    private final int monthlyReportId;
+    private final int reporteId;
     private final int asignacionId;
     private final String nombreEntregable;
     private final byte[] archivo;
     private final String estado;
     private final Date fechaLimite;
-    private final int reportedHours;
-    private final BigDecimal score;
-    private final String comments;
+    private final int horasReportadas;
+    private final BigDecimal puntaje;
+    private final String comentarios;
 
     private ReporteDTO(ReporteBuilder builder) {
-        this.monthlyReportId = builder.monthlyReportId;
+        this.reporteId = builder.reporteId;
         this.asignacionId = builder.asignacionId;
         this.nombreEntregable = builder.nombreEntregable;
         this.archivo = builder.archivo;
         this.estado = builder.estado;
         this.fechaLimite = builder.fechaLimite;
-        this.reportedHours = builder.reportedHours;
-        this.score = builder.score;
-        this.comments = builder.comments;
+        this.horasReportadas = builder.horasReportadas;
+        this.puntaje = builder.puntaje;
+        this.comentarios = builder.comentarios;
     }
 
-    public int getMonthlyReportId() {
-        return monthlyReportId;
+    public int getReporteId() {
+        return reporteId;
     }
 
     public int getAsignacionId() {
@@ -51,32 +51,32 @@ public class ReporteDTO implements Entregable {
         return fechaLimite;
     }
 
-    public int getReportedHours() {
-        return reportedHours;
+    public int getHorasReportadas() {
+        return horasReportadas;
     }
 
-    public BigDecimal getScore() {
-        return score;
+    public BigDecimal getPuntaje() {
+        return puntaje;
     }
 
-    public String getComments() {
-        return comments;
+    public String getComentarios() {
+        return comentarios;
     }
 
     public static class ReporteBuilder {
 
-        private int monthlyReportId;
+        private int reporteId;
         private int asignacionId;
         private String nombreEntregable;
         private byte[] archivo;
         private String estado;
         private Date fechaLimite;
-        private int reportedHours;
-        private BigDecimal score;
-        private String comments;
+        private int horasReportadas;
+        private BigDecimal puntaje;
+        private String comentarios;
 
-        public ReporteBuilder setMonthlyReportId(int monthlyReportId) {
-            this.monthlyReportId = monthlyReportId;
+        public ReporteBuilder setReporteId(int reporteId) {
+            this.reporteId = reporteId;
             return this;
         }
 
@@ -90,38 +90,39 @@ public class ReporteDTO implements Entregable {
             return this;
         }
 
-        public ReporteBuilder setArchivo(byte[] file) {
-            this.archivo = file;
+        public ReporteBuilder setArchivo(byte[] archivo) {
+            this.archivo = archivo;
             return this;
         }
 
-        public ReporteBuilder setEstado(String status) {
-            this.estado = status;
+        public ReporteBuilder setEstado(String estado) {
+            this.estado = estado;
             return this;
         }
 
-        public ReporteBuilder setFechaLimite(Date deadline) {
-            this.fechaLimite = deadline;
+        public ReporteBuilder setFechaLimite(Date fechaLimite) {
+            this.fechaLimite = fechaLimite;
             return this;
         }
 
-        public ReporteBuilder setReportedHours(int reportedHours) {
-            this.reportedHours = reportedHours;
+        public ReporteBuilder setHorasReportadas(int horasReportadas) {
+            this.horasReportadas = horasReportadas;
             return this;
         }
 
-        public ReporteBuilder setScore(BigDecimal score) {
-            this.score = score;
+        public ReporteBuilder setPuntaje(BigDecimal puntaje) {
+            this.puntaje = puntaje;
             return this;
         }
 
-        public ReporteBuilder setComments(String comments) {
-            this.comments = comments;
+        public ReporteBuilder setComentarios(String comentarios) {
+            this.comentarios = comentarios;
             return this;
         }
 
         public ReporteDTO build() {
             return new ReporteDTO(this);
         }
+
     }
 }

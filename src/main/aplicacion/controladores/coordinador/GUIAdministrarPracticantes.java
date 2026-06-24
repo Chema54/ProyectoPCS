@@ -153,7 +153,7 @@ public class GUIAdministrarPracticantes implements Initializable {
         );
 
         colInternName.setCellValueFactory(
-                new PropertyValueFactory<>("fullName")
+                new PropertyValueFactory<>("nombreCompleto")
         );
 
         colInternStatus.setCellValueFactory(
@@ -181,9 +181,9 @@ public class GUIAdministrarPracticantes implements Initializable {
             ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(0))
                 .setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
             ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(1))
-                .setCellValueFactory(new PropertyValueFactory<>("personalNumber"));
+                .setCellValueFactory(new PropertyValueFactory<>("numeroPersonal"));
             ((TableColumn<ProfesorDTO, String>) tvProfessors.getColumns().get(2))
-                .setCellValueFactory(new PropertyValueFactory<>("fullName"));
+                .setCellValueFactory(new PropertyValueFactory<>("nombreCompleto"));
         }
     }
 
@@ -292,7 +292,7 @@ public class GUIAdministrarPracticantes implements Initializable {
             controller.initUpdate(practicante);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Modificar Practicante: " + practicante.getFullName());
+            stage.setTitle("Modificar Practicante: " + practicante.getNombreCompleto());
             stage.setScene(new Scene(root));
             stage.showAndWait();
             loadInterns();
@@ -310,7 +310,7 @@ public class GUIAdministrarPracticantes implements Initializable {
             Modal.displayError(new ExcepcionMostrableUsuario("Selección requerida", "Debe seleccionar un profesor de la tabla", "No se ha seleccionado ningún elemento para modificar."));
             return;
         }
-        Modal.displayInformation("Modificar", "Abrir ventana de modificación para: " + selected.getFullName());
+        Modal.displayInformation("Modificar", "Abrir ventana de modificación para: " + selected.getNombreCompleto());
     }
 
     @FXML

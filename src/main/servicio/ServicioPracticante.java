@@ -63,9 +63,9 @@ public class ServicioPracticante {
         
         UsuarioDTO nuevoUsuario = new UsuarioDTO.UsuarioBuilder()
             .setNombreUsuario(practicante.getMatricula())
-            .setPassword(rawPassword)
-            .setRole(RolUsuario.INTERN)
-            .setAccess(true)
+            .setContrasenia(rawPassword)
+            .setRol(RolUsuario.INTERN)
+            .setAcceso(true)
             .build();
             
         UsuarioDAO userDAO = new UsuarioDAO();

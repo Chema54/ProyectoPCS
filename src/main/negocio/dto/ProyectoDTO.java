@@ -9,7 +9,7 @@ public class ProyectoDTO {
     private final int cupoTotal;
     private final int espaciosDisponibles;
     private final String nombreOrganizacion;
-    private final String titularDisplay;
+    private final String nombreTitular;
 
     private ProyectoDTO(ProyectoBuilder builder) {
         this.proyectoId = builder.proyectoId;
@@ -19,7 +19,7 @@ public class ProyectoDTO {
         this.cupoTotal = builder.cupoTotal;
         this.espaciosDisponibles = builder.espaciosDisponibles;
         this.nombreOrganizacion = builder.nombreOrganizacion;
-        this.titularDisplay = builder.titularDisplay;
+        this.nombreTitular = builder.nombreTitular;
     }
 
     public int getProyectoId() {
@@ -50,8 +50,8 @@ public class ProyectoDTO {
         return nombreOrganizacion;
     }
 
-    public String getTitularDisplay() {
-        return titularDisplay;
+    public String getNombreTitular() {
+        return nombreTitular;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ProyectoDTO {
         private int cupoTotal;
         private int espaciosDisponibles;
         private String nombreOrganizacion;
-        private String titularDisplay;
+        private String nombreTitular;
 
         public ProyectoBuilder setProyectoId(int proyectoId) {
             this.proyectoId = proyectoId;
@@ -105,8 +105,8 @@ public class ProyectoDTO {
             return this;
         }
 
-        public ProyectoBuilder setTitularDisplay(String titularDisplay) {
-            this.titularDisplay = titularDisplay;
+        public ProyectoBuilder setNombreTitular(String nombreTitular) {
+            this.nombreTitular = nombreTitular;
             return this;
         }
 

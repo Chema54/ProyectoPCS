@@ -12,12 +12,12 @@ public class ServicioAsignacionTest {
         AsignacionDTO asignacion = new AsignacionDTO.AsignacionBuilder()
                 .setPracticanteId(0) // ID invalido
                 .setProyectoId(0) // ID invalido
-                .setExperienciaEducativaId(1)
+                .setExperienciaEducativaId(0)
                 .setEstado("Asignado")
                 .build();
         
         try {
-            ServicioAsignacion.registerNewAssignment(asignacion);
+            ServicioAsignacion.registrarNuevaAsignacion(asignacion);
             fail("Debió lanzar ExcepcionMostrableUsuario por IDs inválidos o vacíos");
         } catch (ExcepcionMostrableUsuario e) {
             assertEquals("Campos Incompletos", e.getHeader());
@@ -34,7 +34,7 @@ public class ServicioAsignacionTest {
                 .build();
         
         try {
-            ServicioAsignacion.registerNewAssignment(asignacion);
+            ServicioAsignacion.registrarNuevaAsignacion(asignacion);
             fail("Debió lanzar ExcepcionMostrableUsuario por falta de practicante");
         } catch (ExcepcionMostrableUsuario e) {
             assertEquals("Campos Incompletos", e.getHeader());

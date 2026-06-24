@@ -5,28 +5,28 @@ import java.sql.Date;
 
 public class EvaluacionOVDTO implements Entregable {
 
-    private final int linkedOrganizationEvaluationId;
+    private final int evaluacionId;
     private final int asignacionId;
     private final String nombreEntregable;
     private final byte[] archivo;
     private final String estado;
     private final Date fechaLimite;
-    private final BigDecimal score;
-    private final String comments;
+    private final BigDecimal puntaje;
+    private final String comentarios;
 
-    private EvaluacionOVDTO(LinkedOrganizationEvaluationBuilder builder) {
-        this.linkedOrganizationEvaluationId = builder.linkedOrganizationEvaluationId;
+    private EvaluacionOVDTO(EvaluacionOVBuilder builder) {
+        this.evaluacionId = builder.evaluacionId;
         this.asignacionId = builder.asignacionId;
         this.nombreEntregable = builder.nombreEntregable;
         this.archivo = builder.archivo;
         this.estado = builder.estado;
         this.fechaLimite = builder.fechaLimite;
-        this.score = builder.score;
-        this.comments = builder.comments;
+        this.puntaje = builder.puntaje;
+        this.comentarios = builder.comentarios;
     }
 
-    public int getLinkedOrganizationEvaluationId() {
-        return linkedOrganizationEvaluationId;
+    public int getEvaluacionId() {
+        return evaluacionId;
     }
 
     public int getAsignacionId() {
@@ -49,67 +49,68 @@ public class EvaluacionOVDTO implements Entregable {
         return fechaLimite;
     }
 
-    public BigDecimal getScore() {
-        return score;
+    public BigDecimal getPuntaje() {
+        return puntaje;
     }
 
-    public String getComments() {
-        return comments;
+    public String getComentarios() {
+        return comentarios;
     }
 
-    public static class LinkedOrganizationEvaluationBuilder {
+    public static class EvaluacionOVBuilder {
 
-        private int linkedOrganizationEvaluationId;
+        private int evaluacionId;
         private int asignacionId;
         private String nombreEntregable;
         private byte[] archivo;
         private String estado;
         private Date fechaLimite;
-        private BigDecimal score;
-        private String comments;
+        private BigDecimal puntaje;
+        private String comentarios;
 
-        public LinkedOrganizationEvaluationBuilder setLinkedOrganizationEvaluationId(int linkedOrganizationEvaluationId) {
-            this.linkedOrganizationEvaluationId = linkedOrganizationEvaluationId;
+        public EvaluacionOVBuilder setEvaluacionId(int evaluacionId) {
+            this.evaluacionId = evaluacionId;
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setAsignacionId(int asignacionId) {
+        public EvaluacionOVBuilder setAsignacionId(int asignacionId) {
             this.asignacionId = asignacionId;
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setNombreEntregable(String nombreEntregable) {
+        public EvaluacionOVBuilder setNombreEntregable(String nombreEntregable) {
             this.nombreEntregable = nombreEntregable;
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setArchivo(byte[] file) {
-            this.archivo = file;
+        public EvaluacionOVBuilder setArchivo(byte[] archivo) {
+            this.archivo = archivo;
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setEstado(String status) {
-            this.estado = status;
+        public EvaluacionOVBuilder setEstado(String estado) {
+            this.estado = estado;
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setFechaLimite(Date deadline) {
-            this.fechaLimite = deadline;
+        public EvaluacionOVBuilder setFechaLimite(Date fechaLimite) {
+            this.fechaLimite = fechaLimite;
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setScore(BigDecimal score) {
-            this.score = score;
+        public EvaluacionOVBuilder setPuntaje(BigDecimal puntaje) {
+            this.puntaje = puntaje;
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setComments(String comments) {
-            this.comments = comments;
+        public EvaluacionOVBuilder setComentarios(String comentarios) {
+            this.comentarios = comentarios;
             return this;
         }
 
         public EvaluacionOVDTO build() {
             return new EvaluacionOVDTO(this);
         }
+
     }
 }

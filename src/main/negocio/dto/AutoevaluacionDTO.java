@@ -6,28 +6,28 @@ import java.math.BigDecimal;
 
 public class AutoevaluacionDTO implements Entregable {
 
-    private final int selfAssessmentId;
+    private final int autoevaluacionId;
     private final int asignacionId;
     private final String nombreEntregable;
     private final byte[] archivo;
-    private final BigDecimal score;
-    private final String comments;
+    private final BigDecimal puntaje;
+    private final String comentarios;
     private final String estado;
     private final Date fechaLimite; // Added because all deliverables have status
 
-    private AutoevaluacionDTO(SelfAssessmentBuilder builder) {
-        this.selfAssessmentId = builder.selfAssessmentId;
+    private AutoevaluacionDTO(AutoevaluacionBuilder builder) {
+        this.autoevaluacionId = builder.autoevaluacionId;
         this.asignacionId = builder.asignacionId;
         this.nombreEntregable = builder.nombreEntregable;
         this.archivo = builder.archivo;
-        this.score = builder.score;
-        this.comments = builder.comments;
+        this.puntaje = builder.puntaje;
+        this.comentarios = builder.comentarios;
         this.estado = builder.estado;
         this.fechaLimite = builder.fechaLimite;
     }
 
-    public int getSelfAssessmentId() {
-        return selfAssessmentId;
+    public int getAutoevaluacionId() {
+        return autoevaluacionId;
     }
 
     public int getAsignacionId() {
@@ -42,12 +42,12 @@ public class AutoevaluacionDTO implements Entregable {
         return archivo;
     }
 
-    public BigDecimal getScore() {
-        return score;
+    public BigDecimal getPuntaje() {
+        return puntaje;
     }
 
-    public String getComments() {
-        return comments;
+    public String getComentarios() {
+        return comentarios;
     }
     
     public String getEstado() {
@@ -58,54 +58,54 @@ public class AutoevaluacionDTO implements Entregable {
         return fechaLimite;
     }
 
-    public static class SelfAssessmentBuilder {
+    public static class AutoevaluacionBuilder {
 
-        private int selfAssessmentId;
+        private int autoevaluacionId;
         private int asignacionId;
         private String nombreEntregable;
         private byte[] archivo;
-        private BigDecimal score;
-        private String comments;
+        private BigDecimal puntaje;
+        private String comentarios;
         private String estado;
         private Date fechaLimite;
 
-        public SelfAssessmentBuilder setSelfAssessmentId(int selfAssessmentId) {
-            this.selfAssessmentId = selfAssessmentId;
+        public AutoevaluacionBuilder setAutoevaluacionId(int autoevaluacionId) {
+            this.autoevaluacionId = autoevaluacionId;
             return this;
         }
 
-        public SelfAssessmentBuilder setAsignacionId(int asignacionId) {
+        public AutoevaluacionBuilder setAsignacionId(int asignacionId) {
             this.asignacionId = asignacionId;
             return this;
         }
 
-        public SelfAssessmentBuilder setNombreEntregable(String nombreEntregable) {
+        public AutoevaluacionBuilder setNombreEntregable(String nombreEntregable) {
             this.nombreEntregable = nombreEntregable;
             return this;
         }
 
-        public SelfAssessmentBuilder setArchivo(byte[] file) {
+        public AutoevaluacionBuilder setArchivo(byte[] file) {
             this.archivo = file;
             return this;
         }
 
-        public SelfAssessmentBuilder setScore(BigDecimal score) {
-            this.score = score;
+        public AutoevaluacionBuilder setPuntaje(BigDecimal puntaje) {
+            this.puntaje = puntaje;
             return this;
         }
 
-        public SelfAssessmentBuilder setComments(String comments) {
-            this.comments = comments;
+        public AutoevaluacionBuilder setComentarios(String comentarios) {
+            this.comentarios = comentarios;
             return this;
         }
         
-        public SelfAssessmentBuilder setEstado(String status) {
-            this.estado = status;
+        public AutoevaluacionBuilder setEstado(String estado) {
+            this.estado = estado;
             return this;
         }
 
-        public SelfAssessmentBuilder setFechaLimite(Date deadline) {
-            this.fechaLimite = deadline;
+        public AutoevaluacionBuilder setFechaLimite(Date fechaLimite) {
+            this.fechaLimite = fechaLimite;
             return this;
         }
 

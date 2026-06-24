@@ -61,13 +61,13 @@ public class PeriodoDTO {
             return this;
         }
 
-        public PeriodoBuilder setFechaInicio(Date startDate) {
-            this.fechaInicio = startDate;
+        public PeriodoBuilder setFechaInicio(Date fechaInicio) {
+            this.fechaInicio = fechaInicio;
             return this;
         }
 
-        public PeriodoBuilder setFechaFin(Date endDate) {
-            this.fechaFin = endDate;
+        public PeriodoBuilder setFechaFin(Date fechaFin) {
+            this.fechaFin = fechaFin;
             return this;
         }
 

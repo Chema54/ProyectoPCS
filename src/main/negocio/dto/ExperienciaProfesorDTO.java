@@ -3,33 +3,33 @@ package main.negocio.dto;
 public class ExperienciaProfesorDTO {
     
     private final int profesorId;
-    private final int experienceId;
+    private final int experienciaId;
 
-    private ExperienciaProfesorDTO(ProfessorExperienceBuilder builder) {
+    private ExperienciaProfesorDTO(ExperienciaProfesorBuilder builder) {
         this.profesorId = builder.profesorId;
-        this.experienceId = builder.experienceId;
+        this.experienciaId = builder.experienciaId;
     }
 
     public int getProfesorId() {
         return profesorId;
     }
 
-    public int getExperienceId() {
-        return experienceId;
+    public int getExperienciaId() {
+        return experienciaId;
     }
 
-    public static class ProfessorExperienceBuilder {
+    public static class ExperienciaProfesorBuilder {
 
         private int profesorId;
-        private int experienceId;
+        private int experienciaId;
 
-        public ProfessorExperienceBuilder setProfesorId(int profesorId) {
+        public ExperienciaProfesorBuilder setProfesorId(int profesorId) {
             this.profesorId = profesorId;
             return this;
         }
 
-        public ProfessorExperienceBuilder setExperienceId(int experienceId) {
-            this.experienceId = experienceId;
+        public ExperienciaProfesorBuilder setExperienciaId(int experienciaId) {
+            this.experienciaId = experienciaId;
             return this;
         }
 

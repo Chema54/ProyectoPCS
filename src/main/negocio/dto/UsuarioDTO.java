@@ -13,38 +13,38 @@ import main.negocio.dto.enumeracion.RolUsuario;
  */
 public class UsuarioDTO {
 
-    private final int userID;
+    private final int usuarioId;
     private final String nombreUsuario;
-    private final String password;
-    private final RolUsuario role;
-    private final boolean access;
+    private final String contrasenia;
+    private final RolUsuario rol;
+    private final boolean acceso;
 
     private UsuarioDTO(UsuarioBuilder builder) {
-        this.userID = builder.userID;
+        this.usuarioId = builder.usuarioId;
         this.nombreUsuario = builder.nombreUsuario;
-        this.password = builder.password;
-        this.role = builder.role;
-        this.access = builder.access;
+        this.contrasenia = builder.contrasenia;
+        this.rol = builder.rol;
+        this.acceso = builder.acceso;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUsuarioId() {
+        return usuarioId;
     }
 
     public String getNombreUsuario() {
         return nombreUsuario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public RolUsuario getRole() {
-        return role;
+    public RolUsuario getRol() {
+        return rol;
     }
 
-    public boolean hasAccess() {
-        return access;
+    public boolean tieneAcceso() {
+        return acceso;
     }
 
     @Override
@@ -52,20 +52,20 @@ public class UsuarioDTO {
         return nombreUsuario;
     }
 
-    public boolean verifyPassword(String candidate) {
-        return this.password.equals(candidate);
+    public boolean verificarContrasenia(String candidate) {
+        return this.contrasenia.equals(candidate);
     }
 
     public static class UsuarioBuilder {
 
-        private int userID;
+        private int usuarioId;
         private String nombreUsuario;
-        private String password;
-        private RolUsuario role;
-        private boolean access;
+        private String contrasenia;
+        private RolUsuario rol;
+        private boolean acceso;
 
-        public UsuarioBuilder setUserID(int userID) {
-            this.userID = userID;
+        public UsuarioBuilder setUsuarioId(int usuarioId) {
+            this.usuarioId = usuarioId;
             return this;
         }
 
@@ -74,18 +74,18 @@ public class UsuarioDTO {
             return this;
         }
 
-        public UsuarioBuilder setPassword(String password) {
-            this.password = password;
+        public UsuarioBuilder setContrasenia(String contrasenia) {
+            this.contrasenia = contrasenia;
             return this;
         }
 
-        public UsuarioBuilder setRole(RolUsuario role) {
-            this.role = role;
+        public UsuarioBuilder setRol(RolUsuario rol) {
+            this.rol = rol;
             return this;
         }
 
-        public UsuarioBuilder setAccess(boolean access) {
-            this.access = access;
+        public UsuarioBuilder setAcceso(boolean acceso) {
+            this.acceso = acceso;
             return this;
         }
 

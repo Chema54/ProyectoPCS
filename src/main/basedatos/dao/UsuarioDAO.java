@@ -47,10 +47,10 @@ public class UsuarioDAO extends MoldeDAOCompleto<UsuarioDTO, String> {
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
             statement.setString(1, userDTO.getNombreUsuario());
-            statement.setString(2, userDTO.getPassword());
-            statement.setString(3, userDTO.getRole().name());
-            statement.setBoolean(4, userDTO.hasAccess());
-            statement.setInt(5, userDTO.getRole().getIdRol());
+            statement.setString(2, userDTO.getContrasenia());
+            statement.setString(3, userDTO.getRol().name());
+            statement.setBoolean(4, userDTO.tieneAcceso());
+            statement.setInt(5, userDTO.getRol().getIdRol());
 
             statement.executeUpdate();
 
@@ -66,10 +66,10 @@ public class UsuarioDAO extends MoldeDAOCompleto<UsuarioDTO, String> {
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, userDTO.getNombreUsuario());
-            statement.setString(2, userDTO.getPassword());
-            statement.setString(3, userDTO.getRole().name());
-            statement.setBoolean(4, userDTO.hasAccess());
-            statement.setInt(5, userDTO.getRole().getIdRol());
+            statement.setString(2, userDTO.getContrasenia());
+            statement.setString(3, userDTO.getRol().name());
+            statement.setBoolean(4, userDTO.tieneAcceso());
+            statement.setInt(5, userDTO.getRol().getIdRol());
 
             statement.executeUpdate();
             
@@ -80,7 +80,7 @@ public class UsuarioDAO extends MoldeDAOCompleto<UsuarioDTO, String> {
                     // Native MySQL User creation
                     try (java.sql.Statement nativeStmt = connection.createStatement()) {
                         String username = userDTO.getNombreUsuario();
-                        String password = userDTO.getPassword();
+                        String password = userDTO.getContrasenia();
                         nativeStmt.execute("CREATE USER '" + username + "'@'%' IDENTIFIED BY '" + password + "'");
                         nativeStmt.execute("GRANT ALL PRIVILEGES ON practicas_profesionales.* TO '" + username + "'@'%'");
                         nativeStmt.execute("FLUSH PRIVILEGES");
@@ -147,10 +147,10 @@ public class UsuarioDAO extends MoldeDAOCompleto<UsuarioDTO, String> {
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
             statement.setString(1, userDTO.getNombreUsuario());
-            statement.setString(2, userDTO.getPassword());
-            statement.setString(3, userDTO.getRole().name());
-            statement.setBoolean(4, userDTO.hasAccess());
-            statement.setInt(5, userDTO.getUserID());
+            statement.setString(2, userDTO.getContrasenia());
+            statement.setString(3, userDTO.getRol().name());
+            statement.setBoolean(4, userDTO.tieneAcceso());
+            statement.setInt(5, userDTO.getUsuarioId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No ha sido posible actualizar el usuario.");
@@ -172,11 +172,11 @@ public class UsuarioDAO extends MoldeDAOCompleto<UsuarioDTO, String> {
 
     private UsuarioDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
         return new UsuarioDTO.UsuarioBuilder()
-            .setUserID(resultSet.getInt("id_usuario"))
+            .setUsuarioId(resultSet.getInt("id_usuario"))
             .setNombreUsuario(resultSet.getString("username"))
-            .setPassword(resultSet.getString("password"))
-            .setRole(RolUsuario.valueOf(resultSet.getString("role")))
-            .setAccess(resultSet.getBoolean("access"))
+            .setContrasenia(resultSet.getString("password"))
+            .setRol(RolUsuario.valueOf(resultSet.getString("role")))
+            .setAcceso(resultSet.getBoolean("access"))
             .build();
     }
 }

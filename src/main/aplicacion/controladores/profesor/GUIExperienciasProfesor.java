@@ -34,7 +34,7 @@ public class GUIExperienciasProfesor implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             ExperienciaEducativaDAO dao = new ExperienciaEducativaDAO();
-            List<ExperienciaEducativaDTO> exp = dao.getExperienciasByUserId(Sesion.getCurrentUser().getUserID());
+            List<ExperienciaEducativaDTO> exp = dao.getExperienciasByUserId(Sesion.getCurrentUser().getUsuarioId());
             
             colNRC.setCellValueFactory(new PropertyValueFactory<>("nrc"));
             colName.setCellValueFactory(new PropertyValueFactory<>("nombre"));

@@ -189,7 +189,7 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
                 document.add(p1);
                 
                 // Firmas
-                String nombreFirma = coord != null ? (coord.getNombre() + " " + coord.getLastName() + " " + coord.getMotherLastName()) : "COORDINADOR";
+                String nombreFirma = coord != null ? (coord.getNombre() + " " + coord.getApellidoPaterno() + " " + coord.getApellidoMaterno()) : "COORDINADOR";
                 Paragraph firma = new Paragraph();
                 firma.setAlignment(Element.ALIGN_CENTER);
                 firma.setFont(normalFont);
@@ -238,7 +238,7 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
             }
             try {
                 byte[] fileBytes = Files.readAllBytes(file.toPath());
-                DocumentoAceptacionDTO updated = new DocumentoAceptacionDTO.AcceptanceDocumentBuilder()
+                DocumentoAceptacionDTO updated = new DocumentoAceptacionDTO.DocumentoAceptacionBuilder()
                         .setDocumentoAceptacionId(selected.getDocumentoAceptacionId())
                         .setAsignacionId(selected.getAsignacionId())
                         .setNombreEntregable(selected.getNombreEntregable())

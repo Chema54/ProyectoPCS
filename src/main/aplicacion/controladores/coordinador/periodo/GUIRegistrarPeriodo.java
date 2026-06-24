@@ -89,7 +89,7 @@ public class GUIRegistrarPeriodo implements Initializable {
             ServicioPeriodo.registerNewPeriod(periodo);
 
             // 8. Despliega ventana de Acción Realizada
-            Modal.displayInformation("Registro Exitoso", "El Periodo ha sido registrado y abierto exitosamente.");
+            Modal.displayInformation("Registro Exitoso", "El Periodo ha sido registrado exitosamente.");
             cerrarVentana(); // 10. Cierra la ventana
 
         } catch (ExcepcionMostrableUsuario e) {

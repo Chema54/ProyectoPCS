@@ -181,7 +181,7 @@ public class ProyectoDAO extends MoldeDAOCompleto<ProyectoDTO, Integer> {
             .setCupoTotal(resultSet.getInt("cupo_total"))
             .setEspaciosDisponibles(resultSet.getInt("espacios_disponibles"))
             .setNombreOrganizacion(resultSet.getString("organizationName"))
-            .setTitularDisplay(resultSet.getString("titularNumeroPersonal") + " - " + resultSet.getString("titularName"))
+            .setNombreTitular(resultSet.getString("titularNumeroPersonal") + " - " + resultSet.getString("titularName"))
             .build();
     }
 }

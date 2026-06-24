@@ -2,33 +2,33 @@ package main.negocio.dto;
 
 public class CoordinadorDTO {
 
-    private final int idCoordinator;
-    private final int idUser;
+    private final int coordinadorId;
+    private final int usuarioId;
     private final String nombreUsuario;
     private final String numeroPersonal;
     private final String nombre;
-    private final String lastName;
-    private final String motherLastName;
+    private final String apellidoPaterno;
+    private final String apellidoMaterno;
     private final String correo;
 
     public CoordinadorDTO(CoordinadorBuilder builder) {
-        this.idCoordinator = builder.idCoordinator;
-        this.idUser = builder.idUser;
-        this.nombreUsuario = builder.username;
+        this.coordinadorId = builder.coordinadorId;
+        this.usuarioId = builder.usuarioId;
+        this.nombreUsuario = builder.nombreUsuario;
         this.numeroPersonal = builder.numeroPersonal;
-        this.nombre = builder.name;
-        this.lastName = builder.lastName;
-        this.motherLastName = builder.motherLastName;
-        this.correo = builder.email;
+        this.nombre = builder.nombre;
+        this.apellidoPaterno = builder.apellidoPaterno;
+        this.apellidoMaterno = builder.apellidoMaterno;
+        this.correo = builder.correo;
     }
 
     // Getters
-    public int getIDCoordinator() {
-        return idCoordinator;
+    public int getCoordinadorId() {
+        return coordinadorId;
     }
 
-    public int getIDUser() {
-        return idUser;
+    public int getUsuarioId() {
+        return usuarioId;
     }
 
     public String getNombreUsuario() {
@@ -43,12 +43,12 @@ public class CoordinadorDTO {
         return nombre;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
     }
 
-    public String getMotherLastName() {
-        return motherLastName;
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
     }
 
     public String getCorreo() {
@@ -57,27 +57,27 @@ public class CoordinadorDTO {
 
     public static class CoordinadorBuilder {
 
-        protected int idCoordinator;
-        protected int idUser;
-        protected String username;
+        protected int coordinadorId;
+        protected int usuarioId;
+        protected String nombreUsuario;
         protected String numeroPersonal;
-        protected String name;
-        protected String lastName;
-        protected String motherLastName;
-        protected String email;
+        protected String nombre;
+        protected String apellidoPaterno;
+        protected String apellidoMaterno;
+        protected String correo;
 
-        public CoordinadorBuilder setIDCoordinator(int idCoordinator) {
-            this.idCoordinator = idCoordinator;
+        public CoordinadorBuilder setCoordinadorId(int coordinadorId) {
+            this.coordinadorId = coordinadorId;
             return this;
         }
 
-        public CoordinadorBuilder setIDUser(int idUser) {
-            this.idUser = idUser;
+        public CoordinadorBuilder setUsuarioId(int usuarioId) {
+            this.usuarioId = usuarioId;
             return this;
         }
 
         public CoordinadorBuilder setNombreUsuario(String nombreUsuario) {
-            this.username = username;
+            this.nombreUsuario = nombreUsuario;
             return this;
         }
 
@@ -87,22 +87,22 @@ public class CoordinadorDTO {
         }
 
         public CoordinadorBuilder setNombre(String nombre) {
-            this.name = name;
+            this.nombre = nombre;
             return this;
         }
 
-        public CoordinadorBuilder setLastName(String lastName) {
-            this.lastName = lastName;
+        public CoordinadorBuilder setApellidoPaterno(String apellidoPaterno) {
+            this.apellidoPaterno = apellidoPaterno;
             return this;
         }
 
-        public CoordinadorBuilder setMotherLastName(String motherLastName) {
-            this.motherLastName = motherLastName;
+        public CoordinadorBuilder setApellidoMaterno(String apellidoMaterno) {
+            this.apellidoMaterno = apellidoMaterno;
             return this;
         }
 
         public CoordinadorBuilder setCorreo(String correo) {
-            this.email = email;
+            this.correo = correo;
             return this;
         }
 
@@ -113,6 +113,6 @@ public class CoordinadorDTO {
 
     @Override
     public String toString() {
-        return nombre + " " + lastName + " (" + numeroPersonal + ")";
+        return nombre + " " + apellidoPaterno + " (" + numeroPersonal + ")";
     }
 }

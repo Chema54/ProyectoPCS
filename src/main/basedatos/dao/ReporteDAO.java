@@ -38,19 +38,19 @@ public class ReporteDAO extends MoldeDAOCompleto<ReporteDTO, Integer> {
             "INSERT INTO Reporte (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
 
     @Override
-    public void createOne(ReporteDTO reportDTO) throws ExcepcionMostrableUsuario {
+    public void createOne(ReporteDTO reporteDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
-            statement.setInt(1, reportDTO.getAsignacionId());
-            statement.setString(2, reportDTO.getNombreEntregable());
-            statement.setBytes(3, reportDTO.getArchivo());
-            statement.setString(4, reportDTO.getEstado() != null ? reportDTO.getEstado() : "Pendiente");
-            statement.setDate(5, reportDTO.getFechaLimite());
-            statement.setInt(6, reportDTO.getReportedHours());
-            statement.setBigDecimal(7, reportDTO.getScore());
-            statement.setString(8, reportDTO.getComments());
+            statement.setInt(1, reporteDTO.getAsignacionId());
+            statement.setString(2, reporteDTO.getNombreEntregable());
+            statement.setBytes(3, reporteDTO.getArchivo());
+            statement.setString(4, reporteDTO.getEstado() != null ? reporteDTO.getEstado() : "Pendiente");
+            statement.setDate(5, reporteDTO.getFechaLimite());
+            statement.setInt(6, reporteDTO.getHorasReportadas());
+            statement.setBigDecimal(7, reporteDTO.getPuntaje());
+            statement.setString(8, reporteDTO.getComentarios());
 
             statement.executeUpdate();
 
@@ -91,13 +91,13 @@ public class ReporteDAO extends MoldeDAOCompleto<ReporteDTO, Integer> {
             PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
             ResultSet resultSet = statement.executeQuery()
         ) {
-            List<ReporteDTO> reports = new ArrayList<>();
+            List<ReporteDTO> reportes = new ArrayList<>();
 
             while (resultSet.next()) {
-                reports.add(mapResultSetToDTO(resultSet));
+                reportes.add(mapResultSetToDTO(resultSet));
             }
 
-            return reports;
+            return reportes;
 
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
@@ -124,20 +124,20 @@ public class ReporteDAO extends MoldeDAOCompleto<ReporteDTO, Integer> {
     }
 
     @Override
-    public void updateOne(ReporteDTO reportDTO) throws ExcepcionMostrableUsuario {
+    public void updateOne(ReporteDTO reporteDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            statement.setInt(1, reportDTO.getAsignacionId());
-            statement.setString(2, reportDTO.getNombreEntregable());
-            statement.setBytes(3, reportDTO.getArchivo());
-            statement.setString(4, reportDTO.getEstado());
-            statement.setDate(5, reportDTO.getFechaLimite());
-            statement.setInt(6, reportDTO.getReportedHours());
-            statement.setBigDecimal(7, reportDTO.getScore());
-            statement.setString(8, reportDTO.getComments());
-            statement.setInt(9, reportDTO.getMonthlyReportId());
+            statement.setInt(1, reporteDTO.getAsignacionId());
+            statement.setString(2, reporteDTO.getNombreEntregable());
+            statement.setBytes(3, reporteDTO.getArchivo());
+            statement.setString(4, reporteDTO.getEstado());
+            statement.setDate(5, reporteDTO.getFechaLimite());
+            statement.setInt(6, reporteDTO.getHorasReportadas());
+            statement.setBigDecimal(7, reporteDTO.getPuntaje());
+            statement.setString(8, reporteDTO.getComentarios());
+            statement.setInt(9, reporteDTO.getReporteId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -213,15 +213,15 @@ public class ReporteDAO extends MoldeDAOCompleto<ReporteDTO, Integer> {
 
 private ReporteDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
         return new ReporteDTO.ReporteBuilder()
-            .setMonthlyReportId(resultSet.getInt("id_reporte"))
+            .setReporteId(resultSet.getInt("id_reporte"))
             .setAsignacionId(resultSet.getInt("id_asignacion"))
             .setNombreEntregable(resultSet.getString("nombre_entregable"))
             .setArchivo(resultSet.getBytes("archivo"))
             .setEstado(resultSet.getString("estado"))
             .setFechaLimite(resultSet.getDate("fecha_limite"))
-            .setReportedHours(resultSet.getInt("horas_reportadas"))
-            .setScore(resultSet.getBigDecimal("calificacion"))
-            .setComments(resultSet.getString("comentarios"))
+            .setHorasReportadas(resultSet.getInt("horas_reportadas"))
+            .setPuntaje(resultSet.getBigDecimal("calificacion"))
+            .setComentarios(resultSet.getString("comentarios"))
             .build();
     }
 }

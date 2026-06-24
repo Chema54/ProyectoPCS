@@ -76,7 +76,7 @@ public class GUIRegistrarAsignacion implements Initializable {
                     .setEstado("Activa")
                     .build();
 
-            ServicioAsignacion.registerNewAssignment(asignacion);
+            ServicioAsignacion.registrarNuevaAsignacion(asignacion);
 
             Modal.displayInformation("Asignación Exitosa", "La operación se ha realizado exitosamente");
             cerrarVentana();

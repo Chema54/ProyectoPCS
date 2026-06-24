@@ -71,7 +71,7 @@ public class GUIIniciarSesion implements Initializable{
             createConnection();
             UsuarioDAO userDAO = new UsuarioDAO();
             UsuarioDTO user = userDAO.getOne(username);
-            if (user == null || !Objects.equals(user.getPassword(), password)) {
+            if (user == null || !Objects.equals(user.getContrasenia(), password)) {
                 throw new ExcepcionMostrableUsuario(
                     "Error de Autenticación",
                     "Inicio de sesión fallido",
@@ -79,7 +79,7 @@ public class GUIIniciarSesion implements Initializable{
                     null
                 );
             }
-            if (!user.hasAccess()) {
+            if (!user.tieneAcceso()) {
                 throw new ExcepcionMostrableUsuario(
                     "Usuario Inactivo",
                     "Acceso Denegado",
@@ -88,7 +88,7 @@ public class GUIIniciarSesion implements Initializable{
                 );
             }
             Sesion.setCurrentUser(user);
-            openMenuByRole(user.getRole());
+            openMenuByRole(user.getRol());
         } catch (ExcepcionMostrableUsuario e) {
             LOGGER.error("{} - {}", e.getTitle(), e.getHeader());
             Modal.displayError(e);

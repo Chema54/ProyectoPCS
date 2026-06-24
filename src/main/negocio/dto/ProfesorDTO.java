@@ -3,7 +3,7 @@ package main.negocio.dto;
 public class ProfesorDTO {
 
     private final int profesorId;
-    private final String personalNumber;
+    private final String numeroPersonal;
     private final String nombre;
     private final String apellidoPaterno;
     private final String apellidoMaterno;
@@ -14,7 +14,7 @@ public class ProfesorDTO {
 
     private ProfesorDTO(ProfesorBuilder builder) {
         this.profesorId = builder.profesorId;
-        this.personalNumber = builder.personalNumber;
+        this.numeroPersonal = builder.numeroPersonal;
         this.nombre = builder.nombre;
         this.apellidoPaterno = builder.apellidoPaterno;
         this.apellidoMaterno = builder.apellidoMaterno;
@@ -28,8 +28,8 @@ public class ProfesorDTO {
         return profesorId;
     }
 
-    public String getPersonalNumber() {
-        return personalNumber;
+    public String getNumeroPersonal() {
+        return numeroPersonal;
     }
 
     public String getNombre() {
@@ -60,7 +60,7 @@ public class ProfesorDTO {
         return nombreUsuario;
     }
 
-    public String getFullName() {
+    public String getNombreCompleto() {
         return nombre + " " + apellidoPaterno + (apellidoMaterno != null && !apellidoMaterno.trim().isEmpty() ? " " + apellidoMaterno : "");
     }
 
@@ -72,7 +72,7 @@ public class ProfesorDTO {
     public static class ProfesorBuilder {
 
         private int profesorId;
-        private String personalNumber;
+        private String numeroPersonal;
         private String nombre;
         private String apellidoPaterno;
         private String apellidoMaterno;
@@ -86,8 +86,8 @@ public class ProfesorDTO {
             return this;
         }
 
-        public ProfesorBuilder setPersonalNumber(String numeroPersonal) {
-            this.personalNumber = personalNumber;
+        public ProfesorBuilder setNumeroPersonal(String numeroPersonal) {
+            this.numeroPersonal = numeroPersonal;
             return this;
         }
 

@@ -34,10 +34,10 @@ public class GUIRealizarAutoevaluacion implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(GUIRealizarAutoevaluacion.class);
 
-    @FXML private VBox vboxQuestions;
+    @FXML private VBox vboxPreguntas;
 
-    private List<ToggleGroup> toggleGroups = new ArrayList<>();
-    private String[] questions = {
+    private List<ToggleGroup> gruposRespuestas = new ArrayList<>();
+    private String[] preguntas = {
         "1. Mi participación en la Organización Vinculada fue productiva.",
         "2. Logré la aplicación de los conocimientos teórico-prácticos adquiridos en la Licenciatura.",
         "3. Me sentí seguro al realizar las actividades encomendadas.",
@@ -50,71 +50,71 @@ public class GUIRealizarAutoevaluacion implements Initializable {
         "10. Considero que las prácticas son importantes para mi formación profesional."
     };
 
-    private AutoevaluacionDTO selfAssessment;
-    private AsignacionDTO assignment;
-    private PracticanteDTO intern;
-    private GUIEntregarEntregables parentController;
+    private AutoevaluacionDTO autoevaluacion;
+    private AsignacionDTO asignacion;
+    private PracticanteDTO practicante;
+    private GUIEntregarEntregables controladorPadre;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        for (String q : questions) {
-            Label labelQ = new Label(q);
-            labelQ.setWrapText(true);
-            labelQ.setPrefWidth(600);
+        for (String q : preguntas) {
+            Label labelPregunta = new Label(q);
+            labelPregunta.setWrapText(true);
+            labelPregunta.setPrefWidth(600);
             
-            HBox options = new HBox(20);
-            ToggleGroup group = new ToggleGroup();
-            toggleGroups.add(group);
+            HBox opciones = new HBox(20);
+            ToggleGroup grupo = new ToggleGroup();
+            gruposRespuestas.add(grupo);
             
             for (int i = 1; i <= 5; i++) {
-                RadioButton rbOption = new RadioButton(String.valueOf(i));
-                rbOption.setUserData(i);
-                rbOption.setToggleGroup(group);
-                options.getChildren().add(rbOption);
+                RadioButton rbOpcion = new RadioButton(String.valueOf(i));
+                rbOpcion.setUserData(i);
+                rbOpcion.setToggleGroup(grupo);
+                opciones.getChildren().add(rbOpcion);
             }
-            vboxQuestions.getChildren().addAll(labelQ, options);
+            vboxPreguntas.getChildren().addAll(labelPregunta, opciones);
         }
     }
 
-    public void initData(AutoevaluacionDTO selfAssessment, AsignacionDTO assignment, PracticanteDTO intern, GUIEntregarEntregables parent) {
-        this.selfAssessment = selfAssessment;
-        this.assignment = assignment;
-        this.intern = intern;
-        this.parentController = parent;
+    public void initData(AutoevaluacionDTO autoevaluacion, AsignacionDTO asignacion, PracticanteDTO practicante, GUIEntregarEntregables padre) {
+        this.autoevaluacion = autoevaluacion;
+        this.asignacion = asignacion;
+        this.practicante = practicante;
+        this.controladorPadre = padre;
     }
 
     @FXML
     private void guardarYGenerar(ActionEvent event) {
-        int totalScore = 0;
-        List<Integer> answers = new ArrayList<>();
+        int puntajeTotal = 0;
+        List<Integer> respuestas = new ArrayList<>();
 
-        for (int i = 0; i < toggleGroups.size(); i++) {
-            ToggleGroup group = toggleGroups.get(i);
-            if (group.getSelectedToggle() == null) {
+        for (int i = 0; i < gruposRespuestas.size(); i++) {
+            ToggleGroup grupo = gruposRespuestas.get(i);
+            if (grupo.getSelectedToggle() == null) {
                 Modal.displayInformation("Incompleto", "Por favor responda la pregunta " + (i + 1));
                 return;
             }
-            int score = (int) group.getSelectedToggle().getUserData();
-            totalScore += score;
-            answers.add(score);
+            int puntaje = (int) grupo.getSelectedToggle().getUserData();
+            puntajeTotal += puntaje;
+            respuestas.add(puntaje);
         }
 
         try {
-            byte[] pdfBytes = generatePDF(totalScore, answers);
+            byte[] bytesPDF = generarPDF(puntajeTotal, respuestas);
             
-            AutoevaluacionDTO updated = new AutoevaluacionDTO.SelfAssessmentBuilder()
-                    .setSelfAssessmentId(selfAssessment.getSelfAssessmentId())
-                    .setAsignacionId(selfAssessment.getAsignacionId())
-                    .setNombreEntregable(selfAssessment.getNombreEntregable())
-                    .setArchivo(pdfBytes)
+            AutoevaluacionDTO actualizada = new AutoevaluacionDTO.AutoevaluacionBuilder()
+                    .setAutoevaluacionId(autoevaluacion.getAutoevaluacionId())
+                    .setAsignacionId(autoevaluacion.getAsignacionId())
+                    .setNombreEntregable(autoevaluacion.getNombreEntregable())
+                    .setArchivo(bytesPDF)
                     .setEstado("Entregado")
-                    .setScore(new java.math.BigDecimal(totalScore))
+                    .setPuntaje(new java.math.BigDecimal(puntajeTotal))
                     .build();
 
-            new AutoevaluacionDAO().updateOne(updated);
+            new AutoevaluacionDAO().updateOne(actualizada);
             
-            Modal.displayInformation("Éxito", "La autoevaluación se ha registrado exitosamente. Puntuación Final: " + totalScore + "/50");
-            parentController.loadData();
+            Modal.displayInformation("Éxito", "La autoevaluación se ha registrado exitosamente. Puntuación Final: " + puntajeTotal + "/50");
+            controladorPadre.loadDeliverables();
             cerrarVentana();
             
         } catch (Exception e) {
@@ -123,36 +123,36 @@ public class GUIRealizarAutoevaluacion implements Initializable {
         }
     }
 
-    private byte[] generatePDF(int totalScore, List<Integer> answers) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Document document = new Document();
-        PdfWriter.getInstance(document, baos);
-        document.open();
+    private byte[] generarPDF(int puntajeTotal, List<Integer> respuestas) throws Exception {
+        ByteArrayOutputStream salidaBytes = new ByteArrayOutputStream();
+        Document documento = new Document();
+        PdfWriter.getInstance(documento, salidaBytes);
+        documento.open();
         
-        Font titleFont = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
-        Font boldFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
-        Font normalFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+        Font fuenteTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+        Font fuenteNegrita = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+        Font fuenteNormal = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
         
-        Paragraph title = new Paragraph("FORMATO: EVALUACIÓN DEL ALUMNO\n\n", titleFont);
-        title.setAlignment(Element.ALIGN_CENTER);
-        document.add(title);
+        Paragraph titulo = new Paragraph("FORMATO: EVALUACIÓN DEL ALUMNO\n\n", fuenteTitulo);
+        titulo.setAlignment(Element.ALIGN_CENTER);
+        documento.add(titulo);
         
-        document.add(new Paragraph("Nombre del alumno: " + intern.getNombre() + " " + intern.getApellidoPaterno(), normalFont));
-        document.add(new Paragraph("Matrícula: " + intern.getMatricula(), normalFont));
-        document.add(new Paragraph("Proyecto: " + assignment.getNombreProyecto() + "\n\n", normalFont));
+        documento.add(new Paragraph("Nombre del alumno: " + practicante.getNombre() + " " + practicante.getApellidoPaterno(), fuenteNormal));
+        documento.add(new Paragraph("Matrícula: " + practicante.getMatricula(), fuenteNormal));
+        documento.add(new Paragraph("Proyecto: " + asignacion.getNombreProyecto() + "\n\n", fuenteNormal));
         
-        document.add(new Paragraph("RESULTADOS DEL CUESTIONARIO:\n\n", boldFont));
-        for (int i = 0; i < questions.length; i++) {
-            document.add(new Paragraph(questions[i], normalFont));
-            document.add(new Paragraph("Respuesta: " + answers.get(i) + " / 5\n", boldFont));
+        documento.add(new Paragraph("RESULTADOS DEL CUESTIONARIO:\n\n", fuenteNegrita));
+        for (int i = 0; i < preguntas.length; i++) {
+            documento.add(new Paragraph(preguntas[i], fuenteNormal));
+            documento.add(new Paragraph("Respuesta: " + respuestas.get(i) + " / 5\n", fuenteNegrita));
         }
         
-        Paragraph scorePara = new Paragraph("\nPUNTUACIÓN FINAL: " + totalScore + " / 50", titleFont);
-        scorePara.setAlignment(Element.ALIGN_RIGHT);
-        document.add(scorePara);
+        Paragraph parrafoPuntaje = new Paragraph("\nPUNTUACIÓN FINAL: " + puntajeTotal + " / 50", fuenteTitulo);
+        parrafoPuntaje.setAlignment(Element.ALIGN_RIGHT);
+        documento.add(parrafoPuntaje);
         
-        document.close();
-        return baos.toByteArray();
+        documento.close();
+        return salidaBytes.toByteArray();
     }
 
     @FXML
@@ -161,7 +161,7 @@ public class GUIRealizarAutoevaluacion implements Initializable {
     }
 
     private void cerrarVentana() {
-        Stage stage = (Stage) vboxQuestions.getScene().getWindow();
+        Stage stage = (Stage) vboxPreguntas.getScene().getWindow();
         stage.close();
     }
 }

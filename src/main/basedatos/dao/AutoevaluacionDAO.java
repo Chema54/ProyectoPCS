@@ -38,18 +38,18 @@ public class AutoevaluacionDAO extends MoldeDAOCompleto<AutoevaluacionDTO, Integ
             "INSERT INTO Autoevaluacion (id_asignacion, nombre_entregable, estado) VALUES (?, 'Autoevaluación del estudiante', 'Inhabilitado')";
 
     @Override
-    public void createOne(AutoevaluacionDTO selfAssessmentDTO) throws ExcepcionMostrableUsuario {
+    public void createOne(AutoevaluacionDTO autoevaluacionDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
-            statement.setInt(1, selfAssessmentDTO.getAsignacionId());
-            statement.setString(2, selfAssessmentDTO.getNombreEntregable());
-            statement.setBytes(3, selfAssessmentDTO.getArchivo());
-            statement.setBigDecimal(4, selfAssessmentDTO.getScore());
-            statement.setString(5, selfAssessmentDTO.getComments());
-            statement.setString(6, selfAssessmentDTO.getEstado() != null ? selfAssessmentDTO.getEstado() : "Pendiente");
-            statement.setDate(7, selfAssessmentDTO.getFechaLimite());
+            statement.setInt(1, autoevaluacionDTO.getAsignacionId());
+            statement.setString(2, autoevaluacionDTO.getNombreEntregable());
+            statement.setBytes(3, autoevaluacionDTO.getArchivo());
+            statement.setBigDecimal(4, autoevaluacionDTO.getPuntaje());
+            statement.setString(5, autoevaluacionDTO.getComentarios());
+            statement.setString(6, autoevaluacionDTO.getEstado() != null ? autoevaluacionDTO.getEstado() : "Pendiente");
+            statement.setDate(7, autoevaluacionDTO.getFechaLimite());
 
             statement.executeUpdate();
 
@@ -79,13 +79,13 @@ public class AutoevaluacionDAO extends MoldeDAOCompleto<AutoevaluacionDTO, Integ
             PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
             ResultSet resultSet = statement.executeQuery()
         ) {
-            List<AutoevaluacionDTO> selfAssessments = new ArrayList<>();
+            List<AutoevaluacionDTO> autoevaluaciones = new ArrayList<>();
 
             while (resultSet.next()) {
-                selfAssessments.add(mapResultSetToDTO(resultSet));
+                autoevaluaciones.add(mapResultSetToDTO(resultSet));
             }
 
-            return selfAssessments;
+            return autoevaluaciones;
 
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
@@ -112,19 +112,19 @@ public class AutoevaluacionDAO extends MoldeDAOCompleto<AutoevaluacionDTO, Integ
     }
 
     @Override
-    public void updateOne(AutoevaluacionDTO selfAssessmentDTO) throws ExcepcionMostrableUsuario {
+    public void updateOne(AutoevaluacionDTO autoevaluacionDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            statement.setInt(1, selfAssessmentDTO.getAsignacionId());
-            statement.setString(2, selfAssessmentDTO.getNombreEntregable());
-            statement.setBytes(3, selfAssessmentDTO.getArchivo());
-            statement.setBigDecimal(4, selfAssessmentDTO.getScore());
-            statement.setString(5, selfAssessmentDTO.getComments());
-            statement.setString(6, selfAssessmentDTO.getEstado());
-            statement.setDate(7, selfAssessmentDTO.getFechaLimite());
-            statement.setInt(8, selfAssessmentDTO.getSelfAssessmentId());
+            statement.setInt(1, autoevaluacionDTO.getAsignacionId());
+            statement.setString(2, autoevaluacionDTO.getNombreEntregable());
+            statement.setBytes(3, autoevaluacionDTO.getArchivo());
+            statement.setBigDecimal(4, autoevaluacionDTO.getPuntaje());
+            statement.setString(5, autoevaluacionDTO.getComentarios());
+            statement.setString(6, autoevaluacionDTO.getEstado());
+            statement.setDate(7, autoevaluacionDTO.getFechaLimite());
+            statement.setInt(8, autoevaluacionDTO.getAutoevaluacionId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -172,7 +172,7 @@ public class AutoevaluacionDAO extends MoldeDAOCompleto<AutoevaluacionDTO, Integ
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<AutoevaluacionDTO> list = new ArrayList<>();
                 while (resultSet.next()) {
-                    list.add(new AutoevaluacionDTO.SelfAssessmentBuilder()
+                    list.add(new AutoevaluacionDTO.AutoevaluacionBuilder()
                         .setNombreEntregable(resultSet.getString("nombre_entregable"))
                         .setEstado(resultSet.getString("estado"))
                         .build());
@@ -199,13 +199,13 @@ public class AutoevaluacionDAO extends MoldeDAOCompleto<AutoevaluacionDTO, Integ
     }
 
 private AutoevaluacionDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new AutoevaluacionDTO.SelfAssessmentBuilder()
-            .setSelfAssessmentId(resultSet.getInt("id_autoevaluacion"))
+        return new AutoevaluacionDTO.AutoevaluacionBuilder()
+            .setAutoevaluacionId(resultSet.getInt("id_autoevaluacion"))
             .setAsignacionId(resultSet.getInt("id_asignacion"))
             .setNombreEntregable(resultSet.getString("nombre_entregable"))
             .setArchivo(resultSet.getBytes("archivo"))
-            .setScore(resultSet.getBigDecimal("calificacion"))
-            .setComments(resultSet.getString("comentarios"))
+            .setPuntaje(resultSet.getBigDecimal("calificacion"))
+            .setComentarios(resultSet.getString("comentarios"))
             .setEstado(resultSet.getString("estado"))
             .setFechaLimite(resultSet.getDate("fecha_limite"))
             .build();

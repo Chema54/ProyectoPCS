@@ -19,7 +19,7 @@ public class ServicioPeriodo {
         return dao.getAll();
     }
 
-    public static void registerNewPeriod(PeriodoDTO period) throws ExcepcionMostrableUsuario {
+    public static int registerNewPeriod(PeriodoDTO period) throws ExcepcionMostrableUsuario {
         if (period.getFechaInicio() == null || period.getFechaFin() == null) {
             throw new ExcepcionMostrableUsuario("Campos Obligatorios", "Fechas no seleccionadas", "Por favor, seleccione tanto la fecha de inicio como la fecha de fin del periodo.");
         }
@@ -29,7 +29,7 @@ public class ServicioPeriodo {
         }
 
         PeriodoDAO dao = new PeriodoDAO();
-        dao.createOne(period);
+        return dao.createAndReturnId(period);
     }
 
     public static void openPeriod(int periodoId) throws ExcepcionMostrableUsuario {

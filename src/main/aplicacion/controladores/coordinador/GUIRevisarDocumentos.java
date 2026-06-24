@@ -75,7 +75,7 @@ public class GUIRevisarDocumentos implements Initializable {
         }
         
         try {
-            DocumentoAceptacionDTO updated = new DocumentoAceptacionDTO.AcceptanceDocumentBuilder()
+            DocumentoAceptacionDTO updated = new DocumentoAceptacionDTO.DocumentoAceptacionBuilder()
                 .setDocumentoAceptacionId(selected.getDocumentoAceptacionId())
                 .setAsignacionId(selected.getAsignacionId())
                 .setNombreEntregable(selected.getNombreEntregable())

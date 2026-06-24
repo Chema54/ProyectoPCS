@@ -11,7 +11,7 @@ public class DocumentoAceptacionDTO implements Entregable {
     private final String estado;
     private final Date fechaLimite;
 
-    private DocumentoAceptacionDTO(AcceptanceDocumentBuilder builder) {
+    private DocumentoAceptacionDTO(DocumentoAceptacionBuilder builder) {
         this.documentoAceptacionId = builder.documentoAceptacionId;
         this.asignacionId = builder.asignacionId;
         this.nombreEntregable = builder.nombreEntregable;
@@ -44,7 +44,7 @@ public class DocumentoAceptacionDTO implements Entregable {
         return fechaLimite;
     }
 
-    public static class AcceptanceDocumentBuilder {
+    public static class DocumentoAceptacionBuilder {
 
         private int documentoAceptacionId;
         private int asignacionId;
@@ -53,33 +53,33 @@ public class DocumentoAceptacionDTO implements Entregable {
         private String estado;
         private Date fechaLimite;
 
-        public AcceptanceDocumentBuilder setDocumentoAceptacionId(int acceptanceDocumentId) {
-            this.documentoAceptacionId = acceptanceDocumentId;
+        public DocumentoAceptacionBuilder setDocumentoAceptacionId(int documentoAceptacionId) {
+            this.documentoAceptacionId = documentoAceptacionId;
             return this;
         }
 
-        public AcceptanceDocumentBuilder setAsignacionId(int asignacionId) {
+        public DocumentoAceptacionBuilder setAsignacionId(int asignacionId) {
             this.asignacionId = asignacionId;
             return this;
         }
 
-        public AcceptanceDocumentBuilder setNombreEntregable(String nombreEntregable) {
+        public DocumentoAceptacionBuilder setNombreEntregable(String nombreEntregable) {
             this.nombreEntregable = nombreEntregable;
             return this;
         }
 
-        public AcceptanceDocumentBuilder setArchivo(byte[] file) {
-            this.archivo = file;
+        public DocumentoAceptacionBuilder setArchivo(byte[] archivo) {
+            this.archivo = archivo;
             return this;
         }
 
-        public AcceptanceDocumentBuilder setEstado(String status) {
-            this.estado = status;
+        public DocumentoAceptacionBuilder setEstado(String estado) {
+            this.estado = estado;
             return this;
         }
 
-        public AcceptanceDocumentBuilder setFechaLimite(Date deadline) {
-            this.fechaLimite = deadline;
+        public DocumentoAceptacionBuilder setFechaLimite(Date fechaLimite) {
+            this.fechaLimite = fechaLimite;
             return this;
         }
 

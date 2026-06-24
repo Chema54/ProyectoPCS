@@ -26,56 +26,69 @@ public class GUIEntregarEntregables implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(GUIEntregarEntregables.class);
 
-    @FXML private TableView<ReporteDTO> tableViewReports;
-    @FXML private TableColumn<ReporteDTO, String> colReportName;
-    @FXML private TableColumn<ReporteDTO, String> colReportStatus;
+    @FXML private TableView<ReporteDTO> tablaReportes;
+    @FXML private TableColumn<ReporteDTO, String> columnaNombreReporte;
+    @FXML private TableColumn<ReporteDTO, String> columnaEstadoReporte;
 
-    @FXML private TableView<EvaluacionOVDTO> tableViewEvaluations;
-    @FXML private TableColumn<EvaluacionOVDTO, String> colEvalName;
-    @FXML private TableColumn<EvaluacionOVDTO, String> colEvalStatus;
+    @FXML private TableView<EvaluacionOVDTO> tablaEvaluacionesOV;
+    @FXML private TableColumn<EvaluacionOVDTO, String> columnaNombreEvaluacionOV;
+    @FXML private TableColumn<EvaluacionOVDTO, String> columnaEstadoEvaluacionOV;
 
-    @FXML private TableView<AutoevaluacionDTO> tableViewSelfAssessments;
-    @FXML private TableColumn<AutoevaluacionDTO, String> colSelfName;
-    @FXML private TableColumn<AutoevaluacionDTO, String> colSelfStatus;
+    @FXML private TableView<AutoevaluacionDTO> tablaAutoevaluaciones;
+    @FXML private TableColumn<AutoevaluacionDTO, String> columnaNombreAutoevaluacion;
+    @FXML private TableColumn<AutoevaluacionDTO, String> columnaEstadoAutoevaluacion;
 
-    private AsignacionDTO currentAssignment;
+    private AsignacionDTO asignacionActual;
     private ReporteDAO reporteDAO = new ReporteDAO();
-    private EvaluacionOVDAO evalDAO = new EvaluacionOVDAO();
-    private AutoevaluacionDAO selfDAO = new AutoevaluacionDAO();
+    private EvaluacionOVDAO evaluacionDAO = new EvaluacionOVDAO();
+    private AutoevaluacionDAO autoevaluacionDAO = new AutoevaluacionDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             PracticanteDAO practicanteDAO = new PracticanteDAO();
-            PracticanteDTO currentPracticante = practicanteDAO.getByEnrollment(Sesion.getCurrentUser().getNombreUsuario());
+            PracticanteDTO practicanteActual = practicanteDAO.getByEnrollment(Sesion.getCurrentUser().getNombreUsuario());
             
-            if (currentPracticante != null) {
-                AsignacionDAO asignacionDAO = new AsignacionDAO();
-                currentAssignment = asignacionDAO.getActiveAssignmentByIntern(currentPracticante.getPracticanteId());
-                if (currentAssignment != null) {
-                    loadData();
-                }
+            AsignacionDAO asignacionDAO = new AsignacionDAO();
+            AsignacionDTO assignment = asignacionDAO.getActiveAssignmentByIntern(practicanteActual.getPracticanteId());
+            
+            if (assignment != null) {
+                asignacionActual = assignment;
+                
+                columnaNombreReporte.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
+                columnaEstadoReporte.setCellValueFactory(new PropertyValueFactory<>("estado"));
+                
+                columnaNombreEvaluacionOV.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
+                columnaEstadoEvaluacionOV.setCellValueFactory(new PropertyValueFactory<>("estado"));
+                
+                columnaNombreAutoevaluacion.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
+                columnaEstadoAutoevaluacion.setCellValueFactory(new PropertyValueFactory<>("estado"));
+                
+                loadDeliverables();
+            } else {
+                Modal.displayInformation("Sin Proyecto", "No tiene un proyecto activo asignado.");
             }
-        } catch (ExcepcionMostrableUsuario e) {
-            Modal.displayError(e);
+        } catch (ExcepcionMostrableUsuario ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            Modal.displayError(ex);
         }
     }    
 
-    void loadData() throws ExcepcionMostrableUsuario {
-        // Reports
-        colReportName.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
-        colReportStatus.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        tableViewReports.setItems(FXCollections.observableArrayList(reporteDAO.getAllByAssignmentId(currentAssignment.getAsignacionId())));
+    public void loadDeliverables() {
+        try {
+            if (asignacionActual != null) {
+                List<ReporteDTO> reportes = reporteDAO.getAllByAssignmentId(asignacionActual.getAsignacionId());
+                tablaReportes.setItems(FXCollections.observableArrayList(reportes));
 
-        // Evaluations
-        colEvalName.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
-        colEvalStatus.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        tableViewEvaluations.setItems(FXCollections.observableArrayList(evalDAO.getAllByAssignmentId(currentAssignment.getAsignacionId())));
+                List<EvaluacionOVDTO> evaluaciones = evaluacionDAO.getAllByAssignmentId(asignacionActual.getAsignacionId());
+                tablaEvaluacionesOV.setItems(FXCollections.observableArrayList(evaluaciones));
 
-        // Self Assessments
-        colSelfName.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
-        colSelfStatus.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        tableViewSelfAssessments.setItems(FXCollections.observableArrayList(selfDAO.getAllByAssignmentId(currentAssignment.getAsignacionId())));
+                List<AutoevaluacionDTO> autoevaluaciones = autoevaluacionDAO.getAllByAssignmentId(asignacionActual.getAsignacionId());
+                tablaAutoevaluaciones.setItems(FXCollections.observableArrayList(autoevaluaciones));
+            }
+        } catch (ExcepcionMostrableUsuario ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
     }
 
     private File pickPDF() {
@@ -87,7 +100,7 @@ public class GUIEntregarEntregables implements Initializable {
 
     @FXML
     private void entregarReporte(ActionEvent event) {
-        ReporteDTO selected = tableViewReports.getSelectionModel().getSelectedItem();
+        ReporteDTO selected = tablaReportes.getSelectionModel().getSelectedItem();
         
         try {
             ValidadorEntrega.validateDelivery(selected);
@@ -102,7 +115,11 @@ public class GUIEntregarEntregables implements Initializable {
             }
         }
         
-        File file = pickPDF();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Archivo PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showOpenDialog(tablaReportes.getScene().getWindow());
+        
         if (file != null) {
             if (!file.getName().toLowerCase().endsWith(".pdf")) {
                 Modal.displayError(new ExcepcionMostrableUsuario("Formato incorrecto", "Documento inválido", "El archivo debe tener el formato PDF."));
@@ -114,15 +131,17 @@ public class GUIEntregarEntregables implements Initializable {
             try {
                 byte[] fileBytes = Files.readAllBytes(file.toPath());
                 ReporteDTO updated = new ReporteDTO.ReporteBuilder()
-                        .setMonthlyReportId(selected.getMonthlyReportId())
+                        .setReporteId(selected.getReporteId())
                         .setAsignacionId(selected.getAsignacionId())
                         .setNombreEntregable(selected.getNombreEntregable())
                         .setArchivo(fileBytes)
                         .setEstado("Entregado")
+                        .setPuntaje(selected.getPuntaje())
+                        .setFechaLimite(selected.getFechaLimite())
                         .build();
                 reporteDAO.updateOne(updated);
-                Modal.displayInformation("Éxito", "Se ha enviado el Reporte con éxito");
-                loadData();
+                Modal.displayInformation("Éxito", "El reporte se ha entregado exitosamente.");
+                loadDeliverables();
             } catch (Exception e) {
                 LOGGER.error("Error", e);
                 Modal.displayError(new ExcepcionMostrableUsuario("Error", "Error de archivo", e.getMessage()));
@@ -132,7 +151,7 @@ public class GUIEntregarEntregables implements Initializable {
 
     @FXML
     private void entregarEvaluacion(ActionEvent event) {
-        EvaluacionOVDTO selected = tableViewEvaluations.getSelectionModel().getSelectedItem();
+        EvaluacionOVDTO selected = tablaEvaluacionesOV.getSelectionModel().getSelectedItem();
         
         try {
             ValidadorEntrega.validateDelivery(selected);
@@ -147,7 +166,11 @@ public class GUIEntregarEntregables implements Initializable {
             }
         }
         
-        File file = pickPDF();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Archivo PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showOpenDialog(tablaEvaluacionesOV.getScene().getWindow());
+        
         if (file != null) {
             if (!file.getName().toLowerCase().endsWith(".pdf")) {
                 Modal.displayError(new ExcepcionMostrableUsuario("Formato incorrecto", "Documento inválido", "El archivo debe tener el formato PDF."));
@@ -158,16 +181,18 @@ public class GUIEntregarEntregables implements Initializable {
             }
             try {
                 byte[] fileBytes = Files.readAllBytes(file.toPath());
-                EvaluacionOVDTO updated = new EvaluacionOVDTO.LinkedOrganizationEvaluationBuilder()
-                        .setLinkedOrganizationEvaluationId(selected.getLinkedOrganizationEvaluationId())
+                EvaluacionOVDTO updated = new EvaluacionOVDTO.EvaluacionOVBuilder()
+                        .setEvaluacionId(selected.getEvaluacionId())
                         .setAsignacionId(selected.getAsignacionId())
                         .setNombreEntregable(selected.getNombreEntregable())
                         .setArchivo(fileBytes)
                         .setEstado("Entregado")
+                        .setPuntaje(selected.getPuntaje())
+                        .setFechaLimite(selected.getFechaLimite())
                         .build();
-                evalDAO.updateOne(updated);
-                Modal.displayInformation("Éxito", "La evaluación ha sido enviada con éxito");
-                loadData();
+                evaluacionDAO.updateOne(updated);
+                Modal.displayInformation("Éxito", "La evaluación se ha entregado exitosamente.");
+                loadDeliverables();
             } catch (Exception e) {
                 LOGGER.error("Error", e);
                 Modal.displayError(new ExcepcionMostrableUsuario("Error", "Error de archivo", e.getMessage()));
@@ -176,8 +201,8 @@ public class GUIEntregarEntregables implements Initializable {
     }
 
     @FXML
-    private void uploadSelfAssessment(ActionEvent event) {
-        AutoevaluacionDTO selected = tableViewSelfAssessments.getSelectionModel().getSelectedItem();
+    private void realizarAutoevaluacion(ActionEvent event) {
+        AutoevaluacionDTO selected = tablaAutoevaluaciones.getSelectionModel().getSelectedItem();
         
         try {
             ValidadorEntrega.validateDelivery(selected);
@@ -201,7 +226,7 @@ public class GUIEntregarEntregables implements Initializable {
                     FileChooser fileChooser = new FileChooser();
                     fileChooser.setTitle("Guardar Autoevaluación PDF");
                     fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-                    fileChooser.setInitialFileName("Autoevaluacion_" + currentAssignment.getMatriculaPracticante() + ".pdf");
+                    fileChooser.setInitialFileName("Autoevaluacion_" + asignacionActual.getMatriculaPracticante() + ".pdf");
                     File file = fileChooser.showSaveDialog(null);
                     if (file != null) {
                         try (java.io.FileOutputStream fos = new java.io.FileOutputStream(file)) {
@@ -222,16 +247,17 @@ public class GUIEntregarEntregables implements Initializable {
         try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/main/aplicacion/vistas/practicante/GUIRealizarAutoevaluacion.fxml"));
             javafx.scene.Parent root = loader.load();
+            
             GUIRealizarAutoevaluacion controller = loader.getController();
             
             PracticanteDAO practicanteDAO = new PracticanteDAO();
-            PracticanteDTO currentPracticante = practicanteDAO.getByEnrollment(Sesion.getCurrentUser().getNombreUsuario());
+            PracticanteDTO practicanteActual = practicanteDAO.getByEnrollment(Sesion.getCurrentUser().getNombreUsuario());
             
-            controller.initData(selected, currentAssignment, currentPracticante, this);
+            controller.initData(selected, asignacionActual, practicanteActual, this);
             
             javafx.stage.Stage stage = new javafx.stage.Stage();
             stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-            stage.setTitle("Autoevaluación");
+            stage.setTitle("Formulario de Autoevaluación");
             stage.setScene(new javafx.scene.Scene(root));
             stage.showAndWait();
         } catch (Exception e) {

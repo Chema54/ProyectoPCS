@@ -60,7 +60,7 @@ public class PracticanteDTO {
         return nombreUsuario;
     }
 
-    public String getFullName() {
+    public String getNombreCompleto() {
         return nombre + " " + apellidoPaterno + (apellidoMaterno != null && !apellidoMaterno.trim().isEmpty() ? " " + apellidoMaterno : "");
     }
 

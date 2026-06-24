@@ -34,7 +34,7 @@ public class ExperienciaProfesorDAO extends MoldeDAOCompleto<ExperienciaProfesor
             PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
             statement.setInt(1, dto.getProfesorId());
-            statement.setInt(2, dto.getExperienceId());
+            statement.setInt(2, dto.getExperienciaId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No ha sido posible registrar la relación de profesor y experiencia.");
@@ -84,9 +84,9 @@ public class ExperienciaProfesorDAO extends MoldeDAOCompleto<ExperienciaProfesor
     }
 
     private ExperienciaProfesorDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new ExperienciaProfesorDTO.ProfessorExperienceBuilder()
+        return new ExperienciaProfesorDTO.ExperienciaProfesorBuilder()
             .setProfesorId(resultSet.getInt("id_profesor"))
-            .setExperienceId(resultSet.getInt("id_experiencia"))
+            .setExperienciaId(resultSet.getInt("id_experiencia"))
             .build();
     }
 }

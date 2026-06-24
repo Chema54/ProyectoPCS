@@ -121,7 +121,7 @@ public class GUIAdministrarProyectos implements Initializable {
         // Projects
         colProjectName.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colProjectOrg.setCellValueFactory(new PropertyValueFactory<>("nombreOrganizacion"));
-        colProjectTitular.setCellValueFactory(new PropertyValueFactory<>("titularDisplay"));
+        colProjectTitular.setCellValueFactory(new PropertyValueFactory<>("nombreTitular"));
         colProjectStatus.setCellValueFactory(new PropertyValueFactory<>("estado"));
         colProjectTotal.setCellValueFactory(new PropertyValueFactory<>("cupoTotal"));
         colProjectAvailable.setCellValueFactory(new PropertyValueFactory<>("espaciosDisponibles"));
