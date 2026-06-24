@@ -19,7 +19,7 @@ public class Validador {
     public static boolean isValidStudentEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
             return false;
-        }
+        }        
         return email.matches("^zS\\d{8}@estudiantes\\.uv\\.mx$");
     }
 

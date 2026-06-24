@@ -38,19 +38,19 @@ public class GUIRegistrarAsignacion implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            List<PracticanteDTO> unassignedInterns = ServicioPracticante.getAllPracticantes().stream()
+            List<PracticanteDTO> practicantesSinAsignar = ServicioPracticante.getAllPracticantes().stream()
                     .filter(p -> !"Asignado".equals(p.getEstado()))
                     .collect(Collectors.toList());
-            comboBoxIntern.setItems(FXCollections.observableArrayList(unassignedInterns));
+            comboBoxIntern.setItems(FXCollections.observableArrayList(practicantesSinAsignar));
 
-            List<ProyectoDTO> availableProjects = ServicioProyecto.getAllProyectos().stream()
+            List<ProyectoDTO> proyectosDisponibles = ServicioProyecto.getAllProyectos().stream()
                     .filter(p -> p.getEspaciosDisponibles() > 0)
                     .collect(Collectors.toList());
-            comboBoxProject.setItems(FXCollections.observableArrayList(availableProjects));
+            comboBoxProject.setItems(FXCollections.observableArrayList(proyectosDisponibles));
 
             comboBoxEducationalExperience.setItems(FXCollections.observableArrayList(ServicioExperienciaEducativa.getAllExperiencias()));
             
-            if (unassignedInterns.isEmpty() || availableProjects.isEmpty()) {
+            if (practicantesSinAsignar.isEmpty() || proyectosDisponibles.isEmpty()) {
                 Modal.displayError(new ExcepcionMostrableUsuario(
                     "Registro Bloqueado", 
                     "Faltan elementos disponibles", 
@@ -94,17 +94,36 @@ public class GUIRegistrarAsignacion implements Initializable {
     }
 
     private boolean validateFields() {
-        if (comboBoxIntern.getValue() == null ||
-            comboBoxProject.getValue() == null ||
-            comboBoxEducationalExperience.getValue() == null) {
+        if (comboBoxProject.getValue() == null){
             
             Modal.displayError(new ExcepcionMostrableUsuario(
                 "Campos Incompletos",
                 "Faltan selecciones obligatorias",
-                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
+                "No ha seleccionado un proyecto, seleccione uno para continuar"
             ));
             return false;
         }
+        
+        if (comboBoxIntern.getValue() == null) {
+            
+            Modal.displayError(new ExcepcionMostrableUsuario(
+                "Campos Incompletos",
+                "Faltan selecciones obligatorias",
+                "No ha seleccionado un practicante, seleccione uno para continuar"
+            ));
+            return false;
+        }
+        
+        if (comboBoxEducationalExperience.getValue() == null) {
+            
+            Modal.displayError(new ExcepcionMostrableUsuario(
+                "Campos Incompletos",
+                "Faltan selecciones obligatorias",
+                "No ha seleccionado una experiencia educativa, seleccione una para continuar"
+            ));
+            return false;
+        }
+        
         return true;
     }
 

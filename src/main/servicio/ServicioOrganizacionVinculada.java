@@ -4,7 +4,6 @@ import java.util.List;
 import main.negocio.dto.OrganizacionVinculadaDTO;
 import main.basedatos.dao.OrganizacionVinculadaDAO;
 import main.comun.ExcepcionMostrableUsuario;
-import main.comun.Validador;
 
 public class ServicioOrganizacionVinculada {
 
