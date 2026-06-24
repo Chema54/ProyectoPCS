@@ -10,6 +10,8 @@ public class DocumentoAceptacionDTO implements Entregable {
     private final byte[] archivo;
     private final String estado;
     private final Date fechaLimite;
+    private final String nombrePracticante;
+    private final String nombreProyecto;
 
     private DocumentoAceptacionDTO(DocumentoAceptacionBuilder builder) {
         this.documentoAceptacionId = builder.documentoAceptacionId;
@@ -18,6 +20,8 @@ public class DocumentoAceptacionDTO implements Entregable {
         this.archivo = builder.archivo;
         this.estado = builder.estado;
         this.fechaLimite = builder.fechaLimite;
+        this.nombrePracticante = builder.nombrePracticante;
+        this.nombreProyecto = builder.nombreProyecto;
     }
 
     public int getDocumentoAceptacionId() {
@@ -44,6 +48,14 @@ public class DocumentoAceptacionDTO implements Entregable {
         return fechaLimite;
     }
 
+    public String getNombrePracticante() {
+        return nombrePracticante;
+    }
+
+    public String getNombreProyecto() {
+        return nombreProyecto;
+    }
+
     public static class DocumentoAceptacionBuilder {
 
         private int documentoAceptacionId;
@@ -52,6 +64,8 @@ public class DocumentoAceptacionDTO implements Entregable {
         private byte[] archivo;
         private String estado;
         private Date fechaLimite;
+        private String nombrePracticante;
+        private String nombreProyecto;
 
         public DocumentoAceptacionBuilder setDocumentoAceptacionId(int documentoAceptacionId) {
             this.documentoAceptacionId = documentoAceptacionId;
@@ -80,6 +94,16 @@ public class DocumentoAceptacionDTO implements Entregable {
 
         public DocumentoAceptacionBuilder setFechaLimite(Date fechaLimite) {
             this.fechaLimite = fechaLimite;
+            return this;
+        }
+
+        public DocumentoAceptacionBuilder setNombrePracticante(String nombrePracticante) {
+            this.nombrePracticante = nombrePracticante;
+            return this;
+        }
+
+        public DocumentoAceptacionBuilder setNombreProyecto(String nombreProyecto) {
+            this.nombreProyecto = nombreProyecto;
             return this;
         }
 

@@ -3,19 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/negocio/dto/ReporteDTO.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/aplicacion/vistas/coordinador/GUIAbrirPeriodoEscolar.fxml</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/negocio/dto/PeriodoDTO.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/basedatos/dao/PeriodoDAO.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/basedatos/dao/ProfesorDAO.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/basedatos/dao/ExperienciaEducativaDAO.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/aplicacion/controladores/coordinador/GUIAbrirPeriodoEscolar.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/servicio/ServicioPeriodo.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/aplicacion/vistas/practicante/GUIEntregarEntregables.fxml</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/aplicacion/controladores/practicante/GUIEntregarEntregables.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/aplicacion/vistas/practicante/GUIRealizarAutoevaluacion.fxml</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/aplicacion/controladores/profesor/GUIAdministrarEntregables.java</file>
-            <file>file:/C:/Users/josem/Documents/NetBeansProjects/ProyectoPCS/src/main/aplicacion/vistas/coordinador/GUIRevisarDocumentos.fxml</file>
+            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/servicio/ServicioPeriodo.java</file>
+            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/basedatos/dao/DocumentoAceptacionDAO.java</file>
         </group>
     </open-files>
 </project-private>

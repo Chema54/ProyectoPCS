@@ -24,10 +24,10 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
             = "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, archivo, estado, fecha_limite) VALUES (?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY
-            = "SELECT * FROM Documento_Aceptacion";
+            = "SELECT d.*, CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_practicante, pr.nombre AS nombre_proyecto FROM Documento_Aceptacion d LEFT JOIN Asignacion a ON d.id_asignacion = a.id_asignacion LEFT JOIN Practicante p ON a.id_practicante = p.id_practicante LEFT JOIN Proyecto pr ON a.id_proyecto = pr.id_proyecto";
 
     private static final String GET_QUERY
-            = "SELECT * FROM Documento_Aceptacion WHERE id_doc_aceptacion = ?";
+            = "SELECT d.*, CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_practicante, pr.nombre AS nombre_proyecto FROM Documento_Aceptacion d LEFT JOIN Asignacion a ON d.id_asignacion = a.id_asignacion LEFT JOIN Practicante p ON a.id_practicante = p.id_practicante LEFT JOIN Proyecto pr ON a.id_proyecto = pr.id_proyecto WHERE d.id_doc_aceptacion = ?";
 
     private static final String UPDATE_QUERY
             = "UPDATE Documento_Aceptacion SET id_asignacion = ?, nombre_entregable = ?, archivo = ?, estado = ?, fecha_limite = ? WHERE id_doc_aceptacion = ?";
@@ -36,7 +36,7 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
             = "DELETE FROM Documento_Aceptacion WHERE id_doc_aceptacion = ?";
 
     private static final String BATCH_INSERT_QUERY
-            = "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, estado, fecha_limitr) VALUES (?, ?, 'Habilitado', ?)";
+            = "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, estado, fecha_limite) VALUES (?, ?, 'Habilitado', ?)";
 
     @Override
     public void createOne(DocumentoAceptacionDTO documentoDTO) throws ExcepcionMostrableUsuario {
@@ -140,7 +140,7 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
 
     public List<DocumentoAceptacionDTO> getAllByAssignmentId(int asignacionId) throws ExcepcionMostrableUsuario {
         try (
-                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM Documento_Aceptacion WHERE id_asignacion = ?")) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT d.*, CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_practicante, pr.nombre AS nombre_proyecto FROM Documento_Aceptacion d LEFT JOIN Asignacion a ON d.id_asignacion = a.id_asignacion LEFT JOIN Practicante p ON a.id_practicante = p.id_practicante LEFT JOIN Proyecto pr ON a.id_proyecto = pr.id_proyecto WHERE d.id_asignacion = ?")) {
             statement.setInt(1, asignacionId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<DocumentoAceptacionDTO> list = new ArrayList<>();
@@ -155,6 +155,19 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
     }
 
     private DocumentoAceptacionDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
+        String nombrePracticante = null;
+        try {
+            nombrePracticante = resultSet.getString("nombre_practicante");
+        } catch (SQLException e) {
+            // Column not in result set (e.g. if queries aren't joined)
+        }
+        String nombreProyecto = null;
+        try {
+            nombreProyecto = resultSet.getString("nombre_proyecto");
+        } catch (SQLException e) {
+            // Column not in result set (e.g. if queries aren't joined)
+        }
+
         return new DocumentoAceptacionDTO.DocumentoAceptacionBuilder()
                 .setDocumentoAceptacionId(resultSet.getInt("id_doc_aceptacion"))
                 .setAsignacionId(resultSet.getInt("id_asignacion"))
@@ -162,6 +175,8 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
                 .setArchivo(resultSet.getBytes("archivo"))
                 .setEstado(resultSet.getString("estado"))
                 .setFechaLimite(resultSet.getDate("fecha_limite"))
+                .setNombrePracticante(nombrePracticante)
+                .setNombreProyecto(nombreProyecto)
                 .build();
     }
 }

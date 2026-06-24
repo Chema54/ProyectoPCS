@@ -10,34 +10,17 @@
     <children>
       <TabPane prefHeight="549.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Cursos Habilitados">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView layoutX="40.0" layoutY="75.0" prefHeight="378.0" prefWidth="820.0">
-                          <columns>
-                            <TableColumn minWidth="-1.0" prefWidth="250.0" text="NRC&#10;" />
-                              <TableColumn minWidth="-1.0" prefWidth="300.0" text="Periodo Escolar" />
-                              <TableColumn minWidth="-1.0" prefWidth="270.0" text="Estado Habilitado" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
           <Tab text="Documentos Entregados">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TableView fx:id="tvAcceptance" layoutX="38.0" layoutY="75.0" prefHeight="378.0" prefWidth="820.0">
                            <columns>
-                              <TableColumn fx:id="colAsigId" minWidth="-1.0" prefWidth="120.0" text="ID Asignación" />
-                              <TableColumn fx:id="colFile" minWidth="-1.0" prefWidth="350.0" text="Archivo" />
-                              <TableColumn fx:id="colStatus" minWidth="-1.0" prefWidth="180.0" text="Estado" />
-                              <TableColumn fx:id="colDate" minWidth="-1.0" prefWidth="170.0" text="Fecha Entrega" />
+                              <TableColumn fx:id="colPracticante" minWidth="-1.0" prefWidth="300.0" text="Nombre del Practicante" />
+                              <TableColumn fx:id="colProyecto" minWidth="-1.0" prefWidth="300.0" text="Nombre del Proyecto" />
+                              <TableColumn fx:id="colDocumento" minWidth="-1.0" prefWidth="220.0" text="Nombre Documento" />
                            </columns>
                         </TableView>
-                        <Button fx:id="btnHabilitar" layoutX="738.0" layoutY="31.0" mnemonicParsing="false" onAction="#habilitarDocumento" prefHeight="25.0" prefWidth="120.0" text="Habilitar" />
                         <Button fx:id="btnDescargar" layoutX="38.0" layoutY="31.0" mnemonicParsing="false" onAction="#descargarDocumento" prefHeight="25.0" prefWidth="120.0" text="Descargar PDF" />
                      </children>
                   </AnchorPane>

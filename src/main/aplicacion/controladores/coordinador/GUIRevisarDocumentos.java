@@ -10,28 +10,29 @@ import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.negocio.dto.DocumentoAceptacionDTO;
 import main.comun.Modal;
 import main.comun.ExcepcionMostrableUsuario;
-import main.basedatos.dao.DocumentoAceptacionDAO;
+import main.servicio.ServicioDocumento;
 
 public class GUIRevisarDocumentos implements Initializable {
 
     @FXML
     private TableView<DocumentoAceptacionDTO> tvAcceptance;
     @FXML
-    private TableColumn<DocumentoAceptacionDTO, Integer> colAsigId;
+    private TableColumn<DocumentoAceptacionDTO, String> colPracticante;
     @FXML
-    private TableColumn<DocumentoAceptacionDTO, String> colFile;
+    private TableColumn<DocumentoAceptacionDTO, String> colProyecto;
     @FXML
-    private TableColumn<DocumentoAceptacionDTO, String> colStatus;
-    @FXML
-    private TableColumn<DocumentoAceptacionDTO, String> colDate;
+    private TableColumn<DocumentoAceptacionDTO, String> colDocumento;
 
-    private final DocumentoAceptacionDAO documentoDAO = new DocumentoAceptacionDAO();
+    private final ServicioDocumento servicioDocumento = new ServicioDocumento();
+    @FXML
+    private Button btnDescargar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -40,40 +41,14 @@ public class GUIRevisarDocumentos implements Initializable {
     }
 
     private void initializeTable() {
-        colAsigId.setCellValueFactory(new PropertyValueFactory<>("asignacionId"));
-        colFile.setCellValueFactory(new PropertyValueFactory<>("archivo"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        colDate.setCellValueFactory(new PropertyValueFactory<>("fechaLimite"));
+        colPracticante.setCellValueFactory(new PropertyValueFactory<>("nombrePracticante"));
+        colProyecto.setCellValueFactory(new PropertyValueFactory<>("nombreProyecto"));
+        colDocumento.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
     }
 
     private void loadDocuments() {
         try {
-            tvAcceptance.setItems(FXCollections.observableArrayList(documentoDAO.getAll()));
-        } catch (ExcepcionMostrableUsuario e) {
-            Modal.displayError(e);
-        }
-    }
-
-    @FXML
-    private void habilitarDocumento(ActionEvent event) {
-        DocumentoAceptacionDTO selected = tvAcceptance.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            Modal.displayInformation("Selección Requerida", "Por favor seleccione un documento de la tabla.");
-            return;
-        }
-
-        try {
-            DocumentoAceptacionDTO updated = new DocumentoAceptacionDTO.DocumentoAceptacionBuilder()
-                    .setDocumentoAceptacionId(selected.getDocumentoAceptacionId())
-                    .setAsignacionId(selected.getAsignacionId())
-                    .setNombreEntregable(selected.getNombreEntregable())
-                    .setArchivo(selected.getArchivo())
-                    .setEstado("Pendiente")
-                    .setFechaLimite(selected.getFechaLimite())
-                    .build();
-            documentoDAO.updateOne(updated);
-            Modal.displayInformation("Éxito", "El documento ha sido habilitado para entrega.");
-            loadDocuments();
+            tvAcceptance.setItems(FXCollections.observableArrayList(servicioDocumento.obtenerDocumentosEntregados()));
         } catch (ExcepcionMostrableUsuario e) {
             Modal.displayError(e);
         }
