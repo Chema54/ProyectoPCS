@@ -5,6 +5,9 @@
         <group>
             <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/servicio/ServicioPeriodo.java</file>
             <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/basedatos/dao/DocumentoAceptacionDAO.java</file>
+            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/servicio/ServicioDocumento.java</file>
+            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/aplicacion/controladores/coordinador/GUIRevisarDocumentos.java</file>
+            <file>file:/home/leninrevan/NetBeansProjects/ProyectoPCS/src/main/aplicacion/controladores/GUIIniciarSesion.java</file>
         </group>
     </open-files>
 </project-private>

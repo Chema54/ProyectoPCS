@@ -19,9 +19,6 @@
 
         <Label layoutX="40.0" layoutY="80.0" text="Nombre del Proyecto" />
         <TextField fx:id="textFieldName" layoutX="200.0" layoutY="75.0" prefWidth="350.0" promptText="Ej. Desarrollo de Software UV" />
-        <Label layoutX="200.0" layoutY="105.0" text="Requerido. Máximo 100 caracteres." textFill="#cc0000">
-            <font><Font size="10.0" /></font>
-        </Label>
 
         <Label layoutX="40.0" layoutY="130.0" text="Organización Vinculada" />
         <!-- Ideally this should be a ComboBox loaded from DB via Service, but for now we use TextField or ComboBox -->
@@ -29,21 +26,12 @@
 
         <Label layoutX="40.0" layoutY="180.0" text="Nombre del Titular" />
         <TextField fx:id="textFieldTitularName" layoutX="200.0" layoutY="175.0" prefWidth="350.0" promptText="Ej. Dr. Juan Pérez" />
-        <Label layoutX="200.0" layoutY="205.0" text="Requerido. Máximo 100 caracteres." textFill="#cc0000">
-            <font><Font size="10.0" /></font>
-        </Label>
 
         <Label layoutX="40.0" layoutY="230.0" text="No. Personal del Titular" />
         <TextField fx:id="textFieldTitularPersonalNumber" layoutX="200.0" layoutY="225.0" prefWidth="150.0" promptText="Ej. 12345" />
-        <Label layoutX="200.0" layoutY="255.0" text="Requerido. Máximo 20 caracteres." textFill="#cc0000">
-            <font><Font size="10.0" /></font>
-        </Label>
 
         <Label layoutX="40.0" layoutY="280.0" text="Cupo Total" />
         <TextField fx:id="textFieldTotalCapacity" layoutX="200.0" layoutY="275.0" prefWidth="150.0" promptText="Ej. 3" />
-        <Label layoutX="200.0" layoutY="305.0" text="Requerido. Solo números." textFill="#cc0000">
-            <font><Font size="10.0" /></font>
-        </Label>
 
         <Button fx:id="btnGuardar" layoutX="330.0" layoutY="350.0" mnemonicParsing="false" onAction="#registerProject" prefWidth="100.0" text="Registrar" />
 
