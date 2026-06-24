@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package main.aplicacion.controladores.coordinador;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -93,13 +88,11 @@ public class GUIAbrirPeriodoEscolar implements Initializable {
     }
 
     private void initializeTables() {
-        // Periods
         colPeriodName.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));
         colPeriodStatus.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
-        // Educational Experiences
         colEENrc.setCellValueFactory(new PropertyValueFactory<>("nrc"));
         colEEName.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colEEPeriod.setCellValueFactory(new PropertyValueFactory<>("nombrePeriodo"));

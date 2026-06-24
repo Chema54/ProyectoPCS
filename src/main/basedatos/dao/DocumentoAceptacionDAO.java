@@ -1,9 +1,11 @@
 package main.basedatos.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import main.basedatos.dao.shape.MoldeDAOCompleto;
@@ -35,7 +37,7 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
             "DELETE FROM Documento_Aceptacion WHERE id_doc_aceptacion = ?";
             
     private static final String BATCH_INSERT_QUERY =
-            "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, estado) VALUES (?, ?, 'Inhabilitado')";
+            "INSERT INTO Documento_Aceptacion (id_asignacion, nombre_entregable, estado, fecha_limitr) VALUES (?, ?, 'Habilitado', ?)";
 
     @Override
     public void createOne(DocumentoAceptacionDTO documentoDTO) throws ExcepcionMostrableUsuario {
@@ -57,17 +59,21 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
     }
 
     public void createEntregables(List<Integer> assignmentIds) throws ExcepcionMostrableUsuario {
+        LocalDate unMesDespues = LocalDate.now().plusMonths(1);
+        Date fechaEntrega = Date.valueOf(unMesDespues);
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
+            Connection connection = ConexionBD.getInstance().getConnection();                
             PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
         ) {
             for (Integer asignacionId : assignmentIds) {
                 statement.setInt(1, asignacionId);
                 statement.setString(2, "Oficio de aceptacion");
+                statement.setDate(3, fechaEntrega);
                 statement.executeUpdate();
                 
                 statement.setInt(1, asignacionId);
                 statement.setString(2, "Cronograma de actividades");
+                statement.setDate(3, fechaEntrega);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
