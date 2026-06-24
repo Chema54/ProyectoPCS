@@ -93,10 +93,8 @@ public class GUIMenuPracticante implements Initializable {
 
     private void loadSelectedView(Toggle toggle) throws ExcepcionMostrableUsuario {
         if (toggle == toggleButtonAssignment) {
-            System.out.println("Cargando vista de Mi Proyecto...");
             changeSubView("/main/aplicacion/vistas/practicante/GUIEntregarDocumentosAceptacion.fxml");
         } else if (toggle == toggleButtonProgress) {
-            System.out.println("Cargando vista de mi progreso...");
             changeSubView("/main/aplicacion/vistas/practicante/GUIEntregarEntregables.fxml");
         } 
     }

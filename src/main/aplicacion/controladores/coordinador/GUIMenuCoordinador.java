@@ -102,16 +102,12 @@ public class GUIMenuCoordinador implements Initializable {
 
     private void loadSelectedView(Toggle toggle) throws ExcepcionMostrableUsuario {
         if (toggle == toggleButtonProject) {
-            System.out.println("Cargando vista de proyectos...");
             changeSubView("/main/aplicacion/vistas/coordinador/GUIAdministrarProyectos.fxml");
         } else if (toggle == toggleButtonPeriod) {
-            System.out.println("Cargando vista de periodos...");
             changeSubView("/main/aplicacion/vistas/coordinador/GUIAbrirPeriodoEscolar.fxml");
         } else if (toggle == toggleButtonUsers) {
-            System.out.println("Cargando vista de usuarios...");
             changeSubView("/main/aplicacion/vistas/coordinador/GUIAdministrarPracticantes.fxml");
         } else if (toggle == toggleButtonAcceptanceDocuments) {
-            System.out.println("Cargando vista de usuarios...");
             changeSubView("/main/aplicacion/vistas/coordinador/GUIRevisarDocumentos.fxml");
         }
     }

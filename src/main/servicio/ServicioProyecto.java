@@ -16,7 +16,7 @@ public class ServicioProyecto {
 
     public static void registrarNuevoProyecto(ProyectoDTO proyecto, ResponsableProyectoDTO titular) throws ExcepcionMostrableUsuario {
         
-        // 1. Validaciones de negocio
+
         if (proyecto.getCupoTotal() <= 0) {
              throw new ExcepcionMostrableUsuario(
                 "Restricción de Proyecto",
@@ -25,12 +25,10 @@ public class ServicioProyecto {
             );
         }
         
-        // 2. Guardar Titular y obtener
         ResponsableProyectoDAO titularDAO = new ResponsableProyectoDAO();
         titularDAO.createOne(titular);
         ResponsableProyectoDTO titularGuardado = titularDAO.getByNumeroPersonal(titular.getNumeroPersonal());
 
-        // 3. Recrear DTO del Proyecto con el ID del titular
         ProyectoDTO proyectoFinal = new ProyectoDTO.ProyectoBuilder()
                 .setNombre(proyecto.getNombre())
                 .setTitularId(titularGuardado.getTitularId())
@@ -39,13 +37,12 @@ public class ServicioProyecto {
                 .setEstado(proyecto.getEstado())
                 .build();
         
-        // 4. Guardar Proyecto en la BD
         ProyectoDAO proyectoDAO = new ProyectoDAO();
         proyectoDAO.createOne(proyectoFinal);
     }
 
     public static void actualizarProyecto(ProyectoDTO proyecto, ResponsableProyectoDTO titular) throws ExcepcionMostrableUsuario {
-        // 1. Validaciones de negocio
+
         if (proyecto.getCupoTotal() <= 0) {
              throw new ExcepcionMostrableUsuario(
                 "Restricción de Proyecto",
@@ -54,11 +51,9 @@ public class ServicioProyecto {
             );
         }
         
-        // 2. Actualizar Titular
         ResponsableProyectoDAO titularDAO = new ResponsableProyectoDAO();
         titularDAO.updateOne(titular);
         
-        // 3. Recrear DTO del Proyecto con el ID del titular que se mantuvo
         ProyectoDTO proyectoFinal = new ProyectoDTO.ProyectoBuilder()
                 .setProyectoId(proyecto.getProyectoId())
                 .setNombre(proyecto.getNombre())
@@ -68,7 +63,6 @@ public class ServicioProyecto {
                 .setEstado(proyecto.getEstado())
                 .build();
         
-        // 4. Actualizar Proyecto en la BD
         ProyectoDAO proyectoDAO = new ProyectoDAO();
         proyectoDAO.updateOne(proyectoFinal);
     }

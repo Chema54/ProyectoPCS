@@ -20,25 +20,19 @@ public class ServicioPeriodo {
     }
 
     public static void registerNewPeriod(PeriodoDTO period) throws ExcepcionMostrableUsuario {
-        // Validaciones estrictas de negocio
-        Date start = period.getFechaInicio();
-        Date end = period.getFechaFin();
-        
-        if (start != null && end != null && end.before(start)) {
-             throw new ExcepcionMostrableUsuario(
-                "Restricción de Periodo",
-                "Fechas inválidas",
-                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
-            );
+        if (period.getFechaInicio() == null || period.getFechaFin() == null) {
+            throw new ExcepcionMostrableUsuario("Campos Obligatorios", "Fechas no seleccionadas", "Por favor, seleccione tanto la fecha de inicio como la fecha de fin del periodo.");
         }
         
-        // Guardar Periodo en la BD
+        if (period.getFechaInicio().after(period.getFechaFin())) {
+            throw new ExcepcionMostrableUsuario("Fechas Inválidas", "El orden de las fechas es incorrecto", "La fecha de inicio no puede ser posterior a la fecha de fin.");
+        }
+
         PeriodoDAO dao = new PeriodoDAO();
         dao.createOne(period);
     }
 
     public static void openPeriod(int periodoId) throws ExcepcionMostrableUsuario {
-        // 1. Activar los proyectos asociados a este periodo
         AsignacionDAO asignacionDAO = new AsignacionDAO();
         List<Integer> projectIdsToActivate = asignacionDAO.getProyectoIdsByPeriod(periodoId);
         
@@ -47,7 +41,9 @@ public class ServicioPeriodo {
             proyectoDAO.changeStatus(proyectoId, "Activo");
         }
         
-        // 2. Get all assignments associated with this period
+        PeriodoDAO periodoDAO = new PeriodoDAO();
+        periodoDAO.changeStatus(periodoId, "Activo");
+        
         List<Integer> assignmentIds = asignacionDAO.getAsignacionIdsByPeriod(periodoId);
         
         if (assignmentIds.isEmpty()) {
@@ -59,7 +55,7 @@ public class ServicioPeriodo {
             throw new ExcepcionMostrableUsuario("Operación Inválida", "El periodo ya fue abierto", "Ya se han generado los documentos para este periodo.");
         }
 
-        // 3. Execute inserts for all deliverables in 'Inhabilitado' state
+        // Generación de plantillas de entregables inicializadas como 'Inhabilitado' hasta que un profesor asigne fecha límite
         documentoDAO.createEntregables(assignmentIds);
         
         ReporteDAO reporteDAO = new ReporteDAO();

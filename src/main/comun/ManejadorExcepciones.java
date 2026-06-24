@@ -126,6 +126,10 @@ public class ManejadorExcepciones {
             } else if (sqlState.startsWith("42")) {
                 context = "Error de Sintaxis";
                 detail = getSQLSyntaxErrorMessage(logger, e);
+            } else if (sqlState.startsWith("22")) {
+                header = "Datos Excedidos";
+                context = "Límite de Caracteres Excedido";
+                detail = "Uno o más campos exceden el tamaño máximo permitido por el sistema. Por favor, reduzca el número de caracteres e intente nuevamente.";
             }
         }
         

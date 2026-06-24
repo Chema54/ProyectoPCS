@@ -19,9 +19,9 @@ public class ServicioPracticante {
 
     public static void registrarNuevoPracticante(PracticanteDTO practicante) throws ExcepcionMostrableUsuario {
         
-        // 1. Validaciones de negocio estrictas
         String matricula = practicante.getMatricula();
         String email = practicante.getCorreo();
+
         
         if (!Validador.isValidEnrollment(matricula)) {
             throw new ExcepcionMostrableUsuario(
@@ -58,10 +58,9 @@ public class ServicioPracticante {
             );
         }
         
-        // 2. Generación automática de contraseña
+        // Generación automática de contraseña inicial
         String rawPassword = practicante.getMatricula().toLowerCase();
         
-        // 3. Crear DTO de Usuario y guardarlo para obtener el ID
         UsuarioDTO nuevoUsuario = new UsuarioDTO.UsuarioBuilder()
             .setNombreUsuario(practicante.getMatricula())
             .setPassword(rawPassword)
@@ -72,7 +71,6 @@ public class ServicioPracticante {
         UsuarioDAO userDAO = new UsuarioDAO();
         int nuevoIdUsuario = userDAO.createOneAndReturnId(nuevoUsuario);
         
-        // 4. Actualizar el DTO del Practicante con el ID del usuario generado
         PracticanteDTO practicanteAInsertar = new PracticanteDTO.PracticanteBuilder()
             .setPracticanteId(practicante.getPracticanteId())
             .setNombre(practicante.getNombre())
@@ -84,12 +82,10 @@ public class ServicioPracticante {
             .setUsuarioId(nuevoIdUsuario)
             .build();
         
-        // 5. Guardar Practicante en la BD
         practicanteDAO.createOne(practicanteAInsertar);
     }
 
     public static void actualizarPracticante(PracticanteDTO practicante) throws ExcepcionMostrableUsuario {
-        // Validaciones
         if (!Validador.isValidEnrollment(practicante.getMatricula())) {
             throw new ExcepcionMostrableUsuario("Restricción de Practicante", "Formato de matrícula inválido", "Dato asignado tiene un valor invalido");
         }

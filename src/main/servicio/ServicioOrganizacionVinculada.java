@@ -4,6 +4,7 @@ import java.util.List;
 import main.negocio.dto.OrganizacionVinculadaDTO;
 import main.basedatos.dao.OrganizacionVinculadaDAO;
 import main.comun.ExcepcionMostrableUsuario;
+import main.comun.Validador;
 
 public class ServicioOrganizacionVinculada {
 
@@ -13,6 +14,7 @@ public class ServicioOrganizacionVinculada {
     }
     
     public static void registrarNuevaOrganizacion(OrganizacionVinculadaDTO organizacion) throws ExcepcionMostrableUsuario {
+
         OrganizacionVinculadaDAO dao = new OrganizacionVinculadaDAO();
         
         if (dao.isNameRegistered(organizacion.getNombreEmpresa())) {
@@ -27,6 +29,7 @@ public class ServicioOrganizacionVinculada {
     }
 
     public static void actualizarOrganizacion(OrganizacionVinculadaDTO organizacion) throws ExcepcionMostrableUsuario {
+
         OrganizacionVinculadaDAO dao = new OrganizacionVinculadaDAO();
         dao.updateOne(organizacion);
     }

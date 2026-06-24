@@ -65,7 +65,6 @@ public class GUIIniciarSesion implements Initializable{
         String password = passwordFieldPassword.getText();
         
         if(!validarCampos(username, password)){
-            System.out.println("aqui deberias revisar el formato del texto");
             return;
         } 
         try {
@@ -81,10 +80,6 @@ public class GUIIniciarSesion implements Initializable{
                 );
             }
             Sesion.setCurrentUser(user);
-            System.out.println("Usuario: " + user.getNombreUsuario());
-            System.out.println("Rol: " + user.getRole());
-            System.out.println("Rol name: " + user.getRole().name());
-            System.out.println("Abriendo menú para: " + user.getRole());
             openMenuByRole(user.getRole());
         } catch (ExcepcionMostrableUsuario e) {
             LOGGER.error("{} - {}", e.getTitle(), e.getHeader());

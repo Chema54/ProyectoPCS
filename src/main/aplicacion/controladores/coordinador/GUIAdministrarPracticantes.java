@@ -237,51 +237,25 @@ public class GUIAdministrarPracticantes implements Initializable {
     }
 
     private void configureSearch() {
-
-        txtSearchCoordinator.textProperty()
-                .addListener((observable, oldValue, newValue) -> {
-
-                    filteredList.setPredicate(coordinator -> {
-
-                        if (newValue == null || newValue.trim().isEmpty()) {
-
-                            return true;
-
-                        }
-
-                        String filter
-                                = newValue.toLowerCase().trim();
-
-                        return String.valueOf(
-                                coordinator.getNombreUsuario()
-                        )
-                                .toLowerCase()
-                                .contains(filter)
-                                || String.valueOf(
-                                        coordinator.getNumeroPersonal()
-                                )
-                                        .toLowerCase()
-                                        .contains(filter)
-                                || String.valueOf(
-                                        coordinator.getNombre()
-                                )
-                                        .toLowerCase()
-                                        .contains(filter);
-
-                    });
-
+        if (txtSearchCoordinator != null && filteredList != null) {
+            txtSearchCoordinator.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredList.setPredicate(coordinator -> {
+                    if (newValue == null || newValue.trim().isEmpty()) {
+                        return true;
+                    }
+                    String filter = newValue.toLowerCase().trim();
+                    return String.valueOf(coordinator.getNombreUsuario()).toLowerCase().contains(filter)
+                            || String.valueOf(coordinator.getNumeroPersonal()).toLowerCase().contains(filter)
+                            || String.valueOf(coordinator.getNombre()).toLowerCase().contains(filter);
                 });
+            });
+        }
 
-        SortedList<CoordinadorDTO> sortedList
-                = new SortedList<>(filteredList);
-
-        sortedList.comparatorProperty()
-                .bind(
-                        tableViewCoordinator.comparatorProperty()
-                );
-
-        tableViewCoordinator.setItems(sortedList);
-
+        if (tableViewCoordinator != null && filteredList != null) {
+            SortedList<CoordinadorDTO> sortedList = new SortedList<>(filteredList);
+            sortedList.comparatorProperty().bind(tableViewCoordinator.comparatorProperty());
+            tableViewCoordinator.setItems(sortedList);
+        }
     }
 
     @FXML

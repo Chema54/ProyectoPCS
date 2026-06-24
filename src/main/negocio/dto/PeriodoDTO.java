@@ -8,12 +8,14 @@ public class PeriodoDTO {
     private final String nombre;
     private final Date fechaInicio;
     private final Date fechaFin;
+    private final String estado;
 
     private PeriodoDTO(PeriodoBuilder builder) {
         this.periodoId = builder.periodoId;
         this.nombre = builder.nombre;
         this.fechaInicio = builder.fechaInicio;
         this.fechaFin = builder.fechaFin;
+        this.estado = builder.estado;
     }
 
     public int getPeriodoId() {
@@ -33,13 +35,7 @@ public class PeriodoDTO {
     }
 
     public String getEstado() {
-        if (fechaInicio == null || fechaFin == null) return "Desconocido";
-        java.time.LocalDate now = java.time.LocalDate.now();
-        java.time.LocalDate inicio = fechaInicio.toLocalDate();
-        java.time.LocalDate fin = fechaFin.toLocalDate();
-        if (now.isBefore(inicio)) return "Próximo";
-        if (now.isAfter(fin)) return "Concluido";
-        return "Activo";
+        return estado;
     }
 
     @Override
@@ -53,6 +49,7 @@ public class PeriodoDTO {
         private String nombre;
         private Date fechaInicio;
         private Date fechaFin;
+        private String estado;
 
         public PeriodoBuilder setPeriodoId(int periodoId) {
             this.periodoId = periodoId;
@@ -71,6 +68,11 @@ public class PeriodoDTO {
 
         public PeriodoBuilder setFechaFin(Date endDate) {
             this.fechaFin = endDate;
+            return this;
+        }
+
+        public PeriodoBuilder setEstado(String estado) {
+            this.estado = estado;
             return this;
         }
 

@@ -87,7 +87,6 @@ public class GUIRegistrarUsuarioCoordinador implements Initializable {
     }
 
     private void validateFields() throws ExcepcionMostrableUsuario {
-
     }
 
     private void clearFields() {

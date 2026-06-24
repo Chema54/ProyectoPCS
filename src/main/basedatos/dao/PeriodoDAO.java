@@ -22,7 +22,7 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
     
 
     private static final String CREATE_QUERY =
-            "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin) VALUES (?, ?, ?)";
+            "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin, estado) VALUES (?, ?, ?, ?)";
 
     private static final String GET_ALL_QUERY =
             "SELECT * FROM Periodo";
@@ -31,7 +31,7 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
             "SELECT * FROM Periodo WHERE id_periodo = ?";
 
     private static final String UPDATE_QUERY =
-            "UPDATE Periodo SET nombre = ?, fecha_inicio = ?, fecha_fin = ? WHERE id_periodo = ?";
+            "UPDATE Periodo SET nombre = ?, fecha_inicio = ?, fecha_fin = ?, estado = ? WHERE id_periodo = ?";
 
     private static final String DELETE_QUERY =
             "DELETE FROM Periodo WHERE id_periodo = ?";
@@ -49,6 +49,7 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
             statement.setString(1, periodDTO.getNombre());
             statement.setDate(2, periodDTO.getFechaInicio());
             statement.setDate(3, periodDTO.getFechaFin());
+            statement.setString(4, periodDTO.getEstado() != null ? periodDTO.getEstado() : "Cerrado");
 
             statement.executeUpdate();
 
@@ -112,7 +113,8 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
             statement.setString(1, periodDTO.getNombre());
             statement.setDate(2, periodDTO.getFechaInicio());
             statement.setDate(3, periodDTO.getFechaFin());
-            statement.setInt(4, periodDTO.getPeriodoId());
+            statement.setString(4, periodDTO.getEstado() != null ? periodDTO.getEstado() : "Cerrado");
+            statement.setInt(5, periodDTO.getPeriodoId());
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -133,12 +135,26 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
         }
     }
 
+    public void changeStatus(Integer id, String status) throws ExcepcionMostrableUsuario {
+        try (
+            Connection connection = ConexionBD.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement("UPDATE Periodo SET estado = ? WHERE id_periodo = ?")
+        ) {
+            statement.setString(1, status);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se pudo actualizar el estado del periodo.");
+        }
+    }
+
     private PeriodoDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
         return new PeriodoDTO.PeriodoBuilder()
             .setPeriodoId(resultSet.getInt("id_periodo"))
             .setNombre(resultSet.getString("nombre"))
             .setFechaInicio(resultSet.getDate("fecha_inicio"))
             .setFechaFin(resultSet.getDate("fecha_fin"))
+            .setEstado(resultSet.getString("estado"))
             .build();
     }
 }
