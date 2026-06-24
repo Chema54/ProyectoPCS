@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="520.0" prefWidth="560.0" stylesheets="@../../estilos/FormsStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.coordinador.profesor.GUIDarAltaProfesor">
+    <children>
+        <Label layoutX="40.0" layoutY="25.0" text="Registrar Profesor">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="40.0" layoutY="75.0" text="Nombre" />
+        <TextField fx:id="textFieldName" layoutX="210.0" layoutY="70.0" prefWidth="300.0" promptText="Nombre" />
+
+        <Label layoutX="40.0" layoutY="120.0" text="Apellido paterno" />
+        <TextField fx:id="textFieldPaternalSurname" layoutX="210.0" layoutY="115.0" prefWidth="300.0" promptText="Apellido paterno" />
+
+        <Label layoutX="40.0" layoutY="165.0" text="Apellido materno" />
+        <TextField fx:id="textFieldMaternalSurname" layoutX="210.0" layoutY="160.0" prefWidth="300.0" promptText="Apellido materno" />
+
+        <Label layoutX="40.0" layoutY="210.0" text="No. de personal" />
+        <TextField fx:id="textFieldStaffNumber" layoutX="210.0" layoutY="205.0" prefWidth="300.0" promptText="Ejemplo: 100100" />
+
+        <Label layoutX="40.0" layoutY="255.0" text="Correo" />
+        <TextField fx:id="textFieldEmail" layoutX="210.0" layoutY="250.0" prefWidth="300.0" promptText="correo@uv.mx" />
+
+        <Label layoutX="40.0" layoutY="300.0" text="Usuario" />
+        <TextField fx:id="textFieldUsername" layoutX="210.0" layoutY="295.0" prefWidth="300.0" promptText="usuario del profesor" />
+
+        <Label layoutX="40.0" layoutY="345.0" text="Contraseña" />
+        <PasswordField fx:id="passwordFieldPassword" layoutX="210.0" layoutY="340.0" prefWidth="300.0" promptText="Contraseña" />
+
+        <Label layoutX="40.0" layoutY="390.0" text="Estado" />
+        <ComboBox fx:id="comboBoxStatus" layoutX="210.0" layoutY="385.0" prefWidth="300.0" />
+
+        <Button fx:id="btnGuardar" layoutX="290.0" layoutY="455.0" mnemonicParsing="false" onAction="#registerProfessor" prefWidth="100.0" text="Guardar" />
+        <Button fx:id="btnCancelar" layoutX="410.0" layoutY="455.0" mnemonicParsing="false" onAction="#cancel" prefWidth="100.0" text="Cancelar" />
+    </children>
+</AnchorPane>

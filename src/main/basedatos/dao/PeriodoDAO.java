@@ -4,22 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import main.basedatos.dao.shape.MoldeDAOCompleto;
-import main.negocio.dto.PeriodoDTO;
-import main.comun.ManejadorExcepciones;
-import main.comun.ExcepcionMostrableUsuario;
 import main.basedatos.ConexionBD;
+import main.basedatos.dao.shape.MoldeDAOCompleto;
+import main.comun.ExcepcionMostrableUsuario;
+import main.comun.ManejadorExcepciones;
+import main.negocio.dto.PeriodoDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(PeriodoDAO.class);
-    
-    
 
     private static final String CREATE_QUERY =
             "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin, estado) VALUES (?, ?, ?, ?)";
@@ -44,7 +41,10 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
     public Integer createAndReturnId(PeriodoDTO periodDTO) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS)
+            PreparedStatement statement = connection.prepareStatement(
+                    CREATE_QUERY,
+                    PreparedStatement.RETURN_GENERATED_KEYS
+            )
         ) {
             statement.setString(1, periodDTO.getNombre());
             statement.setDate(2, periodDTO.getFechaInicio());
@@ -56,12 +56,17 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     return generatedKeys.getInt(1);
-                } else {
-                    throw new SQLException("Error al crear el periodo, no se pudo obtener el ID.");
                 }
+
+                throw new SQLException("Error al crear el periodo, no se pudo obtener el ID.");
             }
+
         } catch (SQLException e) {
-            throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+            throw ManejadorExcepciones.handleSQLException(
+                    LOGGER,
+                    e,
+                    "No se ha podido realizar la operación, debido a un error de conexión."
+            );
         }
     }
 
@@ -81,7 +86,11 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
             return periods;
 
         } catch (SQLException e) {
-            throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+            throw ManejadorExcepciones.handleSQLException(
+                    LOGGER,
+                    e,
+                    "No se ha podido realizar la operación, debido a un error de conexión."
+            );
         }
     }
 
@@ -92,15 +101,21 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
             PreparedStatement statement = connection.prepareStatement(GET_QUERY)
         ) {
             statement.setInt(1, id);
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return mapResultSetToDTO(resultSet);
                 }
+
                 return null;
             }
 
         } catch (SQLException e) {
-            throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+            throw ManejadorExcepciones.handleSQLException(
+                    LOGGER,
+                    e,
+                    "No se ha podido realizar la operación, debido a un error de conexión."
+            );
         }
     }
 
@@ -115,10 +130,15 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
             statement.setDate(3, periodDTO.getFechaFin());
             statement.setString(4, periodDTO.getEstado() != null ? periodDTO.getEstado() : "Cerrado");
             statement.setInt(5, periodDTO.getPeriodoId());
-            
+
             statement.executeUpdate();
+
         } catch (SQLException e) {
-            throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+            throw ManejadorExcepciones.handleSQLException(
+                    LOGGER,
+                    e,
+                    "No se ha podido realizar la operación, debido a un error de conexión."
+            );
         }
     }
 
@@ -130,31 +150,72 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
         ) {
             statement.setInt(1, id);
             statement.executeUpdate();
+
         } catch (SQLException e) {
-            throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
+            throw ManejadorExcepciones.handleSQLException(
+                    LOGGER,
+                    e,
+                    "No se ha podido realizar la operación, debido a un error de conexión."
+            );
         }
     }
 
     public void changeStatus(Integer id, String status) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement("UPDATE Periodo SET estado = ? WHERE id_periodo = ?")
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE Periodo SET estado = ? WHERE id_periodo = ?"
+            )
         ) {
             statement.setString(1, status);
             statement.setInt(2, id);
             statement.executeUpdate();
+
         } catch (SQLException e) {
-            throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se pudo actualizar el estado del periodo.");
+            throw ManejadorExcepciones.handleSQLException(
+                    LOGGER,
+                    e,
+                    "No se pudo actualizar el estado del periodo."
+            );
+        }
+    }
+
+    public List<PeriodoDTO> getClosedPeriods() throws ExcepcionMostrableUsuario {
+        String query =
+                "SELECT * "
+                + "FROM Periodo "
+                + "WHERE estado = 'Cerrado' "
+                + "ORDER BY fecha_inicio DESC";
+
+        try (
+            Connection connection = ConexionBD.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery()
+        ) {
+            List<PeriodoDTO> periods = new ArrayList<>();
+
+            while (resultSet.next()) {
+                periods.add(mapResultSetToDTO(resultSet));
+            }
+
+            return periods;
+
+        } catch (SQLException e) {
+            throw ManejadorExcepciones.handleSQLException(
+                    LOGGER,
+                    e,
+                    "No se pudo consultar los periodos sin abrir."
+            );
         }
     }
 
     private PeriodoDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
         return new PeriodoDTO.PeriodoBuilder()
-            .setPeriodoId(resultSet.getInt("id_periodo"))
-            .setNombre(resultSet.getString("nombre"))
-            .setFechaInicio(resultSet.getDate("fecha_inicio"))
-            .setFechaFin(resultSet.getDate("fecha_fin"))
-            .setEstado(resultSet.getString("estado"))
-            .build();
+                .setPeriodoId(resultSet.getInt("id_periodo"))
+                .setNombre(resultSet.getString("nombre"))
+                .setFechaInicio(resultSet.getDate("fecha_inicio"))
+                .setFechaFin(resultSet.getDate("fecha_fin"))
+                .setEstado(resultSet.getString("estado"))
+                .build();
     }
 }

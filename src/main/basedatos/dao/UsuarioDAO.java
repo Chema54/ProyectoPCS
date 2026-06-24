@@ -83,7 +83,6 @@ public class UsuarioDAO extends MoldeDAOCompleto<UsuarioDTO, String> {
                         String password = userDTO.getContrasenia();
                         nativeStmt.execute("CREATE USER '" + username + "'@'%' IDENTIFIED BY '" + password + "'");
                         nativeStmt.execute("GRANT ALL PRIVILEGES ON practicas_profesionales.* TO '" + username + "'@'%'");
-                        nativeStmt.execute("FLUSH PRIVILEGES");
                     } catch (SQLException ex) {
                         LOGGER.error("No se pudo crear el usuario nativo en MySQL", ex);
                         throw new ExcepcionMostrableUsuario("Error de Base de Datos", "Error creando credenciales", "No se pudieron crear las credenciales nativas.");

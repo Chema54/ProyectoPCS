@@ -270,8 +270,10 @@ public class GUIAdministrarPracticantes implements Initializable {
 
     @FXML
     private void handleRegisterProfessor(ActionEvent event) {
-
-        // Próximamente
+        openModalWindow(
+            "/main/aplicacion/vistas/coordinador/profesor/GUIDarAltaProfesor.fxml",
+            "Registrar Nuevo Profesor"
+        );
     }
 
     @FXML

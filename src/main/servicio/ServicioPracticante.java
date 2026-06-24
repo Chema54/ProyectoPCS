@@ -1,7 +1,6 @@
 package main.servicio;
 
 import java.util.List;
-import java.util.UUID;
 import main.negocio.dto.PracticanteDTO;
 import main.negocio.dto.UsuarioDTO;
 import main.negocio.dto.enumeracion.RolUsuario;
@@ -50,15 +49,16 @@ public class ServicioPracticante {
         }
         
         PracticanteDAO practicanteDAO = new PracticanteDAO();
-        if (practicanteDAO.isEnrollmentRegistered(matricula)) {
+        UsuarioDAO userDAO = new UsuarioDAO();
+
+        if (practicanteDAO.isEnrollmentRegistered(matricula) || userDAO.getOne(matricula) != null) {
             throw new ExcepcionMostrableUsuario(
                 "Matrícula Duplicada",
                 "El Practicante ya existe en el sistema",
-                "Existe un Practicante Registrado con la misma matricula"
+                "Existe un usuario o practicante registrado con la misma matrícula"
             );
         }
         
-        // Generación automática de contraseña inicial
         String rawPassword = practicante.getMatricula().toLowerCase();
         
         UsuarioDTO nuevoUsuario = new UsuarioDTO.UsuarioBuilder()
@@ -68,7 +68,6 @@ public class ServicioPracticante {
             .setAcceso(true)
             .build();
             
-        UsuarioDAO userDAO = new UsuarioDAO();
         int nuevoIdUsuario = userDAO.createOneAndReturnId(nuevoUsuario);
         
         PracticanteDTO practicanteAInsertar = new PracticanteDTO.PracticanteBuilder()

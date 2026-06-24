@@ -1,26 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="650.0" prefWidth="700.0" stylesheets="@../estilos/FormsStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.practicante.GUIRealizarAutoevaluacion">
-   <children>
-      <Label layoutX="20.0" layoutY="15.0" text="Formulario de Autoevaluación">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Label>
-      <Label layoutX="20.0" layoutY="50.0" text="1: Totalmente en desacuerdo, 2: En desacuerdo, 3: Indeciso, 4: De acuerdo, 5: Totalmente de acuerdo" textFill="#666666" />
-      
-      <ScrollPane layoutX="20.0" layoutY="80.0" prefHeight="500.0" prefWidth="660.0">
-         <content>
-            <VBox fx:id="vboxQuestions" spacing="15.0" style="-fx-padding: 10;">
-               <!-- Preguntas generadas dinámicamente -->
-            </VBox>
-         </content>
-      </ScrollPane>
-      
-      <Button layoutX="260.0" layoutY="600.0" mnemonicParsing="false" onAction="#guardarYGenerar" text="Guardar y Generar PDF" />
-      <Button layoutX="430.0" layoutY="600.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
-   </children>
+<AnchorPane prefHeight="650.0"
+            prefWidth="700.0"
+            stylesheets="@../estilos/FormsStyle.css"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.aplicacion.controladores.practicante.GUIRealizarAutoevaluacion">
+
+    <children>
+        <Label layoutX="20.0"
+               layoutY="15.0"
+               text="Formulario de Autoevaluación">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="20.0"
+               layoutY="50.0"
+               text="1: Totalmente en desacuerdo, 2: En desacuerdo, 3: Indeciso, 4: De acuerdo, 5: Totalmente de acuerdo"
+               textFill="#666666" />
+
+        <ScrollPane layoutX="20.0"
+                    layoutY="80.0"
+                    prefHeight="500.0"
+                    prefWidth="660.0">
+            <content>
+                <VBox fx:id="vboxPreguntas"
+                      spacing="15.0"
+                      style="-fx-padding: 10;">
+                    <!-- Preguntas generadas dinámicamente -->
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <Button layoutX="260.0"
+                layoutY="600.0"
+                mnemonicParsing="false"
+                onAction="#guardarYGenerar"
+                text="Guardar y Generar PDF" />
+
+        <Button layoutX="430.0"
+                layoutY="600.0"
+                mnemonicParsing="false"
+                onAction="#cancelar"
+                text="Cancelar" />
+    </children>
 </AnchorPane>

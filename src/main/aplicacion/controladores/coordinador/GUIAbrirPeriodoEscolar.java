@@ -124,6 +124,16 @@ public class GUIAbrirPeriodoEscolar implements Initializable {
         openModalWindow("/main/aplicacion/vistas/coordinador/periodo/GUIRegistrarPeriodo.fxml", "Abrir Periodo Escolar");
         cargarDatosTabla();
     }
+    
+    @FXML
+    private void handleRegisterEE(ActionEvent event) {
+        openModalWindow(
+                "/main/aplicacion/vistas/coordinador/experiencia/GUIRegistroEE.fxml",
+                "Registrar Experiencia Educativa"
+        );
+
+        cargarDatosTabla();
+    }
 
     @FXML
     private void handleOpenPeriod(ActionEvent event) {

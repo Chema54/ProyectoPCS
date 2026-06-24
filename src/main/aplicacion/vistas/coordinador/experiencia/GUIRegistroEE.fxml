@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" stylesheets="@../../estilos/FormsStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.coordinador.experiencia.GUIRegistroEE">
+    <children>
+        <Label layoutX="40.0" layoutY="25.0" text="Cargar Experiencia Educativa">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="40.0" layoutY="80.0" text="Nombre" />
+        <TextField fx:id="textFieldName" layoutX="210.0" layoutY="75.0" prefWidth="330.0" promptText="Ejemplo: Prácticas Profesionales" />
+        <Label fx:id="labelErrorName" layoutX="210.0" layoutY="105.0" prefWidth="330.0" style="-fx-text-fill: red;" />
+
+        <Label layoutX="40.0" layoutY="140.0" text="NRC" />
+        <TextField fx:id="textFieldNrc" layoutX="210.0" layoutY="135.0" prefWidth="330.0" promptText="Ejemplo: 85248" />
+        <Label fx:id="labelErrorNrc" layoutX="210.0" layoutY="165.0" prefWidth="330.0" style="-fx-text-fill: red;" />
+
+        <Label layoutX="40.0" layoutY="200.0" text="Periodo sin abrir" />
+        <ComboBox fx:id="comboBoxPeriod" layoutX="210.0" layoutY="195.0" prefWidth="330.0" promptText="Seleccione un periodo" />
+        <Label fx:id="labelErrorPeriod" layoutX="210.0" layoutY="225.0" prefWidth="330.0" style="-fx-text-fill: red;" />
+
+        <Button fx:id="btnAbrirNuevoPeriodo" layoutX="210.0" layoutY="250.0" mnemonicParsing="false" onAction="#openRegisterPeriod" prefWidth="180.0" text="Abrir un Nuevo Periodo" />
+
+        <Label layoutX="40.0" layoutY="310.0" text="Profesor disponible" />
+        <ComboBox fx:id="comboBoxProfessor" layoutX="210.0" layoutY="305.0" prefWidth="330.0" promptText="Seleccione un profesor" />
+        <Label fx:id="labelErrorProfessor" layoutX="210.0" layoutY="335.0" prefWidth="330.0" style="-fx-text-fill: red;" />
+
+        <Button fx:id="btnFinalizar" layoutX="310.0" layoutY="420.0" mnemonicParsing="false" onAction="#registerEducationalExperience" prefWidth="120.0" text="Finalizar Registro" />
+        <Button fx:id="btnCancelar" layoutX="450.0" layoutY="420.0" mnemonicParsing="false" onAction="#cancel" prefWidth="90.0" text="Cancelar" />
+    </children>
+</AnchorPane>
