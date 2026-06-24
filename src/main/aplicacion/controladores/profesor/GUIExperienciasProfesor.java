@@ -38,7 +38,7 @@ public class GUIExperienciasProfesor implements Initializable {
             
             colNRC.setCellValueFactory(new PropertyValueFactory<>("nrc"));
             colName.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-            colPeriod.setCellValueFactory(new PropertyValueFactory<>("periodName"));
+            colPeriod.setCellValueFactory(new PropertyValueFactory<>("nombrePeriodo"));
             
             tableViewExperiencias.setItems(FXCollections.observableArrayList(exp));
         } catch (ExcepcionMostrableUsuario ex) {

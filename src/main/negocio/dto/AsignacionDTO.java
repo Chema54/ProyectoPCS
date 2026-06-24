@@ -12,7 +12,7 @@ public class AsignacionDTO {
     private final String matriculaPracticante;
     private final String nrc;
 
-    private AsignacionDTO(AssignmentBuilder builder) {
+    private AsignacionDTO(AsignacionBuilder builder) {
         this.asignacionId = builder.asignacionId;
         this.practicanteId = builder.practicanteId;
         this.proyectoId = builder.proyectoId;
@@ -65,7 +65,7 @@ public class AsignacionDTO {
         return "Asignacion{" + "ID=" + asignacionId + ", estado=" + estado + '}';
     }
 
-    public static class AssignmentBuilder {
+    public static class AsignacionBuilder {
 
         private int asignacionId;
         private int practicanteId;
@@ -77,47 +77,47 @@ public class AsignacionDTO {
         private String matriculaPracticante;
         private String nrc;
 
-        public AssignmentBuilder setAsignacionId(int asignacionId) {
+        public AsignacionBuilder setAsignacionId(int asignacionId) {
             this.asignacionId = asignacionId;
             return this;
         }
 
-        public AssignmentBuilder setPracticanteId(int internId) {
-            this.practicanteId = internId;
+        public AsignacionBuilder setPracticanteId(int practicanteId) {
+            this.practicanteId = practicanteId;
             return this;
         }
 
-        public AssignmentBuilder setProyectoId(int projectId) {
-            this.proyectoId = projectId;
+        public AsignacionBuilder setProyectoId(int proyectoId) {
+            this.proyectoId = proyectoId;
             return this;
         }
 
-        public AssignmentBuilder setExperienciaEducativaId(int educationalExperienceId) {
-            this.experienciaEducativaId = educationalExperienceId;
+        public AsignacionBuilder setExperienciaEducativaId(int experienciaEducativaId) {
+            this.experienciaEducativaId = experienciaEducativaId;
             return this;
         }
 
-        public AssignmentBuilder setEstado(String status) {
+        public AsignacionBuilder setEstado(String status) {
             this.estado = status;
             return this;
         }
 
-        public AssignmentBuilder setNombreProyecto(String projectName) {
-            this.nombreProyecto = projectName;
+        public AsignacionBuilder setNombreProyecto(String nombreProyecto) {
+            this.nombreProyecto = nombreProyecto;
             return this;
         }
 
-        public AssignmentBuilder setNombrePracticante(String practicanteName) {
-            this.nombrePracticante = practicanteName;
+        public AsignacionBuilder setNombrePracticante(String nombrePracticante) {
+            this.nombrePracticante = nombrePracticante;
             return this;
         }
 
-        public AssignmentBuilder setMatriculaPracticante(String practicanteMatricula) {
-            this.matriculaPracticante = practicanteMatricula;
+        public AsignacionBuilder setMatriculaPracticante(String matriculaPracticante) {
+            this.matriculaPracticante = matriculaPracticante;
             return this;
         }
 
-        public AssignmentBuilder setNrc(String nrc) {
+        public AsignacionBuilder setNrc(String nrc) {
             this.nrc = nrc;
             return this;
         }

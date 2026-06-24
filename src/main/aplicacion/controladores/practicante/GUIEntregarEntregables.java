@@ -113,7 +113,7 @@ public class GUIEntregarEntregables implements Initializable {
             }
             try {
                 byte[] fileBytes = Files.readAllBytes(file.toPath());
-                ReporteDTO updated = new ReporteDTO.ReportBuilder()
+                ReporteDTO updated = new ReporteDTO.ReporteBuilder()
                         .setMonthlyReportId(selected.getMonthlyReportId())
                         .setAsignacionId(selected.getAsignacionId())
                         .setNombreEntregable(selected.getNombreEntregable())

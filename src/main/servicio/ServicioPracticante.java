@@ -20,10 +20,10 @@ public class ServicioPracticante {
     public static void registrarNuevoPracticante(PracticanteDTO practicante) throws ExcepcionMostrableUsuario {
         
         // 1. Validaciones de negocio estrictas
-        String enrollment = practicante.getMatricula();
+        String matricula = practicante.getMatricula();
         String email = practicante.getCorreo();
         
-        if (!Validador.isValidEnrollment(enrollment)) {
+        if (!Validador.isValidEnrollment(matricula)) {
             throw new ExcepcionMostrableUsuario(
                 "Restricción de Practicante",
                 "Formato de matrícula inválido",
@@ -50,7 +50,7 @@ public class ServicioPracticante {
         }
         
         PracticanteDAO practicanteDAO = new PracticanteDAO();
-        if (practicanteDAO.isEnrollmentRegistered(enrollment)) {
+        if (practicanteDAO.isEnrollmentRegistered(matricula)) {
             throw new ExcepcionMostrableUsuario(
                 "Matrícula Duplicada",
                 "El Practicante ya existe en el sistema",
@@ -62,7 +62,7 @@ public class ServicioPracticante {
         String rawPassword = practicante.getMatricula().toLowerCase();
         
         // 3. Crear DTO de Usuario y guardarlo para obtener el ID
-        UsuarioDTO nuevoUsuario = new UsuarioDTO.UserBuilder()
+        UsuarioDTO nuevoUsuario = new UsuarioDTO.UsuarioBuilder()
             .setNombreUsuario(practicante.getMatricula())
             .setPassword(rawPassword)
             .setRole(RolUsuario.INTERN)
@@ -73,7 +73,7 @@ public class ServicioPracticante {
         int nuevoIdUsuario = userDAO.createOneAndReturnId(nuevoUsuario);
         
         // 4. Actualizar el DTO del Practicante con el ID del usuario generado
-        PracticanteDTO practicanteAInsertar = new PracticanteDTO.InternBuilder()
+        PracticanteDTO practicanteAInsertar = new PracticanteDTO.PracticanteBuilder()
             .setPracticanteId(practicante.getPracticanteId())
             .setNombre(practicante.getNombre())
             .setApellidoPaterno(practicante.getApellidoPaterno())

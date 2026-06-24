@@ -64,18 +64,18 @@ public class ReporteDAO extends MoldeDAOCompleto<ReporteDTO, Integer> {
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
         ) {
-            for (Integer assignmentId : assignmentIds) {
+            for (Integer asignacionId : assignmentIds) {
                 for (int i = 1; i <= 4; i++) {
-                    statement.setInt(1, assignmentId);
+                    statement.setInt(1, asignacionId);
                     statement.setString(2, "Reporte mensual " + i);
                     statement.executeUpdate();
                 }
                 
-                statement.setInt(1, assignmentId);
+                statement.setInt(1, asignacionId);
                 statement.setString(2, "Primer informe 210 hrs");
                 statement.executeUpdate();
                 
-                statement.setInt(1, assignmentId);
+                statement.setInt(1, asignacionId);
                 statement.setString(2, "Segundo informe 420 hrs.");
                 statement.executeUpdate();
             }
@@ -158,12 +158,12 @@ public class ReporteDAO extends MoldeDAOCompleto<ReporteDTO, Integer> {
         }
     }
     
-    public List<ReporteDTO> getAllByAssignmentId(int assignmentId) throws ExcepcionMostrableUsuario {
+    public List<ReporteDTO> getAllByAssignmentId(int asignacionId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Reporte WHERE id_asignacion = ?")
         ) {
-            statement.setInt(1, assignmentId);
+            statement.setInt(1, asignacionId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<ReporteDTO> list = new ArrayList<>();
                 while (resultSet.next()) {
@@ -185,7 +185,7 @@ public class ReporteDAO extends MoldeDAOCompleto<ReporteDTO, Integer> {
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<ReporteDTO> list = new ArrayList<>();
                 while (resultSet.next()) {
-                    list.add(new ReporteDTO.ReportBuilder()
+                    list.add(new ReporteDTO.ReporteBuilder()
                         .setNombreEntregable(resultSet.getString("nombre_entregable"))
                         .setEstado(resultSet.getString("estado"))
                         .build());
@@ -212,7 +212,7 @@ public class ReporteDAO extends MoldeDAOCompleto<ReporteDTO, Integer> {
     }
 
 private ReporteDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new ReporteDTO.ReportBuilder()
+        return new ReporteDTO.ReporteBuilder()
             .setMonthlyReportId(resultSet.getInt("id_reporte"))
             .setAsignacionId(resultSet.getInt("id_asignacion"))
             .setNombreEntregable(resultSet.getString("nombre_entregable"))

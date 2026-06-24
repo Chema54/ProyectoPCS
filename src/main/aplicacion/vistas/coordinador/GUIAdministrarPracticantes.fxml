@@ -22,10 +22,8 @@
                               <TableColumn fx:id="colInternStatus" prefWidth="224.0" text="Estado del Usuario" />
                           </columns>
                         </TableView>
-                        <TextField fx:id="txtSearchIntern" layoutX="37.0" layoutY="32.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el nombre del Practicante" />
-                        <ComboBox fx:id="cmbFilterIntern" layoutX="400.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <Button fx:id="btnModifyIntern" layoutX="520.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleModifyIntern" prefHeight="25.0" prefWidth="160.0" text="Modificar Practicante" />
-                        <Button fx:id="btnRegisterIntern" layoutX="690.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleRegisterIntern" prefHeight="25.0" prefWidth="160.0" text="Registrar Practicante" />
+                        <Button fx:id="btnModifyIntern" layoutX="40.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleModifyIntern" prefHeight="25.0" prefWidth="160.0" text="Modificar Practicante" />
+                        <Button fx:id="btnRegisterIntern" layoutX="700.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleRegisterIntern" prefHeight="25.0" prefWidth="160.0" text="Registrar Practicante" />
                      </children>
                   </AnchorPane>
             </content>
@@ -41,10 +39,8 @@
                               <TableColumn minWidth="-1.0" prefWidth="320.0" text="Nombre del Profesor" />
                            </columns>
                         </TableView>
-                        <TextField fx:id="txtSearchProfessor" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el no. del Personal" />
-                        <ComboBox fx:id="cmbFilterProfessor" layoutX="400.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <Button fx:id="btnModifyProfessor" layoutX="540.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleModifyProfessor" prefHeight="25.0" prefWidth="140.0" text="Modificar Profesor" />
-                        <Button fx:id="btnRegisterProfessor" layoutX="690.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleRegisterProfessor" prefHeight="25.0" prefWidth="140.0" text="Registrar Profesor&#10;" />
+                        <Button fx:id="btnModifyProfessor" layoutX="38.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleModifyProfessor" prefHeight="25.0" prefWidth="140.0" text="Modificar Profesor" />
+                        <Button fx:id="btnRegisterProfessor" layoutX="718.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleRegisterProfessor" prefHeight="25.0" prefWidth="140.0" text="Registrar Profesor&#10;" />
                      </children>
                   </AnchorPane>
             </content>
@@ -60,9 +56,7 @@
                               <TableColumn fx:id="columnName" minWidth="-1.0" prefWidth="320.0" text="Nombre del Coordinador" />
                            </columns>
                         </TableView>
-                        <TextField fx:id="txtSearchCoordinator" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el no. del Personal" />
-                        <ComboBox fx:id="cmbFilterCoordinator" layoutX="400.0" layoutY="31.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
-                        <Button fx:id="btnRegisterCoordinator" layoutX="690.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleRegisterCoordinator" prefHeight="25.0" prefWidth="160.0" text="Registrar Coordinador" />
+                        <Button fx:id="btnRegisterCoordinator" layoutX="653.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleRegisterCoordinator" prefHeight="28.0" prefWidth="205.0" text="Registrar Coordinador" />
                      </children>
                   </AnchorPane>
                </content>

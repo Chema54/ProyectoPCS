@@ -50,7 +50,7 @@ public class GUIRegistrarOrganizacion implements Initializable {
         }
 
         try {
-            OrganizacionVinculadaDTO organizacion = new OrganizacionVinculadaDTO.LinkedOrganizationBuilder()
+            OrganizacionVinculadaDTO organizacion = new OrganizacionVinculadaDTO.OrganizacionBuilder()
                     .setOrganizacionId(organizacionToUpdate != null ? organizacionToUpdate.getOrganizacionId() : 0)
                     .setNombreEmpresa(textFieldBusinessName.getText().trim())
                     .setDireccion(textFieldLocation.getText().trim())

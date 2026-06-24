@@ -156,7 +156,7 @@ public class ProfesorDAO extends MoldeDAOCompleto<ProfesorDTO, Integer> {
     }
     
     private ProfesorDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new ProfesorDTO.ProfessorBuilder()
+        return new ProfesorDTO.ProfesorBuilder()
             .setProfesorId(resultSet.getInt("id_profesor"))
             .setPersonalNumber(resultSet.getString("numero_personal"))
             .setNombre(resultSet.getString("nombre"))

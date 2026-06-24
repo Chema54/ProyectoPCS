@@ -125,7 +125,7 @@ public class OrganizacionVinculadaDAO extends MoldeDAOCompleto<OrganizacionVincu
     }
     
     private OrganizacionVinculadaDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new OrganizacionVinculadaDTO.LinkedOrganizationBuilder()
+        return new OrganizacionVinculadaDTO.OrganizacionBuilder()
             .setOrganizacionId(resultSet.getInt("id_organizacion"))
             .setNombreEmpresa(resultSet.getString("razon_social"))
             .setDireccion(resultSet.getString("ubicacion"))
@@ -134,12 +134,12 @@ public class OrganizacionVinculadaDAO extends MoldeDAOCompleto<OrganizacionVincu
             .build();
     }
 
-    public boolean isNameRegistered(String businessName) throws ExcepcionMostrableUsuario {
+    public boolean isNameRegistered(String nombreEmpresa) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CHECK_NAME_QUERY)
         ) {
-            statement.setString(1, businessName);
+            statement.setString(1, nombreEmpresa);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt(1) > 0;

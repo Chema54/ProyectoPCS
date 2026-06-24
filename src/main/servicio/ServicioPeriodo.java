@@ -37,18 +37,18 @@ public class ServicioPeriodo {
         dao.createOne(period);
     }
 
-    public static void openPeriod(int periodId) throws ExcepcionMostrableUsuario {
+    public static void openPeriod(int periodoId) throws ExcepcionMostrableUsuario {
         // 1. Activar los proyectos asociados a este periodo
         AsignacionDAO asignacionDAO = new AsignacionDAO();
-        List<Integer> projectIdsToActivate = asignacionDAO.getProyectoIdsByPeriod(periodId);
+        List<Integer> projectIdsToActivate = asignacionDAO.getProyectoIdsByPeriod(periodoId);
         
         ProyectoDAO proyectoDAO = new ProyectoDAO();
-        for (Integer projectId : projectIdsToActivate) {
-            proyectoDAO.changeStatus(projectId, "Activo");
+        for (Integer proyectoId : projectIdsToActivate) {
+            proyectoDAO.changeStatus(proyectoId, "Activo");
         }
         
         // 2. Get all assignments associated with this period
-        List<Integer> assignmentIds = asignacionDAO.getAsignacionIdsByPeriod(periodId);
+        List<Integer> assignmentIds = asignacionDAO.getAsignacionIdsByPeriod(periodoId);
         
         if (assignmentIds.isEmpty()) {
             throw new ExcepcionMostrableUsuario("Sin asignaciones", "No se puede abrir el periodo", "No hay proyectos asignados en este periodo.");

@@ -20,7 +20,7 @@
                   <Insets top="5.0" />
                </opaqueInsets>
             </Button>
-            <Label fx:id="labelTitleMenu" prefHeight="46.0" prefWidth="235.0" text="Menu Principal-Coordinador" textFill="WHITE">
+            <Label fx:id="labelTitleMenu" prefHeight="46.0" prefWidth="268.0" text="Menu Principal-Coordinador" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -42,7 +42,7 @@
                   <Font size="18.0" />
                </font>
             </ToggleButton>
-            <ToggleButton fx:id="toggleButtonPeriod" layoutX="10.0" layoutY="88.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="138.0" style="-fx-background-color: #FF9800;" text="Periodos Escolares" textFill="WHITE">
+            <ToggleButton fx:id="toggleButtonPeriod" layoutX="10.0" layoutY="88.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="138.0" style="-fx-background-color: #FF9800;" text="Periodos&#10;Escolares" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>

@@ -47,7 +47,7 @@ public class ResponsableProyectoDTO {
             return this;
         }
 
-        public TitularBuilder setNombre(String name) {
+        public TitularBuilder setNombre(String nombre) {
             this.nombre = nombre;
             return this;
         }
@@ -57,8 +57,8 @@ public class ResponsableProyectoDTO {
             return this;
         }
 
-        public TitularBuilder setOrganizacionId(int organizationId) {
-            this.organizacionId = organizationId;
+        public TitularBuilder setOrganizacionId(int organizacionId) {
+            this.organizacionId = organizacionId;
             return this;
         }
 

@@ -91,7 +91,7 @@ public class GUIRegistrarProyecto implements Initializable {
                     .setOrganizacionId(comboBoxOrganization.getValue().getOrganizacionId())
                     .build();
 
-            ProyectoDTO proyecto = new ProyectoDTO.ProjectBuilder()
+            ProyectoDTO proyecto = new ProyectoDTO.ProyectoBuilder()
                     .setProyectoId(proyectoToUpdate != null ? proyectoToUpdate.getProyectoId() : 0)
                     .setNombre(textFieldName.getText().trim())
                     .setCupoTotal(capacity)

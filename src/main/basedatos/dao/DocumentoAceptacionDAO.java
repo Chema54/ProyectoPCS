@@ -61,12 +61,12 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
         ) {
-            for (Integer assignmentId : assignmentIds) {
-                statement.setInt(1, assignmentId);
+            for (Integer asignacionId : assignmentIds) {
+                statement.setInt(1, asignacionId);
                 statement.setString(2, "Oficio de aceptacion");
                 statement.executeUpdate();
                 
-                statement.setInt(1, assignmentId);
+                statement.setInt(1, asignacionId);
                 statement.setString(2, "Cronograma de actividades");
                 statement.executeUpdate();
             }
@@ -146,12 +146,12 @@ public class DocumentoAceptacionDAO extends MoldeDAOCompleto<DocumentoAceptacion
         }
     }
     
-    public List<DocumentoAceptacionDTO> getAllByAssignmentId(int assignmentId) throws ExcepcionMostrableUsuario {
+    public List<DocumentoAceptacionDTO> getAllByAssignmentId(int asignacionId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Documento_Aceptacion WHERE id_asignacion = ?")
         ) {
-            statement.setInt(1, assignmentId);
+            statement.setInt(1, asignacionId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<DocumentoAceptacionDTO> list = new ArrayList<>();
                 while (resultSet.next()) {

@@ -63,13 +63,13 @@ public class EvaluacionOVDAO extends MoldeDAOCompleto<EvaluacionOVDTO, Integer> 
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
         ) {
-            for (Integer assignmentId : assignmentIds) {
+            for (Integer asignacionId : assignmentIds) {
                 // 2 inserts required per assignment
-                statement.setInt(1, assignmentId);
+                statement.setInt(1, asignacionId);
                 statement.setString(2, "Primera evaluación de la OV");
                 statement.executeUpdate();
                 
-                statement.setInt(1, assignmentId);
+                statement.setInt(1, asignacionId);
                 statement.setString(2, "Segunda evaluación de la OV");
                 statement.executeUpdate();
             }
@@ -151,12 +151,12 @@ public class EvaluacionOVDAO extends MoldeDAOCompleto<EvaluacionOVDTO, Integer> 
         }
     }
     
-    public List<EvaluacionOVDTO> getAllByAssignmentId(int assignmentId) throws ExcepcionMostrableUsuario {
+    public List<EvaluacionOVDTO> getAllByAssignmentId(int asignacionId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Evaluacion_OV WHERE id_asignacion = ?")
         ) {
-            statement.setInt(1, assignmentId);
+            statement.setInt(1, asignacionId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<EvaluacionOVDTO> list = new ArrayList<>();
                 while (resultSet.next()) {

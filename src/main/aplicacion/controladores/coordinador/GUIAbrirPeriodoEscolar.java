@@ -15,8 +15,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -65,6 +68,20 @@ public class GUIAbrirPeriodoEscolar implements Initializable {
 
     private final PeriodoDAO periodoDAO = new PeriodoDAO();
     private final ExperienciaEducativaDAO eeDAO = new ExperienciaEducativaDAO();
+    @FXML
+    private TextField txtSearchPeriod;
+    @FXML
+    private ComboBox<?> cmbFilterPeriod;
+    @FXML
+    private Button btnOpenPeriod;
+    @FXML
+    private Button btnRegisterPeriod;
+    @FXML
+    private TextField txtSearchNRC;
+    @FXML
+    private ComboBox<?> cmbFilterEE;
+    @FXML
+    private Button btnRegisterEE;
 
     /**
      * Initializes the controller class.
@@ -85,7 +102,7 @@ public class GUIAbrirPeriodoEscolar implements Initializable {
         // Educational Experiences
         colEENrc.setCellValueFactory(new PropertyValueFactory<>("nrc"));
         colEEName.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colEEPeriod.setCellValueFactory(new PropertyValueFactory<>("periodName"));
+        colEEPeriod.setCellValueFactory(new PropertyValueFactory<>("nombrePeriodo"));
         colEEProfessor.setCellValueFactory(new PropertyValueFactory<>("nombreProfesor"));
     }
 

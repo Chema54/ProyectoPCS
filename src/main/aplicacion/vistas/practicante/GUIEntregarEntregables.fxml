@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilos/SubMenuStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.aplicacion.controladores.practicante.GUIEntregarEntregables">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilos/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.practicante.GUIEntregarEntregables">
     <children>
       <TabPane prefHeight="549.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -21,7 +22,7 @@
                         <TableView fx:id="tableViewReports" layoutX="20.0" layoutY="60.0" prefHeight="350.0" prefWidth="620.0">
                           <columns>
                             <TableColumn fx:id="colReportName" prefWidth="400.0" text="Reporte" />
-                            <TableColumn fx:id="colReportStatus" prefWidth="200.0" text="Estado" />
+                            <TableColumn fx:id="colReportStatus" prefWidth="218.0" text="Estado" />
                           </columns>
                         </TableView>
                         <Button layoutX="250.0" layoutY="440.0" mnemonicParsing="false" onAction="#entregarReporte" text="Entregar Reporte" />
@@ -39,7 +40,7 @@
                         <TableView fx:id="tableViewEvaluations" layoutX="20.0" layoutY="60.0" prefHeight="350.0" prefWidth="620.0">
                           <columns>
                             <TableColumn fx:id="colEvalName" prefWidth="400.0" text="Evaluación" />
-                            <TableColumn fx:id="colEvalStatus" prefWidth="200.0" text="Estado" />
+                            <TableColumn fx:id="colEvalStatus" prefWidth="218.0" text="Estado" />
                           </columns>
                         </TableView>
                         <Button layoutX="250.0" layoutY="440.0" mnemonicParsing="false" onAction="#entregarEvaluacion" text="Entregar Evaluación" />
@@ -57,7 +58,7 @@
                         <TableView fx:id="tableViewSelfAssessments" layoutX="20.0" layoutY="60.0" prefHeight="350.0" prefWidth="620.0">
                           <columns>
                             <TableColumn fx:id="colSelfName" prefWidth="400.0" text="Autoevaluación" />
-                            <TableColumn fx:id="colSelfStatus" prefWidth="200.0" text="Estado" />
+                            <TableColumn fx:id="colSelfStatus" prefWidth="218.0" text="Estado" />
                           </columns>
                         </TableView>
                         <Button layoutX="260.0" layoutY="380.0" mnemonicParsing="false" onAction="#uploadSelfAssessment" text="Realizar Formulario" />

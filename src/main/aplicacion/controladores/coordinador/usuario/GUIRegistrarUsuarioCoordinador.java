@@ -55,7 +55,7 @@ public class GUIRegistrarUsuarioCoordinador implements Initializable {
             String username = textFieldUsername.getText().trim();
             String password = passwordFieldPassword.getText();
 
-            UsuarioDTO user = new UsuarioDTO.UserBuilder()
+            UsuarioDTO user = new UsuarioDTO.UsuarioBuilder()
                 .setNombreUsuario(username)
                 .setPassword(password)
                 .setRole(RolUsuario.COORDINADOR)
@@ -64,7 +64,7 @@ public class GUIRegistrarUsuarioCoordinador implements Initializable {
 
             userDAO.createOne(user);
             UsuarioDTO createdUser = userDAO.getOne(username);
-            CoordinadorDTO coordinator = new CoordinadorDTO.CoordinatorBuilder()
+            CoordinadorDTO coordinator = new CoordinadorDTO.CoordinadorBuilder()
                 .setIDUser(createdUser.getUserID())
                 .setNumeroPersonal(academicNumber)
                 .setNombre(name)

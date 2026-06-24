@@ -8,7 +8,7 @@ public class OrganizacionVinculadaDTO {
     private final String telefono;
     private final String correo;
 
-    private OrganizacionVinculadaDTO(LinkedOrganizationBuilder builder) {
+    private OrganizacionVinculadaDTO(OrganizacionBuilder builder) {
         this.organizacionId = builder.organizacionId;
         this.nombreEmpresa = builder.nombreEmpresa;
         this.direccion = builder.direccion;
@@ -41,7 +41,7 @@ public class OrganizacionVinculadaDTO {
         return nombreEmpresa;
     }
 
-    public static class LinkedOrganizationBuilder {
+    public static class OrganizacionBuilder {
 
         private int organizacionId;
         private String nombreEmpresa;
@@ -49,27 +49,27 @@ public class OrganizacionVinculadaDTO {
         private String telefono;
         private String correo;
 
-        public LinkedOrganizationBuilder setOrganizacionId(int organizationId) {
-            this.organizacionId = organizationId;
+        public OrganizacionBuilder setOrganizacionId(int organizacionId) {
+            this.organizacionId = organizacionId;
             return this;
         }
 
-        public LinkedOrganizationBuilder setNombreEmpresa(String businessName) {
-            this.nombreEmpresa = businessName;
+        public OrganizacionBuilder setNombreEmpresa(String nombreEmpresa) {
+            this.nombreEmpresa = nombreEmpresa;
             return this;
         }
 
-        public LinkedOrganizationBuilder setDireccion(String location) {
-            this.direccion = location;
+        public OrganizacionBuilder setDireccion(String direccion) {
+            this.direccion = direccion;
             return this;
         }
 
-        public LinkedOrganizationBuilder setTelefono(String phoneNumber) {
-            this.telefono = phoneNumber;
+        public OrganizacionBuilder setTelefono(String telefono) {
+            this.telefono = telefono;
             return this;
         }
 
-        public LinkedOrganizationBuilder setCorreo(String email) {
+        public OrganizacionBuilder setCorreo(String correo) {
             this.correo = correo;
             return this;
         }

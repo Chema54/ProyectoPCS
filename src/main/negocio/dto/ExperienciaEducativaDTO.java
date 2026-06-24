@@ -9,7 +9,7 @@ public class ExperienciaEducativaDTO {
     private final String nombrePeriodo;
     private final String nombreProfesor;
 
-    private ExperienciaEducativaDTO(EducationalExperienceBuilder builder) {
+    private ExperienciaEducativaDTO(ExperienciaEducativaBuilder builder) {
         this.experienciaEducativaId = builder.experienciaEducativaId;
         this.nombre = builder.nombre;
         this.periodoId = builder.periodoId;
@@ -47,7 +47,7 @@ public class ExperienciaEducativaDTO {
         return nrc + " - " + nombre;
     }
 
-    public static class EducationalExperienceBuilder {
+    public static class ExperienciaEducativaBuilder {
 
         private int experienciaEducativaId;
         private String nombre;
@@ -56,33 +56,33 @@ public class ExperienciaEducativaDTO {
         private String nombrePeriodo;
         private String nombreProfesor;
 
-        public EducationalExperienceBuilder setExperienciaEducativaId(int educationalExperienceId) {
-            this.experienciaEducativaId = educationalExperienceId;
+        public ExperienciaEducativaBuilder setExperienciaEducativaId(int experienciaEducativaId) {
+            this.experienciaEducativaId = experienciaEducativaId;
             return this;
         }
 
-        public EducationalExperienceBuilder setNombre(String name) {
+        public ExperienciaEducativaBuilder setNombre(String nombre) {
             this.nombre = nombre;
             return this;
         }
 
-        public EducationalExperienceBuilder setPeriodoId(Integer periodId) {
-            this.periodoId = periodId;
+        public ExperienciaEducativaBuilder setPeriodoId(Integer periodoId) {
+            this.periodoId = periodoId;
             return this;
         }
 
-        public EducationalExperienceBuilder setNrc(String nrc) {
+        public ExperienciaEducativaBuilder setNrc(String nrc) {
             this.nrc = nrc;
             return this;
         }
 
-        public EducationalExperienceBuilder setNombrePeriodo(String periodName) {
-            this.nombrePeriodo = periodName;
+        public ExperienciaEducativaBuilder setNombrePeriodo(String nombrePeriodo) {
+            this.nombrePeriodo = nombrePeriodo;
             return this;
         }
 
-        public EducationalExperienceBuilder setNombreProfesor(String professorName) {
-            this.nombreProfesor = professorName;
+        public ExperienciaEducativaBuilder setNombreProfesor(String nombreProfesor) {
+            this.nombreProfesor = nombreProfesor;
             return this;
         }
 

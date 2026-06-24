@@ -169,13 +169,13 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
         }
     }
 
-    public void changeStatus(int internId, String status) throws ExcepcionMostrableUsuario {
+    public void changeStatus(int practicanteId, String status) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CHANGE_STATUS_QUERY)
         ) {
             statement.setString(1, status);
-            statement.setInt(2, internId);
+            statement.setInt(2, practicanteId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(
@@ -183,12 +183,12 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
         }
     }
 
-    public boolean isEnrollmentRegistered(String enrollment) throws ExcepcionMostrableUsuario {
+    public boolean isEnrollmentRegistered(String matricula) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CHECK_ENROLLMENT_QUERY)
         ) {
-            statement.setString(1, enrollment);
+            statement.setString(1, matricula);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt(1) > 0;
@@ -201,12 +201,12 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
         return false;
     }
 
-    public PracticanteDTO getByEnrollment(String enrollment) throws ExcepcionMostrableUsuario {
+    public PracticanteDTO getByEnrollment(String matricula) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario WHERE p.matricula = ?")
         ) {
-            statement.setString(1, enrollment);
+            statement.setString(1, matricula);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return mapResultSetToDTO(resultSet);
@@ -219,7 +219,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
     }
 
     private PracticanteDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new PracticanteDTO.InternBuilder()
+        return new PracticanteDTO.PracticanteBuilder()
             .setPracticanteId(resultSet.getInt("id_practicante"))
             .setNombre(resultSet.getString("nombre"))
             .setApellidoPaterno(resultSet.getString("apellido_paterno"))

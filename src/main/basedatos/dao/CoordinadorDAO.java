@@ -140,7 +140,7 @@ public class CoordinadorDAO extends MoldeDAOCompleto<CoordinadorDTO, Integer> {
     }
 
     private CoordinadorDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new CoordinadorDTO.CoordinatorBuilder()
+        return new CoordinadorDTO.CoordinadorBuilder()
             .setIDCoordinator(resultSet.getInt("id_coordinador"))
             .setIDUser(resultSet.getInt("id_usuario"))
             .setNombreUsuario(resultSet.getString("username"))

@@ -10,7 +10,7 @@ public class ServicioProyectoTest {
 
     @Test
     public void testRegistrarNuevoProyecto_CupoNegativo() {
-        ProyectoDTO proyecto = new ProyectoDTO.ProjectBuilder()
+        ProyectoDTO proyecto = new ProyectoDTO.ProyectoBuilder()
                 .setNombre("Desarrollo de Software")
                 .setCupoTotal(-5) // Invalido, no puede ser negativo
                 .setEspaciosDisponibles(-5)
@@ -33,7 +33,7 @@ public class ServicioProyectoTest {
     
     @Test
     public void testRegistrarNuevoProyecto_CupoCero() {
-        ProyectoDTO proyecto = new ProyectoDTO.ProjectBuilder()
+        ProyectoDTO proyecto = new ProyectoDTO.ProyectoBuilder()
                 .setNombre("Desarrollo de IA")
                 .setCupoTotal(0) // Invalido, debe ser mayor a 0
                 .setEspaciosDisponibles(0)
@@ -56,7 +56,7 @@ public class ServicioProyectoTest {
 
     @Test
     public void testRegistrarNuevoProyecto_NombreVacio() {
-        ProyectoDTO proyecto = new ProyectoDTO.ProjectBuilder()
+        ProyectoDTO proyecto = new ProyectoDTO.ProyectoBuilder()
                 .setNombre("") // Nombre vacio
                 .setCupoTotal(5)
                 .setEspaciosDisponibles(5)

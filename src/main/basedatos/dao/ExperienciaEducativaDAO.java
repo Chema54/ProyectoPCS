@@ -134,12 +134,12 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
         }
     }
     
-        public List<ExperienciaEducativaDTO> getExperienciasByUserId(int userId) throws ExcepcionMostrableUsuario {
+        public List<ExperienciaEducativaDTO> getExperienciasByUserId(int usuarioId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT e.*, p.nombre as periodName, concat(prof.nombre, ' ', prof.apellido_paterno) as professorName FROM ExperienciaEducativa e INNER JOIN ProfesorExperiencia pe ON e.id_experiencia = pe.id_experiencia INNER JOIN Profesor prof ON pe.id_profesor = prof.id_profesor LEFT JOIN Periodo p ON e.id_periodo = p.id_periodo WHERE prof.id_usuario = ?")
         ) {
-            statement.setInt(1, userId);
+            statement.setInt(1, usuarioId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<ExperienciaEducativaDTO> list = new ArrayList<>();
                 while (resultSet.next()) {
@@ -153,10 +153,10 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
     }
 
 private ExperienciaEducativaDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        int periodId = resultSet.getInt("id_periodo");
-        Integer periodIdOrNull = resultSet.wasNull() ? null : periodId;
+        int periodoId = resultSet.getInt("id_periodo");
+        Integer periodIdOrNull = resultSet.wasNull() ? null : periodoId;
         
-        return new ExperienciaEducativaDTO.EducationalExperienceBuilder()
+        return new ExperienciaEducativaDTO.ExperienciaEducativaBuilder()
             .setExperienciaEducativaId(resultSet.getInt("id_experiencia"))
             .setNombre(resultSet.getString("nombre"))
             .setPeriodoId(periodIdOrNull)

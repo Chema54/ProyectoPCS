@@ -23,8 +23,11 @@ import org.apache.logging.log4j.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.negocio.dto.AsignacionDTO;
 import main.negocio.dto.OrganizacionVinculadaDTO;
@@ -84,6 +87,26 @@ public class GUIAdministrarProyectos implements Initializable {
     private final ProyectoDAO proyectoDAO = new ProyectoDAO();
     private final AsignacionDAO asignacionDAO = new AsignacionDAO();
     private final OrganizacionVinculadaDAO organizacionDAO = new OrganizacionVinculadaDAO();
+    @FXML
+    private TextField txtSearchProject;
+    @FXML
+    private ComboBox<?> cmbFilterProject;
+    @FXML
+    private Button btnModifyProject;
+    @FXML
+    private Button btnRegisterProject;
+    @FXML
+    private Button btnAssignProject;
+    @FXML
+    private ComboBox<?> cmbFilterAssignment;
+    @FXML
+    private TextField txtSearchIntern;
+    @FXML
+    private TextField txtSearchOrganization;
+    @FXML
+    private Button btnModifyOrganization;
+    @FXML
+    private Button btnRegisterOrganization;
 
     /**
      * Initializes the controller class.

@@ -80,7 +80,7 @@ public class GUIRegistrarPeriodo implements Initializable {
         }
 
         try {
-            PeriodoDTO periodo = new PeriodoDTO.PeriodBuilder()
+            PeriodoDTO periodo = new PeriodoDTO.PeriodoBuilder()
                     .setNombre(textFieldName.getText().trim())
                     .setFechaInicio(java.sql.Date.valueOf(datePickerStartDate.getValue()))
                     .setFechaFin(java.sql.Date.valueOf(datePickerEndDate.getValue()))

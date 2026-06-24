@@ -11,7 +11,7 @@ public class ProyectoDTO {
     private final String nombreOrganizacion;
     private final String titularDisplay;
 
-    private ProyectoDTO(ProjectBuilder builder) {
+    private ProyectoDTO(ProyectoBuilder builder) {
         this.proyectoId = builder.proyectoId;
         this.nombre = builder.nombre;
         this.titularId = builder.titularId;
@@ -59,7 +59,7 @@ public class ProyectoDTO {
         return nombre + " (" + espaciosDisponibles + "/" + cupoTotal + " disponibles)";
     }
 
-    public static class ProjectBuilder {
+    public static class ProyectoBuilder {
 
         private int proyectoId;
         private String nombre;
@@ -70,42 +70,42 @@ public class ProyectoDTO {
         private String nombreOrganizacion;
         private String titularDisplay;
 
-        public ProjectBuilder setProyectoId(int projectId) {
-            this.proyectoId = projectId;
+        public ProyectoBuilder setProyectoId(int proyectoId) {
+            this.proyectoId = proyectoId;
             return this;
         }
 
-        public ProjectBuilder setNombre(String name) {
+        public ProyectoBuilder setNombre(String nombre) {
             this.nombre = nombre;
             return this;
         }
 
-        public ProjectBuilder setTitularId(Integer titularId) {
+        public ProyectoBuilder setTitularId(Integer titularId) {
             this.titularId = titularId;
             return this;
         }
 
-        public ProjectBuilder setEstado(String status) {
+        public ProyectoBuilder setEstado(String status) {
             this.estado = status;
             return this;
         }
 
-        public ProjectBuilder setCupoTotal(int cupoTotal) {
+        public ProyectoBuilder setCupoTotal(int cupoTotal) {
             this.cupoTotal = cupoTotal;
             return this;
         }
 
-        public ProjectBuilder setEspaciosDisponibles(int espaciosDisponibles) {
+        public ProyectoBuilder setEspaciosDisponibles(int espaciosDisponibles) {
             this.espaciosDisponibles = espaciosDisponibles;
             return this;
         }
 
-        public ProjectBuilder setNombreOrganizacion(String organizationName) {
-            this.nombreOrganizacion = organizationName;
+        public ProyectoBuilder setNombreOrganizacion(String nombreOrganizacion) {
+            this.nombreOrganizacion = nombreOrganizacion;
             return this;
         }
 
-        public ProjectBuilder setTitularDisplay(String titularDisplay) {
+        public ProyectoBuilder setTitularDisplay(String titularDisplay) {
             this.titularDisplay = titularDisplay;
             return this;
         }

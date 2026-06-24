@@ -63,8 +63,8 @@ public class AutoevaluacionDAO extends MoldeDAOCompleto<AutoevaluacionDTO, Integ
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(BATCH_INSERT_QUERY)
         ) {
-            for (Integer assignmentId : assignmentIds) {
-                statement.setInt(1, assignmentId);
+            for (Integer asignacionId : assignmentIds) {
+                statement.setInt(1, asignacionId);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -145,12 +145,12 @@ public class AutoevaluacionDAO extends MoldeDAOCompleto<AutoevaluacionDTO, Integ
         }
     }
     
-    public List<AutoevaluacionDTO> getAllByAssignmentId(int assignmentId) throws ExcepcionMostrableUsuario {
+    public List<AutoevaluacionDTO> getAllByAssignmentId(int asignacionId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Autoevaluacion WHERE id_asignacion = ?")
         ) {
-            statement.setInt(1, assignmentId);
+            statement.setInt(1, asignacionId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<AutoevaluacionDTO> list = new ArrayList<>();
                 while (resultSet.next()) {

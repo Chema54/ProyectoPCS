@@ -73,13 +73,13 @@ public class EvaluacionOVDTO implements Entregable {
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setAsignacionId(int assignmentId) {
-            this.asignacionId = assignmentId;
+        public LinkedOrganizationEvaluationBuilder setAsignacionId(int asignacionId) {
+            this.asignacionId = asignacionId;
             return this;
         }
 
-        public LinkedOrganizationEvaluationBuilder setNombreEntregable(String deliverableName) {
-            this.nombreEntregable = deliverableName;
+        public LinkedOrganizationEvaluationBuilder setNombreEntregable(String nombreEntregable) {
+            this.nombreEntregable = nombreEntregable;
             return this;
         }
 

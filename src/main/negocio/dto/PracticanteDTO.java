@@ -12,7 +12,7 @@ public class PracticanteDTO {
     private final int usuarioId;
     private final String nombreUsuario;
 
-    private PracticanteDTO(InternBuilder builder) {
+    private PracticanteDTO(PracticanteBuilder builder) {
         this.practicanteId = builder.practicanteId;
         this.nombre = builder.nombre;
         this.apellidoPaterno = builder.apellidoPaterno;
@@ -69,7 +69,7 @@ public class PracticanteDTO {
         return matricula + " - " + nombre + " " + apellidoPaterno;
     }
 
-    public static class InternBuilder {
+    public static class PracticanteBuilder {
 
         private int practicanteId;
         private String nombre;
@@ -81,47 +81,47 @@ public class PracticanteDTO {
         private int usuarioId;
         private String nombreUsuario;
 
-        public InternBuilder setPracticanteId(int internId) {
-            this.practicanteId = internId;
+        public PracticanteBuilder setPracticanteId(int practicanteId) {
+            this.practicanteId = practicanteId;
             return this;
         }
 
-        public InternBuilder setNombre(String name) {
+        public PracticanteBuilder setNombre(String nombre) {
             this.nombre = nombre;
             return this;
         }
 
-        public InternBuilder setApellidoPaterno(String apellidoPaterno) {
+        public PracticanteBuilder setApellidoPaterno(String apellidoPaterno) {
             this.apellidoPaterno = apellidoPaterno;
             return this;
         }
 
-        public InternBuilder setApellidoMaterno(String apellidoMaterno) {
+        public PracticanteBuilder setApellidoMaterno(String apellidoMaterno) {
             this.apellidoMaterno = apellidoMaterno;
             return this;
         }
 
-        public InternBuilder setCorreo(String email) {
+        public PracticanteBuilder setCorreo(String correo) {
             this.correo = correo;
             return this;
         }
 
-        public InternBuilder setMatricula(String enrollment) {
-            this.matricula = enrollment;
+        public PracticanteBuilder setMatricula(String matricula) {
+            this.matricula = matricula;
             return this;
         }
 
-        public InternBuilder setEstado(String status) {
+        public PracticanteBuilder setEstado(String status) {
             this.estado = status;
             return this;
         }
 
-        public InternBuilder setUsuarioId(int userId) {
-            this.usuarioId = userId;
+        public PracticanteBuilder setUsuarioId(int usuarioId) {
+            this.usuarioId = usuarioId;
             return this;
         }
 
-        public InternBuilder setNombreUsuario(String username) {
+        public PracticanteBuilder setNombreUsuario(String nombreUsuario) {
             this.nombreUsuario = nombreUsuario;
             return this;
         }

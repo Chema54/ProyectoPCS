@@ -31,7 +31,7 @@ public class ServicioProyecto {
         ResponsableProyectoDTO titularGuardado = titularDAO.getByNumeroPersonal(titular.getNumeroPersonal());
 
         // 3. Recrear DTO del Proyecto con el ID del titular
-        ProyectoDTO proyectoFinal = new ProyectoDTO.ProjectBuilder()
+        ProyectoDTO proyectoFinal = new ProyectoDTO.ProyectoBuilder()
                 .setNombre(proyecto.getNombre())
                 .setTitularId(titularGuardado.getTitularId())
                 .setCupoTotal(proyecto.getCupoTotal())
@@ -59,7 +59,7 @@ public class ServicioProyecto {
         titularDAO.updateOne(titular);
         
         // 3. Recrear DTO del Proyecto con el ID del titular que se mantuvo
-        ProyectoDTO proyectoFinal = new ProyectoDTO.ProjectBuilder()
+        ProyectoDTO proyectoFinal = new ProyectoDTO.ProyectoBuilder()
                 .setProyectoId(proyecto.getProyectoId())
                 .setNombre(proyecto.getNombre())
                 .setTitularId(titular.getTitularId())

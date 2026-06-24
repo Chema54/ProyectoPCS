@@ -106,12 +106,30 @@ public class ManejadorExcepciones {
 
     public static ExcepcionMostrableUsuario handleSQLException(Logger logger, SQLException e, String message) {
         logger.error("Error de SQL detectado. SQLState: {}", e.getSQLState(), e);
-        return new ExcepcionMostrableUsuario(
-            "Error de Base de Datos", 
-            "Error de conexión", 
-            "No se ha podido realizar La operación, debido a un error de conexión con la Base de datos", 
-            e
-        );
+        
+        String sqlState = e.getSQLState();
+        String header = "Error de Base de Datos";
+        String context = "Error en la operación";
+        String detail = "No se ha podido realizar la operación debido a un error con la base de datos.";
+        
+        if (sqlState != null) {
+            if (sqlState.startsWith("28")) {
+                header = "Acceso Denegado";
+                context = "Credenciales incorrectas";
+                detail = getSQLAuthenticationErrorMessage(logger, e);
+            } else if (sqlState.startsWith("08")) {
+                context = "Error de Conexión";
+                detail = getSQLConnectionErrorMessage(logger, e, sqlState);
+            } else if (sqlState.startsWith("23")) {
+                context = "Violación de Integridad";
+                detail = getSQLIntegrityErrorMessage(logger, e);
+            } else if (sqlState.startsWith("42")) {
+                context = "Error de Sintaxis";
+                detail = getSQLSyntaxErrorMessage(logger, e);
+            }
+        }
+        
+        return new ExcepcionMostrableUsuario(header, context, detail, e);
     }
 
 
@@ -133,7 +151,7 @@ public class ManejadorExcepciones {
 
     private static String getSQLAuthenticationErrorMessage(Logger logger, SQLException e) {
         logger.error("Error de autenticación detectado. SQLState: {}", e.getSQLState());
-        return "Usuario y/o Contraseña Incorrectos.";
+        return "El acceso no fue exitoso debido a credenciales incorrectas.";
     }
 
     private static String getSQLSyntaxErrorMessage(Logger logger, SQLException e) {

@@ -19,7 +19,7 @@ public class UsuarioDTO {
     private final RolUsuario role;
     private final boolean access;
 
-    private UsuarioDTO(UserBuilder builder) {
+    private UsuarioDTO(UsuarioBuilder builder) {
         this.userID = builder.userID;
         this.nombreUsuario = builder.nombreUsuario;
         this.password = builder.password;
@@ -56,7 +56,7 @@ public class UsuarioDTO {
         return this.password.equals(candidate);
     }
 
-    public static class UserBuilder {
+    public static class UsuarioBuilder {
 
         private int userID;
         private String nombreUsuario;
@@ -64,27 +64,27 @@ public class UsuarioDTO {
         private RolUsuario role;
         private boolean access;
 
-        public UserBuilder setUserID(int userID) {
+        public UsuarioBuilder setUserID(int userID) {
             this.userID = userID;
             return this;
         }
 
-        public UserBuilder setNombreUsuario(String username) {
+        public UsuarioBuilder setNombreUsuario(String nombreUsuario) {
             this.nombreUsuario = nombreUsuario;
             return this;
         }
 
-        public UserBuilder setPassword(String password) {
+        public UsuarioBuilder setPassword(String password) {
             this.password = password;
             return this;
         }
 
-        public UserBuilder setRole(RolUsuario role) {
+        public UsuarioBuilder setRole(RolUsuario role) {
             this.role = role;
             return this;
         }
 
-        public UserBuilder setAccess(boolean access) {
+        public UsuarioBuilder setAccess(boolean access) {
             this.access = access;
             return this;
         }

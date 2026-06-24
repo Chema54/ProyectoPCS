@@ -171,7 +171,7 @@ public class UsuarioDAO extends MoldeDAOCompleto<UsuarioDTO, String> {
     }
 
     private UsuarioDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new UsuarioDTO.UserBuilder()
+        return new UsuarioDTO.UsuarioBuilder()
             .setUserID(resultSet.getInt("id_usuario"))
             .setNombreUsuario(resultSet.getString("username"))
             .setPassword(resultSet.getString("password"))

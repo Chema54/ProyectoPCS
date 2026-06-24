@@ -11,7 +11,7 @@ public class CoordinadorDTO {
     private final String motherLastName;
     private final String correo;
 
-    public CoordinadorDTO(CoordinatorBuilder builder) {
+    public CoordinadorDTO(CoordinadorBuilder builder) {
         this.idCoordinator = builder.idCoordinator;
         this.idUser = builder.idUser;
         this.nombreUsuario = builder.username;
@@ -55,7 +55,7 @@ public class CoordinadorDTO {
         return correo;
     }
 
-    public static class CoordinatorBuilder {
+    public static class CoordinadorBuilder {
 
         protected int idCoordinator;
         protected int idUser;
@@ -66,42 +66,42 @@ public class CoordinadorDTO {
         protected String motherLastName;
         protected String email;
 
-        public CoordinatorBuilder setIDCoordinator(int idCoordinator) {
+        public CoordinadorBuilder setIDCoordinator(int idCoordinator) {
             this.idCoordinator = idCoordinator;
             return this;
         }
 
-        public CoordinatorBuilder setIDUser(int idUser) {
+        public CoordinadorBuilder setIDUser(int idUser) {
             this.idUser = idUser;
             return this;
         }
 
-        public CoordinatorBuilder setNombreUsuario(String username) {
+        public CoordinadorBuilder setNombreUsuario(String nombreUsuario) {
             this.username = username;
             return this;
         }
 
-        public CoordinatorBuilder setNumeroPersonal(String numeroPersonal) {
+        public CoordinadorBuilder setNumeroPersonal(String numeroPersonal) {
             this.numeroPersonal = numeroPersonal;
             return this;
         }
 
-        public CoordinatorBuilder setNombre(String name) {
+        public CoordinadorBuilder setNombre(String nombre) {
             this.name = name;
             return this;
         }
 
-        public CoordinatorBuilder setLastName(String lastName) {
+        public CoordinadorBuilder setLastName(String lastName) {
             this.lastName = lastName;
             return this;
         }
 
-        public CoordinatorBuilder setMotherLastName(String motherLastName) {
+        public CoordinadorBuilder setMotherLastName(String motherLastName) {
             this.motherLastName = motherLastName;
             return this;
         }
 
-        public CoordinatorBuilder setCorreo(String email) {
+        public CoordinadorBuilder setCorreo(String correo) {
             this.email = email;
             return this;
         }

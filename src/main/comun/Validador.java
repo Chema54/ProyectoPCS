@@ -36,10 +36,10 @@ public class Validador {
     /**
      * Valida una matrícula de estudiante UV.
      */
-    public static boolean isValidEnrollment(String enrollment) {
-        if (enrollment == null || enrollment.trim().isEmpty()) {
+    public static boolean isValidEnrollment(String matricula) {
+        if (matricula == null || matricula.trim().isEmpty()) {
             return false;
         }
-        return enrollment.matches("^S\\d{8}$");
+        return matricula.matches("^S\\d{8}$");
     }
 }

@@ -23,8 +23,8 @@ public class ExperienciaPracticanteDTO {
         private int practicanteId;
         private int experienceId;
 
-        public InternExperienceBuilder setPracticanteId(int internId) {
-            this.practicanteId = internId;
+        public InternExperienceBuilder setPracticanteId(int practicanteId) {
+            this.practicanteId = practicanteId;
             return this;
         }
 

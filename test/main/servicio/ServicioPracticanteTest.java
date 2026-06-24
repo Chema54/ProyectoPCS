@@ -9,7 +9,7 @@ public class ServicioPracticanteTest {
 
     @Test
     public void testRegistrarNuevoPracticante_CorreoInvalido() {
-        PracticanteDTO practicante = new PracticanteDTO.InternBuilder()
+        PracticanteDTO practicante = new PracticanteDTO.PracticanteBuilder()
                 .setNombre("Juan")
                 .setApellidoPaterno("Perez")
                 .setApellidoMaterno("Gomez")
@@ -28,7 +28,7 @@ public class ServicioPracticanteTest {
 
     @Test
     public void testRegistrarNuevoPracticante_NombreConNumeros() {
-        PracticanteDTO practicante = new PracticanteDTO.InternBuilder()
+        PracticanteDTO practicante = new PracticanteDTO.PracticanteBuilder()
                 .setNombre("Juan123") // Numeros en el nombre no permitidos
                 .setApellidoPaterno("Perez")
                 .setApellidoMaterno("Gomez")
@@ -47,7 +47,7 @@ public class ServicioPracticanteTest {
 
     @Test
     public void testRegistrarNuevoPracticante_MatriculaInvalida() {
-        PracticanteDTO practicante = new PracticanteDTO.InternBuilder()
+        PracticanteDTO practicante = new PracticanteDTO.PracticanteBuilder()
                 .setNombre("Juan")
                 .setApellidoPaterno("Perez")
                 .setApellidoMaterno("Gomez")
@@ -66,7 +66,7 @@ public class ServicioPracticanteTest {
 
     @Test
     public void testRegistrarNuevoPracticante_CamposVacios() {
-        PracticanteDTO practicante = new PracticanteDTO.InternBuilder()
+        PracticanteDTO practicante = new PracticanteDTO.PracticanteBuilder()
                 .setNombre("") // Campo vacio
                 .setApellidoPaterno("Perez")
                 .setApellidoMaterno("Gomez")

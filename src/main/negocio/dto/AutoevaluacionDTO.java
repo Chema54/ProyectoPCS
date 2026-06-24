@@ -74,13 +74,13 @@ public class AutoevaluacionDTO implements Entregable {
             return this;
         }
 
-        public SelfAssessmentBuilder setAsignacionId(int assignmentId) {
-            this.asignacionId = assignmentId;
+        public SelfAssessmentBuilder setAsignacionId(int asignacionId) {
+            this.asignacionId = asignacionId;
             return this;
         }
 
-        public SelfAssessmentBuilder setNombreEntregable(String deliverableName) {
-            this.nombreEntregable = deliverableName;
+        public SelfAssessmentBuilder setNombreEntregable(String nombreEntregable) {
+            this.nombreEntregable = nombreEntregable;
             return this;
         }
 

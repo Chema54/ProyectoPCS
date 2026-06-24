@@ -69,7 +69,7 @@ public class GUIRegistrarAsignacion implements Initializable {
         }
 
         try {
-            AsignacionDTO asignacion = new AsignacionDTO.AssignmentBuilder()
+            AsignacionDTO asignacion = new AsignacionDTO.AsignacionBuilder()
                     .setPracticanteId(comboBoxIntern.getValue().getPracticanteId())
                     .setProyectoId(comboBoxProject.getValue().getProyectoId())
                     .setExperienciaEducativaId(comboBoxEducationalExperience.getValue().getExperienciaEducativaId())

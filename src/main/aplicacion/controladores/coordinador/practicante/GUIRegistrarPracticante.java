@@ -60,7 +60,7 @@ public class GUIRegistrarPracticante implements Initializable {
         }
 
         try {
-            PracticanteDTO practicante = new PracticanteDTO.InternBuilder()
+            PracticanteDTO practicante = new PracticanteDTO.PracticanteBuilder()
                     .setPracticanteId(practicanteToUpdate != null ? practicanteToUpdate.getPracticanteId() : 0)
                     .setNombre(textFieldName.getText().trim())
                     .setApellidoPaterno(textFieldPaternalSurname.getText().trim())

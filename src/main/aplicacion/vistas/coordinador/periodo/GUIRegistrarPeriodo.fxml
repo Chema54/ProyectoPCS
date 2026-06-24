@@ -48,7 +48,7 @@
             </font>
         </Label>
 
-        <Button fx:id="btnFinalizar" layoutX="140.0" layoutY="430.0" mnemonicParsing="false" onAction="#registerPeriod" prefWidth="130.0" text="Finalizar Registro" />
+        <Button fx:id="btnFinalizar" layoutX="120.0" layoutY="430.0" mnemonicParsing="false" onAction="#registerPeriod" prefHeight="28.0" prefWidth="150.0" text="Finalizar Registro" />
         <Button fx:id="btnCancelar" layoutX="290.0" layoutY="430.0" mnemonicParsing="false" onAction="#cancel" prefWidth="130.0" text="Cancelar" />
     </children>
 

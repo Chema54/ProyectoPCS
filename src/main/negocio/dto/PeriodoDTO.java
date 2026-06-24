@@ -9,7 +9,7 @@ public class PeriodoDTO {
     private final Date fechaInicio;
     private final Date fechaFin;
 
-    private PeriodoDTO(PeriodBuilder builder) {
+    private PeriodoDTO(PeriodoBuilder builder) {
         this.periodoId = builder.periodoId;
         this.nombre = builder.nombre;
         this.fechaInicio = builder.fechaInicio;
@@ -47,29 +47,29 @@ public class PeriodoDTO {
         return nombre;
     }
 
-    public static class PeriodBuilder {
+    public static class PeriodoBuilder {
 
         private int periodoId;
         private String nombre;
         private Date fechaInicio;
         private Date fechaFin;
 
-        public PeriodBuilder setPeriodoId(int periodId) {
-            this.periodoId = periodId;
+        public PeriodoBuilder setPeriodoId(int periodoId) {
+            this.periodoId = periodoId;
             return this;
         }
 
-        public PeriodBuilder setNombre(String name) {
+        public PeriodoBuilder setNombre(String nombre) {
             this.nombre = nombre;
             return this;
         }
 
-        public PeriodBuilder setFechaInicio(Date startDate) {
+        public PeriodoBuilder setFechaInicio(Date startDate) {
             this.fechaInicio = startDate;
             return this;
         }
 
-        public PeriodBuilder setFechaFin(Date endDate) {
+        public PeriodoBuilder setFechaFin(Date endDate) {
             this.fechaFin = endDate;
             return this;
         }

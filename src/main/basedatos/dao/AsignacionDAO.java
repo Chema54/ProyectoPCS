@@ -90,12 +90,12 @@ public class AsignacionDAO extends MoldeDAOCompleto<AsignacionDTO, Integer> {
         return generatedId;
     }
     
-    public boolean hasActiveAssignment(int internId) throws ExcepcionMostrableUsuario {
+    public boolean hasActiveAssignment(int practicanteId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CHECK_ACTIVE_ASSIGNMENT_QUERY)
         ) {
-            statement.setInt(1, internId);
+            statement.setInt(1, practicanteId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt(1) > 0;
@@ -107,12 +107,12 @@ public class AsignacionDAO extends MoldeDAOCompleto<AsignacionDTO, Integer> {
         return false;
     }
 
-    public List<Integer> getAsignacionIdsByPeriod(int periodId) throws ExcepcionMostrableUsuario {
+    public List<Integer> getAsignacionIdsByPeriod(int periodoId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(GET_ASSIGNMENTS_BY_PERIOD_QUERY)
         ) {
-            statement.setInt(1, periodId);
+            statement.setInt(1, periodoId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<Integer> assignmentIds = new ArrayList<>();
                 while (resultSet.next()) {
@@ -125,12 +125,12 @@ public class AsignacionDAO extends MoldeDAOCompleto<AsignacionDTO, Integer> {
         }
     }
 
-    public List<Integer> getProyectoIdsByPeriod(int periodId) throws ExcepcionMostrableUsuario {
+    public List<Integer> getProyectoIdsByPeriod(int periodoId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(GET_PROJECT_IDS_BY_PERIOD_QUERY)
         ) {
-            statement.setInt(1, periodId);
+            statement.setInt(1, periodoId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<Integer> projectIds = new ArrayList<>();
                 while (resultSet.next()) {
@@ -213,12 +213,12 @@ public class AsignacionDAO extends MoldeDAOCompleto<AsignacionDTO, Integer> {
         }
     }
     
-    public AsignacionDTO getActiveAssignmentByIntern(int internId) throws ExcepcionMostrableUsuario {
+    public AsignacionDTO getActiveAssignmentByIntern(int practicanteId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT a.*, p.nombre as p_nombre, p.apellido_paterno as p_ap, p.apellido_materno as p_am, p.matricula, pr.nombre as pr_nombre, e.nrc FROM Asignacion a INNER JOIN Practicante p ON a.id_practicante = p.id_practicante INNER JOIN Proyecto pr ON a.id_proyecto = pr.id_proyecto INNER JOIN ExperienciaEducativa e ON a.id_experiencia = e.id_experiencia WHERE a.id_practicante = ? AND a.estado = 'Activa'")
         ) {
-            statement.setInt(1, internId);
+            statement.setInt(1, practicanteId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return mapResultSetToDTO(resultSet);
@@ -231,7 +231,7 @@ public class AsignacionDAO extends MoldeDAOCompleto<AsignacionDTO, Integer> {
     }
 
     private AsignacionDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new AsignacionDTO.AssignmentBuilder()
+        return new AsignacionDTO.AsignacionBuilder()
             .setAsignacionId(resultSet.getInt("id_asignacion"))
             .setPracticanteId(resultSet.getInt("id_practicante"))
             .setProyectoId(resultSet.getInt("id_proyecto"))

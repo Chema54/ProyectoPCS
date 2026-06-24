@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="900.0" stylesheets="@../estilos/SubMenuStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.aplicacion.controladores.coordinador.GUIRevisarDocumentos">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="900.0" stylesheets="@../estilos/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.coordinador.GUIRevisarDocumentos">
     <children>
       <TabPane prefHeight="549.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -21,8 +21,6 @@
                               <TableColumn minWidth="-1.0" prefWidth="270.0" text="Estado Habilitado" />
                           </columns>
                         </TableView>
-                        <TextField layoutX="38.0" layoutY="32.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el nombre del Curso" />
-                        <ComboBox layoutX="400.0" layoutY="32.0" prefHeight="25.0" prefWidth="126.0" promptText="Filtrar" />
                      </children>
                   </AnchorPane>
             </content>
@@ -39,9 +37,8 @@
                               <TableColumn fx:id="colDate" minWidth="-1.0" prefWidth="170.0" text="Fecha Entrega" />
                            </columns>
                         </TableView>
-                        <TextField fx:id="txtSearchDoc" layoutX="38.0" layoutY="31.0" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese el ID o nombre del documento" />
-                        <Button fx:id="btnHabilitar" layoutX="400.0" layoutY="31.0" mnemonicParsing="false" onAction="#habilitarDocumento" prefHeight="25.0" prefWidth="120.0" text="Habilitar" />
-                        <Button fx:id="btnDescargar" layoutX="530.0" layoutY="31.0" mnemonicParsing="false" onAction="#descargarDocumento" prefHeight="25.0" prefWidth="120.0" text="Descargar PDF" />
+                        <Button fx:id="btnHabilitar" layoutX="738.0" layoutY="31.0" mnemonicParsing="false" onAction="#habilitarDocumento" prefHeight="25.0" prefWidth="120.0" text="Habilitar" />
+                        <Button fx:id="btnDescargar" layoutX="38.0" layoutY="31.0" mnemonicParsing="false" onAction="#descargarDocumento" prefHeight="25.0" prefWidth="120.0" text="Descargar PDF" />
                      </children>
                   </AnchorPane>
             </content>

@@ -15,7 +15,7 @@ public class ReporteDTO implements Entregable {
     private final BigDecimal score;
     private final String comments;
 
-    private ReporteDTO(ReportBuilder builder) {
+    private ReporteDTO(ReporteBuilder builder) {
         this.monthlyReportId = builder.monthlyReportId;
         this.asignacionId = builder.asignacionId;
         this.nombreEntregable = builder.nombreEntregable;
@@ -63,7 +63,7 @@ public class ReporteDTO implements Entregable {
         return comments;
     }
 
-    public static class ReportBuilder {
+    public static class ReporteBuilder {
 
         private int monthlyReportId;
         private int asignacionId;
@@ -75,47 +75,47 @@ public class ReporteDTO implements Entregable {
         private BigDecimal score;
         private String comments;
 
-        public ReportBuilder setMonthlyReportId(int monthlyReportId) {
+        public ReporteBuilder setMonthlyReportId(int monthlyReportId) {
             this.monthlyReportId = monthlyReportId;
             return this;
         }
 
-        public ReportBuilder setAsignacionId(int assignmentId) {
-            this.asignacionId = assignmentId;
+        public ReporteBuilder setAsignacionId(int asignacionId) {
+            this.asignacionId = asignacionId;
             return this;
         }
 
-        public ReportBuilder setNombreEntregable(String deliverableName) {
-            this.nombreEntregable = deliverableName;
+        public ReporteBuilder setNombreEntregable(String nombreEntregable) {
+            this.nombreEntregable = nombreEntregable;
             return this;
         }
 
-        public ReportBuilder setArchivo(byte[] file) {
+        public ReporteBuilder setArchivo(byte[] file) {
             this.archivo = file;
             return this;
         }
 
-        public ReportBuilder setEstado(String status) {
+        public ReporteBuilder setEstado(String status) {
             this.estado = status;
             return this;
         }
 
-        public ReportBuilder setFechaLimite(Date deadline) {
+        public ReporteBuilder setFechaLimite(Date deadline) {
             this.fechaLimite = deadline;
             return this;
         }
 
-        public ReportBuilder setReportedHours(int reportedHours) {
+        public ReporteBuilder setReportedHours(int reportedHours) {
             this.reportedHours = reportedHours;
             return this;
         }
 
-        public ReportBuilder setScore(BigDecimal score) {
+        public ReporteBuilder setScore(BigDecimal score) {
             this.score = score;
             return this;
         }
 
-        public ReportBuilder setComments(String comments) {
+        public ReporteBuilder setComments(String comments) {
             this.comments = comments;
             return this;
         }

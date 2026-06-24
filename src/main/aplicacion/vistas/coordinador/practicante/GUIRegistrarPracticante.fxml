@@ -30,7 +30,7 @@
         </Label>
 
         <Label layoutX="40.0" layoutY="180.0" text="Apellido Materno" />
-        <TextField fx:id="textFieldMaternalSurname" layoutX="180.0" layoutY="175.0" prefWidth="300.0" promptText="Ej. Gómez" />
+        <TextField fx:id="textFieldMaternalSurname" layoutX="180.0" layoutY="175.0" prefWidth="300.0" promptText="Ej. Quesada" />
         <Label layoutX="180.0" layoutY="205.0" text="Opcional. Máximo 50 caracteres." textFill="#cc0000">
             <font><Font size="10.0" /></font>
         </Label>

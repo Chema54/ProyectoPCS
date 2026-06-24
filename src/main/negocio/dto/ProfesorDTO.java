@@ -12,7 +12,7 @@ public class ProfesorDTO {
     private final int usuarioId;
     private final String nombreUsuario;
 
-    private ProfesorDTO(ProfessorBuilder builder) {
+    private ProfesorDTO(ProfesorBuilder builder) {
         this.profesorId = builder.profesorId;
         this.personalNumber = builder.personalNumber;
         this.nombre = builder.nombre;
@@ -69,7 +69,7 @@ public class ProfesorDTO {
         return nombre + " " + apellidoPaterno + " " + apellidoMaterno;
     }
 
-    public static class ProfessorBuilder {
+    public static class ProfesorBuilder {
 
         private int profesorId;
         private String personalNumber;
@@ -81,47 +81,47 @@ public class ProfesorDTO {
         private int usuarioId;
         private String nombreUsuario;
 
-        public ProfessorBuilder setProfesorId(int professorId) {
-            this.profesorId = professorId;
+        public ProfesorBuilder setProfesorId(int profesorId) {
+            this.profesorId = profesorId;
             return this;
         }
 
-        public ProfessorBuilder setPersonalNumber(String personalNumber) {
+        public ProfesorBuilder setPersonalNumber(String numeroPersonal) {
             this.personalNumber = personalNumber;
             return this;
         }
 
-        public ProfessorBuilder setNombre(String name) {
+        public ProfesorBuilder setNombre(String nombre) {
             this.nombre = nombre;
             return this;
         }
 
-        public ProfessorBuilder setApellidoPaterno(String apellidoPaterno) {
+        public ProfesorBuilder setApellidoPaterno(String apellidoPaterno) {
             this.apellidoPaterno = apellidoPaterno;
             return this;
         }
 
-        public ProfessorBuilder setApellidoMaterno(String apellidoMaterno) {
+        public ProfesorBuilder setApellidoMaterno(String apellidoMaterno) {
             this.apellidoMaterno = apellidoMaterno;
             return this;
         }
 
-        public ProfessorBuilder setCorreo(String email) {
+        public ProfesorBuilder setCorreo(String correo) {
             this.correo = correo;
             return this;
         }
 
-        public ProfessorBuilder setEstado(String status) {
+        public ProfesorBuilder setEstado(String status) {
             this.estado = status;
             return this;
         }
 
-        public ProfessorBuilder setUsuarioId(int userId) {
-            this.usuarioId = userId;
+        public ProfesorBuilder setUsuarioId(int usuarioId) {
+            this.usuarioId = usuarioId;
             return this;
         }
 
-        public ProfessorBuilder setNombreUsuario(String username) {
+        public ProfesorBuilder setNombreUsuario(String nombreUsuario) {
             this.nombreUsuario = nombreUsuario;
             return this;
         }

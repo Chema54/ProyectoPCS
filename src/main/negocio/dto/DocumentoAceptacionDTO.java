@@ -58,13 +58,13 @@ public class DocumentoAceptacionDTO implements Entregable {
             return this;
         }
 
-        public AcceptanceDocumentBuilder setAsignacionId(int assignmentId) {
-            this.asignacionId = assignmentId;
+        public AcceptanceDocumentBuilder setAsignacionId(int asignacionId) {
+            this.asignacionId = asignacionId;
             return this;
         }
 
-        public AcceptanceDocumentBuilder setNombreEntregable(String deliverableName) {
-            this.nombreEntregable = deliverableName;
+        public AcceptanceDocumentBuilder setNombreEntregable(String nombreEntregable) {
+            this.nombreEntregable = nombreEntregable;
             return this;
         }
 

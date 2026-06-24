@@ -134,7 +134,7 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
     }
 
     private PeriodoDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
-        return new PeriodoDTO.PeriodBuilder()
+        return new PeriodoDTO.PeriodoBuilder()
             .setPeriodoId(resultSet.getInt("id_periodo"))
             .setNombre(resultSet.getString("nombre"))
             .setFechaInicio(resultSet.getDate("fecha_inicio"))

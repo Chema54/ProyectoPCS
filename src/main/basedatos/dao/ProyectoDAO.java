@@ -144,25 +144,25 @@ public class ProyectoDAO extends MoldeDAOCompleto<ProyectoDTO, Integer> {
         }
     }
 
-    public void decrementAvailableSpaces(int projectId) throws ExcepcionMostrableUsuario {
+    public void decrementAvailableSpaces(int proyectoId) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(DECREMENT_SPACES_QUERY)
         ) {
-            statement.setInt(1, projectId);
+            statement.setInt(1, proyectoId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
         }
     }
     
-    public void changeStatus(int projectId, String status) throws ExcepcionMostrableUsuario {
+    public void changeStatus(int proyectoId, String status) throws ExcepcionMostrableUsuario {
         try (
             Connection connection = ConexionBD.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(CHANGE_STATUS_QUERY)
         ) {
             statement.setString(1, status);
-            statement.setInt(2, projectId);
+            statement.setInt(2, proyectoId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se ha podido realizar la operación, debido a un error de conexión.");
@@ -173,7 +173,7 @@ public class ProyectoDAO extends MoldeDAOCompleto<ProyectoDTO, Integer> {
         int titularId = resultSet.getInt("id_titular");
         Integer titularIdOrNull = resultSet.wasNull() ? null : titularId;
         
-        return new ProyectoDTO.ProjectBuilder()
+        return new ProyectoDTO.ProyectoBuilder()
             .setProyectoId(resultSet.getInt("id_proyecto"))
             .setNombre(resultSet.getString("nombre"))
             .setTitularId(titularIdOrNull)
