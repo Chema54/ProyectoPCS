@@ -164,10 +164,7 @@ public class GUIAdministrarPracticantes implements Initializable {
     private void loadInterns() {
 
         try {
-
-            tvInterns.setItems(
-                    FXCollections.observableArrayList(
-                            practicanteDAO.getAll()
+            tvInterns.setItems(FXCollections.observableArrayList(practicanteDAO.getAll()
                     )
             );
 
@@ -214,24 +211,11 @@ public class GUIAdministrarPracticantes implements Initializable {
     private void loadCoordinators() {
 
         try {
-
-            coordinatorList
-                    = FXCollections.observableArrayList(
-                            coordinatorDAO.getAll()
-                    );
-
-            filteredList
-                    = new FilteredList<>(
-                            coordinatorList,
-                            p -> true
-                    );
-
+            coordinatorList= FXCollections.observableArrayList(coordinatorDAO.getAll());
+            filteredList = new FilteredList<>(coordinatorList,p -> true);
             tableViewCoordinator.setItems(filteredList);
-
         } catch (ExcepcionMostrableUsuario e) {
-
             Modal.displayError(e);
-
         }
 
     }
@@ -317,47 +301,26 @@ public class GUIAdministrarPracticantes implements Initializable {
 
     @FXML
     private void handleRegisterCoordinator(ActionEvent event) {
-
         openModalWindow(
                 "/main/aplicacion/vistas/coordinador/usuario/GUIRegistrarUsuarioCoordinador.fxml",
                 "Registrar Nuevo Coordinador"
         );
-
     }
 
     private void openModalWindow(String fxmlPath, String title) {
-
         try {
-
-            FXMLLoader loader
-                    = new FXMLLoader(
-                            getClass().getResource(fxmlPath)
-                    );
-
-            Parent root
-                    = loader.load();
-
-            Stage stage
-                    = new Stage();
-
-            stage.initModality(
-                    Modality.APPLICATION_MODAL
-            );
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Stage stage= new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(title);
-
-            stage.setScene(
-                    new Scene(root)
-            );
-
+            stage.setScene(new Scene(root));
             stage.showAndWait();
 
             loadCoordinators();
             loadInterns();
             loadProfessors();
-
         } catch (IOException e) {
-
             Modal.displayError(
                     ManejadorExcepciones
                             .handleGUILoadIOException(

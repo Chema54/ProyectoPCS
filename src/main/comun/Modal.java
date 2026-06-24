@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.comun;
 
 import javafx.scene.control.Alert;
@@ -10,10 +6,6 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import main.comun.ExcepcionMostrableUsuario;
 
-/**
- *
- * @author josem
- */
 public final class Modal {
 
     private Modal() {
@@ -44,7 +36,7 @@ public final class Modal {
         alert.showAndWait();
     }
 
-    public static void displayInformation(String title,String message) {
+    public static void displayInformation(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
 
         alert.setTitle(title);

@@ -19,8 +19,10 @@ public class GUIHabilitarEntrega implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(GUIHabilitarEntrega.class);
 
-    @FXML private Label labelDocName;
-    @FXML private DatePicker datePickerLimite;
+    @FXML
+    private Label labelDocName;
+    @FXML
+    private DatePicker datePickerLimite;
 
     private String nombreDoc;
     private String tipo;
@@ -29,7 +31,6 @@ public class GUIHabilitarEntrega implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // No default date set to keep it simple
     }
 
     public void initData(String nombreDoc, String tipo, int idExperiencia, GUIAdministrarEntregables parent) {
@@ -46,7 +47,6 @@ public class GUIHabilitarEntrega implements Initializable {
             Modal.displayInformation("Campos Vacíos", "El campo Fecha Límite es obligatorio");
             return;
         }
-
         java.sql.Date fechaSql = java.sql.Date.valueOf(datePickerLimite.getValue());
 
         try {
@@ -61,7 +61,7 @@ public class GUIHabilitarEntrega implements Initializable {
             Modal.displayInformation("Éxito", "El entregable ha sido habilitado correctamente para toda la Experiencia Educativa.");
             parentController.loadData();
             cerrarModal();
-            
+
         } catch (ExcepcionMostrableUsuario ex) {
             Modal.displayError(ex);
         }

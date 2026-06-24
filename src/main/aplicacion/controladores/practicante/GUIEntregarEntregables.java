@@ -26,17 +26,26 @@ public class GUIEntregarEntregables implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(GUIEntregarEntregables.class);
 
-    @FXML private TableView<ReporteDTO> tablaReportes;
-    @FXML private TableColumn<ReporteDTO, String> columnaNombreReporte;
-    @FXML private TableColumn<ReporteDTO, String> columnaEstadoReporte;
+    @FXML
+    private TableView<ReporteDTO> tablaReportes;
+    @FXML
+    private TableColumn<ReporteDTO, String> columnaNombreReporte;
+    @FXML
+    private TableColumn<ReporteDTO, String> columnaEstadoReporte;
 
-    @FXML private TableView<EvaluacionOVDTO> tablaEvaluacionesOV;
-    @FXML private TableColumn<EvaluacionOVDTO, String> columnaNombreEvaluacionOV;
-    @FXML private TableColumn<EvaluacionOVDTO, String> columnaEstadoEvaluacionOV;
+    @FXML
+    private TableView<EvaluacionOVDTO> tablaEvaluacionesOV;
+    @FXML
+    private TableColumn<EvaluacionOVDTO, String> columnaNombreEvaluacionOV;
+    @FXML
+    private TableColumn<EvaluacionOVDTO, String> columnaEstadoEvaluacionOV;
 
-    @FXML private TableView<AutoevaluacionDTO> tablaAutoevaluaciones;
-    @FXML private TableColumn<AutoevaluacionDTO, String> columnaNombreAutoevaluacion;
-    @FXML private TableColumn<AutoevaluacionDTO, String> columnaEstadoAutoevaluacion;
+    @FXML
+    private TableView<AutoevaluacionDTO> tablaAutoevaluaciones;
+    @FXML
+    private TableColumn<AutoevaluacionDTO, String> columnaNombreAutoevaluacion;
+    @FXML
+    private TableColumn<AutoevaluacionDTO, String> columnaEstadoAutoevaluacion;
 
     private AsignacionDTO asignacionActual;
     private ReporteDAO reporteDAO = new ReporteDAO();
@@ -48,22 +57,22 @@ public class GUIEntregarEntregables implements Initializable {
         try {
             PracticanteDAO practicanteDAO = new PracticanteDAO();
             PracticanteDTO practicanteActual = practicanteDAO.getByEnrollment(Sesion.getCurrentUser().getNombreUsuario());
-            
+
             AsignacionDAO asignacionDAO = new AsignacionDAO();
             AsignacionDTO assignment = asignacionDAO.getActiveAssignmentByIntern(practicanteActual.getPracticanteId());
-            
+
             if (assignment != null) {
                 asignacionActual = assignment;
-                
+
                 columnaNombreReporte.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
                 columnaEstadoReporte.setCellValueFactory(new PropertyValueFactory<>("estado"));
-                
+
                 columnaNombreEvaluacionOV.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
                 columnaEstadoEvaluacionOV.setCellValueFactory(new PropertyValueFactory<>("estado"));
-                
+
                 columnaNombreAutoevaluacion.setCellValueFactory(new PropertyValueFactory<>("nombreEntregable"));
                 columnaEstadoAutoevaluacion.setCellValueFactory(new PropertyValueFactory<>("estado"));
-                
+
                 loadDeliverables();
             } else {
                 Modal.displayInformation("Sin Proyecto", "No tiene un proyecto activo asignado.");
@@ -72,7 +81,7 @@ public class GUIEntregarEntregables implements Initializable {
             LOGGER.error(ex.getMessage(), ex);
             Modal.displayError(ex);
         }
-    }    
+    }
 
     public void loadDeliverables() {
         try {
@@ -101,25 +110,25 @@ public class GUIEntregarEntregables implements Initializable {
     @FXML
     private void entregarReporte(ActionEvent event) {
         ReporteDTO selected = tablaReportes.getSelectionModel().getSelectedItem();
-        
+
         try {
             ValidadorEntrega.validateDelivery(selected);
         } catch (main.comun.ExcepcionMostrableUsuario e) {
             Modal.displayError(e);
             return;
         }
-        
+
         if ("Entregado".equalsIgnoreCase(selected.getEstado())) {
             if (!Modal.displayConfirmation("Ya existe un archivo cargado. ¿Desea sobrescribirlo?")) {
                 return;
             }
         }
-        
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar Archivo PDF");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showOpenDialog(tablaReportes.getScene().getWindow());
-        
+
         if (file != null) {
             if (!file.getName().toLowerCase().endsWith(".pdf")) {
                 Modal.displayError(new ExcepcionMostrableUsuario("Formato incorrecto", "Documento inválido", "El archivo debe tener el formato PDF."));
@@ -152,25 +161,25 @@ public class GUIEntregarEntregables implements Initializable {
     @FXML
     private void entregarEvaluacion(ActionEvent event) {
         EvaluacionOVDTO selected = tablaEvaluacionesOV.getSelectionModel().getSelectedItem();
-        
+
         try {
             ValidadorEntrega.validateDelivery(selected);
         } catch (main.comun.ExcepcionMostrableUsuario e) {
             Modal.displayError(e);
             return;
         }
-        
+
         if ("Entregado".equalsIgnoreCase(selected.getEstado())) {
             if (!Modal.displayConfirmation("Ya existe un archivo cargado. ¿Desea sobrescribirlo?")) {
                 return;
             }
         }
-        
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar Archivo PDF");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showOpenDialog(tablaEvaluacionesOV.getScene().getWindow());
-        
+
         if (file != null) {
             if (!file.getName().toLowerCase().endsWith(".pdf")) {
                 Modal.displayError(new ExcepcionMostrableUsuario("Formato incorrecto", "Documento inválido", "El archivo debe tener el formato PDF."));
@@ -203,7 +212,7 @@ public class GUIEntregarEntregables implements Initializable {
     @FXML
     private void realizarAutoevaluacion(ActionEvent event) {
         AutoevaluacionDTO selected = tablaAutoevaluaciones.getSelectionModel().getSelectedItem();
-        
+
         try {
             ValidadorEntrega.validateDelivery(selected);
         } catch (main.comun.ExcepcionMostrableUsuario e) {
@@ -215,11 +224,11 @@ public class GUIEntregarEntregables implements Initializable {
             alert.setTitle("Autoevaluación Completada");
             alert.setHeaderText("Autoevaluación ya realizada");
             alert.setContentText("El documento ya se encuentra registrado en el sistema.");
-            
+
             javafx.scene.control.ButtonType btnGuardar = new javafx.scene.control.ButtonType("Guardar PDF", javafx.scene.control.ButtonBar.ButtonData.OK_DONE);
             javafx.scene.control.ButtonType btnCerrar = new javafx.scene.control.ButtonType("Cerrar", javafx.scene.control.ButtonBar.ButtonData.CANCEL_CLOSE);
             alert.getButtonTypes().setAll(btnGuardar, btnCerrar);
-            
+
             java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == btnGuardar) {
                 if (selected.getArchivo() != null) {
@@ -243,18 +252,18 @@ public class GUIEntregarEntregables implements Initializable {
             }
             return;
         }
-        
+
         try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/main/aplicacion/vistas/practicante/GUIRealizarAutoevaluacion.fxml"));
             javafx.scene.Parent root = loader.load();
-            
+
             GUIRealizarAutoevaluacion controller = loader.getController();
-            
+
             PracticanteDAO practicanteDAO = new PracticanteDAO();
             PracticanteDTO practicanteActual = practicanteDAO.getByEnrollment(Sesion.getCurrentUser().getNombreUsuario());
-            
+
             controller.initData(selected, asignacionActual, practicanteActual, this);
-            
+
             javafx.stage.Stage stage = new javafx.stage.Stage();
             stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
             stage.setTitle("Formulario de Autoevaluación");

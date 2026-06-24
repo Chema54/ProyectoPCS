@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package main.aplicacion.controladores.coordinador;
 
 import java.io.IOException;
@@ -36,11 +32,6 @@ import main.basedatos.dao.AsignacionDAO;
 import main.basedatos.dao.OrganizacionVinculadaDAO;
 import main.basedatos.dao.ProyectoDAO;
 
-/**
- * FXML Controller class
- *
- * @author josem
- */
 public class GUIAdministrarProyectos implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(GUIAdministrarProyectos.class);
@@ -107,10 +98,7 @@ public class GUIAdministrarProyectos implements Initializable {
     private Button btnModifyOrganization;
     @FXML
     private Button btnRegisterOrganization;
-
-    /**
-     * Initializes the controller class.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeTables();
@@ -118,7 +106,6 @@ public class GUIAdministrarProyectos implements Initializable {
     }
 
     private void initializeTables() {
-        // Projects
         colProjectName.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colProjectOrg.setCellValueFactory(new PropertyValueFactory<>("nombreOrganizacion"));
         colProjectTitular.setCellValueFactory(new PropertyValueFactory<>("nombreTitular"));
@@ -126,14 +113,12 @@ public class GUIAdministrarProyectos implements Initializable {
         colProjectTotal.setCellValueFactory(new PropertyValueFactory<>("cupoTotal"));
         colProjectAvailable.setCellValueFactory(new PropertyValueFactory<>("espaciosDisponibles"));
 
-        // Assignments
         colAsigProject.setCellValueFactory(new PropertyValueFactory<>("nombreProyecto"));
         colAsigMatricula.setCellValueFactory(new PropertyValueFactory<>("matriculaPracticante"));
         colAsigIntern.setCellValueFactory(new PropertyValueFactory<>("nombrePracticante"));
         colAsigNrc.setCellValueFactory(new PropertyValueFactory<>("nrc"));
         colAsigStatus.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
-        // Organizations
         colOrgName.setCellValueFactory(new PropertyValueFactory<>("nombreEmpresa"));
         colOrgLocation.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         colOrgEmail.setCellValueFactory(new PropertyValueFactory<>("correo"));

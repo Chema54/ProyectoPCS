@@ -66,8 +66,8 @@ public class ServicioPeriodo {
 
         AsignacionDAO asignacionDAO = new AsignacionDAO();
 
-        List<Integer> assignmentIds =
-                asignacionDAO.getAsignacionIdsByPeriod(periodoId);
+        List<Integer> assignmentIds
+                = asignacionDAO.getAsignacionIdsByPeriod(periodoId);
 
         if (assignmentIds.isEmpty()) {
             throw new ExcepcionMostrableUsuario(
@@ -77,8 +77,8 @@ public class ServicioPeriodo {
             );
         }
 
-        DocumentoAceptacionDAO documentoDAO =
-                new DocumentoAceptacionDAO();
+        DocumentoAceptacionDAO documentoDAO
+                = new DocumentoAceptacionDAO();
 
         if (!documentoDAO.getAllByAssignmentId(assignmentIds.get(0)).isEmpty()) {
             throw new ExcepcionMostrableUsuario(
@@ -88,8 +88,8 @@ public class ServicioPeriodo {
             );
         }
 
-        List<Integer> projectIdsToActivate =
-                asignacionDAO.getProyectoIdsByPeriod(periodoId);
+        List<Integer> projectIdsToActivate
+                = asignacionDAO.getProyectoIdsByPeriod(periodoId);
 
         ProyectoDAO proyectoDAO = new ProyectoDAO();
 

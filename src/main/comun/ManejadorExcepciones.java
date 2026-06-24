@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.comun;
 
 import java.io.FileNotFoundException;
@@ -12,10 +8,6 @@ import java.util.Optional;
 import javax.xml.stream.XMLStreamException;
 import org.apache.logging.log4j.Logger;
 
-/**
- *
- * @author josem
- */
 public class ManejadorExcepciones {
     private static final String SQL_UNKNOWN_ERROR = "Error desconocido al procesar la solicitud. Por favor, inténtelo más tarde.";
 

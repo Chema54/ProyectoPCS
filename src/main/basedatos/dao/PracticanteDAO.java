@@ -19,33 +19,31 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(PracticanteDAO.class);
 
-    private static final String CREATE_INTERN_QUERY =
-            "INSERT INTO Practicante (nombre, apellido_paterno, apellido_materno, correo, matricula, estado, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String CREATE_INTERN_QUERY
+            = "INSERT INTO Practicante (nombre, apellido_paterno, apellido_materno, correo, matricula, estado, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String GET_ALL_QUERY =
-            "SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario";
+    private static final String GET_ALL_QUERY
+            = "SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario";
 
-    private static final String GET_QUERY =
-            "SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario WHERE p.id_practicante = ?";
+    private static final String GET_QUERY
+            = "SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario WHERE p.id_practicante = ?";
 
-    private static final String UPDATE_QUERY =
-            "UPDATE Practicante SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, correo = ?, matricula = ?, estado = ? WHERE id_practicante = ?";
+    private static final String UPDATE_QUERY
+            = "UPDATE Practicante SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, correo = ?, matricula = ?, estado = ? WHERE id_practicante = ?";
 
-    private static final String DELETE_QUERY =
-            "DELETE FROM Practicante WHERE id_practicante = ?";
+    private static final String DELETE_QUERY
+            = "DELETE FROM Practicante WHERE id_practicante = ?";
 
-    private static final String CHANGE_STATUS_QUERY =
-            "UPDATE Practicante SET estado = ? WHERE id_practicante = ?";
+    private static final String CHANGE_STATUS_QUERY
+            = "UPDATE Practicante SET estado = ? WHERE id_practicante = ?";
 
-    private static final String CHECK_ENROLLMENT_QUERY =
-            "SELECT COUNT(*) FROM Practicante WHERE matricula = ?";
+    private static final String CHECK_ENROLLMENT_QUERY
+            = "SELECT COUNT(*) FROM Practicante WHERE matricula = ?";
 
     @Override
     public void createOne(PracticanteDTO internDTO) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement internStatement = connection.prepareStatement(CREATE_INTERN_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement internStatement = connection.prepareStatement(CREATE_INTERN_QUERY)) {
             internStatement.setString(1, internDTO.getNombre());
             internStatement.setString(2, internDTO.getApellidoPaterno());
             internStatement.setString(3, internDTO.getApellidoMaterno());
@@ -53,7 +51,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
             internStatement.setString(5, internDTO.getMatricula());
             internStatement.setString(6, internDTO.getEstado() != null ? internDTO.getEstado() : "Activo");
             internStatement.setInt(7, internDTO.getUsuarioId());
-            
+
             internStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -65,9 +63,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
     public int createOneAndReturnId(PracticanteDTO internDTO) throws ExcepcionMostrableUsuario {
         int generatedId = -1;
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement internStatement = connection.prepareStatement(CREATE_INTERN_QUERY, Statement.RETURN_GENERATED_KEYS)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement internStatement = connection.prepareStatement(CREATE_INTERN_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             internStatement.setString(1, internDTO.getNombre());
             internStatement.setString(2, internDTO.getApellidoPaterno());
             internStatement.setString(3, internDTO.getApellidoMaterno());
@@ -75,9 +71,9 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
             internStatement.setString(5, internDTO.getMatricula());
             internStatement.setString(6, internDTO.getEstado() != null ? internDTO.getEstado() : "Activo");
             internStatement.setInt(7, internDTO.getUsuarioId());
-            
+
             internStatement.executeUpdate();
-            
+
             try (ResultSet generatedKeys = internStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     generatedId = generatedKeys.getInt(1);
@@ -96,10 +92,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
     @Override
     public List<PracticanteDTO> getAll() throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
-            ResultSet resultSet = statement.executeQuery()
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY); ResultSet resultSet = statement.executeQuery()) {
             List<PracticanteDTO> interns = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -117,9 +110,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
     @Override
     public PracticanteDTO getOne(Integer id) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(GET_QUERY)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -137,9 +128,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
     @Override
     public void updateOne(PracticanteDTO internDTO) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, internDTO.getNombre());
             statement.setString(2, internDTO.getApellidoPaterno());
             statement.setString(3, internDTO.getApellidoMaterno());
@@ -147,7 +136,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
             statement.setString(5, internDTO.getMatricula());
             statement.setString(6, internDTO.getEstado());
             statement.setInt(7, internDTO.getPracticanteId());
-            
+
             statement.executeUpdate();
         } catch (SQLException e) {
             throw ManejadorExcepciones.handleSQLException(
@@ -158,9 +147,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
     @Override
     public void deleteOne(Integer id) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -171,9 +158,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
 
     public void changeStatus(int practicanteId, String status) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(CHANGE_STATUS_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(CHANGE_STATUS_QUERY)) {
             statement.setString(1, status);
             statement.setInt(2, practicanteId);
             statement.executeUpdate();
@@ -185,9 +170,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
 
     public boolean isEnrollmentRegistered(String matricula) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(CHECK_ENROLLMENT_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(CHECK_ENROLLMENT_QUERY)) {
             statement.setString(1, matricula);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -203,9 +186,7 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
 
     public PracticanteDTO getByEnrollment(String matricula) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario WHERE p.matricula = ?")
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT p.*, u.username FROM Practicante p LEFT JOIN Usuario u ON p.id_usuario = u.id_usuario WHERE p.matricula = ?")) {
             statement.setString(1, matricula);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -220,15 +201,15 @@ public class PracticanteDAO extends MoldeDAOCompleto<PracticanteDTO, Integer> {
 
     private PracticanteDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
         return new PracticanteDTO.PracticanteBuilder()
-            .setPracticanteId(resultSet.getInt("id_practicante"))
-            .setNombre(resultSet.getString("nombre"))
-            .setApellidoPaterno(resultSet.getString("apellido_paterno"))
-            .setApellidoMaterno(resultSet.getString("apellido_materno"))
-            .setCorreo(resultSet.getString("correo"))
-            .setMatricula(resultSet.getString("matricula"))
-            .setEstado(resultSet.getString("estado"))
-            .setUsuarioId(resultSet.getInt("id_usuario"))
-            .setNombreUsuario(resultSet.getString("username"))
-            .build();
+                .setPracticanteId(resultSet.getInt("id_practicante"))
+                .setNombre(resultSet.getString("nombre"))
+                .setApellidoPaterno(resultSet.getString("apellido_paterno"))
+                .setApellidoMaterno(resultSet.getString("apellido_materno"))
+                .setCorreo(resultSet.getString("correo"))
+                .setMatricula(resultSet.getString("matricula"))
+                .setEstado(resultSet.getString("estado"))
+                .setUsuarioId(resultSet.getInt("id_usuario"))
+                .setNombreUsuario(resultSet.getString("username"))
+                .build();
     }
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package main.aplicacion.controladores.practicante;
 
 import java.io.IOException;
@@ -26,16 +22,8 @@ import main.comun.ExcepcionMostrableUsuario;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * FXML Controller class
- *
- * @author josem
- */
 public class GUIMenuPracticante implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
     private static final Logger LOGGER = LogManager.getLogger(GUIMenuPracticante.class);
 
     @FXML
@@ -62,32 +50,32 @@ public class GUIMenuPracticante implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         labelInternName.setText("¡Bienvenido de vuelta, Practicante!");
         try {
-        configureToggleGroup();
-        toggleButtonAssignment.setSelected(true);
+            configureToggleGroup();
+            toggleButtonAssignment.setSelected(true);
         } catch (ExcepcionMostrableUsuario e) {
             LOGGER.error(e.getMessage(), e);
             Modal.displayError(e);
         }
     }
 
-    private void configureToggleGroup() throws ExcepcionMostrableUsuario{
+    private void configureToggleGroup() throws ExcepcionMostrableUsuario {
         toggleButtonAssignment.setToggleGroup(toggleGroupMenu);
         toggleButtonProgress.setToggleGroup(toggleGroupMenu);
 
         toggleGroupMenu.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
-                if (newToggle == null) {
-                    if (oldToggle != null) {
-                        oldToggle.setSelected(true);
-                    }
-                    return;
+            if (newToggle == null) {
+                if (oldToggle != null) {
+                    oldToggle.setSelected(true);
                 }
-                try {
-                    loadSelectedView(newToggle);
-                } catch (ExcepcionMostrableUsuario ex) {
-                    LOGGER.error(ex.getMessage(), ex);
-                    Modal.displayError(ex);
-                }
+                return;
             }
+            try {
+                loadSelectedView(newToggle);
+            } catch (ExcepcionMostrableUsuario ex) {
+                LOGGER.error(ex.getMessage(), ex);
+                Modal.displayError(ex);
+            }
+        }
         );
     }
 
@@ -96,10 +84,10 @@ public class GUIMenuPracticante implements Initializable {
             changeSubView("/main/aplicacion/vistas/practicante/GUIEntregarDocumentosAceptacion.fxml");
         } else if (toggle == toggleButtonProgress) {
             changeSubView("/main/aplicacion/vistas/practicante/GUIEntregarEntregables.fxml");
-        } 
+        }
     }
 
-    private void changeSubView(String routeFXML)throws ExcepcionMostrableUsuario {
+    private void changeSubView(String routeFXML) throws ExcepcionMostrableUsuario {
         try {
             anchorPaneCentral.getChildren().clear();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(routeFXML));
@@ -114,7 +102,7 @@ public class GUIMenuPracticante implements Initializable {
         } catch (NullPointerException e) {
             throw ManejadorExcepciones.handleUnexpectedException(LOGGER, e, "No se encontró la vista: " + routeFXML);
         } catch (Exception e) {
-            throw ManejadorExcepciones.handleUnexpectedException(LOGGER, e,"Error al cargar la vista: " + routeFXML);
+            throw ManejadorExcepciones.handleUnexpectedException(LOGGER, e, "Error al cargar la vista: " + routeFXML);
         }
     }
 
@@ -123,7 +111,7 @@ public class GUIMenuPracticante implements Initializable {
         try {
             returnToLogin();
         } catch (ExcepcionMostrableUsuario e) {
-            LOGGER.error(e.getMessage(), e); 
+            LOGGER.error(e.getMessage(), e);
             Modal.displayError(e);
         }
     }
@@ -143,4 +131,3 @@ public class GUIMenuPracticante implements Initializable {
         }
     }
 }
-

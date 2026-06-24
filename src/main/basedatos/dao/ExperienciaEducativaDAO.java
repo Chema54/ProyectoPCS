@@ -20,22 +20,22 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
 
     private static final Logger LOGGER = LogManager.getLogger(ExperienciaEducativaDAO.class);
 
-    private static final String CREATE_QUERY =
-            "INSERT INTO ExperienciaEducativa (nombre, id_periodo, nrc) VALUES (?, ?, ?)";
+    private static final String CREATE_QUERY
+            = "INSERT INTO ExperienciaEducativa (nombre, id_periodo, nrc) VALUES (?, ?, ?)";
 
-    private static final String CREATE_PROFESSOR_EXPERIENCE_QUERY =
-            "INSERT INTO ProfesorExperiencia (id_profesor, id_experiencia) VALUES (?, ?)";
+    private static final String CREATE_PROFESSOR_EXPERIENCE_QUERY
+            = "INSERT INTO ProfesorExperiencia (id_profesor, id_experiencia) VALUES (?, ?)";
 
-    private static final String GET_ALL_QUERY =
-            "SELECT e.*, p.nombre AS periodName, "
+    private static final String GET_ALL_QUERY
+            = "SELECT e.*, p.nombre AS periodName, "
             + "CONCAT_WS(' ', prof.nombre, prof.apellido_paterno, prof.apellido_materno) AS professorName "
             + "FROM ExperienciaEducativa e "
             + "INNER JOIN Periodo p ON e.id_periodo = p.id_periodo "
             + "LEFT JOIN ProfesorExperiencia pe ON e.id_experiencia = pe.id_experiencia "
             + "LEFT JOIN Profesor prof ON pe.id_profesor = prof.id_profesor";
 
-    private static final String GET_QUERY =
-            "SELECT e.*, p.nombre AS periodName, "
+    private static final String GET_QUERY
+            = "SELECT e.*, p.nombre AS periodName, "
             + "CONCAT_WS(' ', prof.nombre, prof.apellido_paterno, prof.apellido_materno) AS professorName "
             + "FROM ExperienciaEducativa e "
             + "INNER JOIN Periodo p ON e.id_periodo = p.id_periodo "
@@ -43,17 +43,17 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
             + "LEFT JOIN Profesor prof ON pe.id_profesor = prof.id_profesor "
             + "WHERE e.id_experiencia = ?";
 
-    private static final String UPDATE_QUERY =
-            "UPDATE ExperienciaEducativa SET nombre = ?, id_periodo = ?, nrc = ? WHERE id_experiencia = ?";
+    private static final String UPDATE_QUERY
+            = "UPDATE ExperienciaEducativa SET nombre = ?, id_periodo = ?, nrc = ? WHERE id_experiencia = ?";
 
-    private static final String DELETE_QUERY =
-            "DELETE FROM ExperienciaEducativa WHERE id_experiencia = ?";
+    private static final String DELETE_QUERY
+            = "DELETE FROM ExperienciaEducativa WHERE id_experiencia = ?";
 
-    private static final String EXISTS_BY_NRC_QUERY =
-            "SELECT COUNT(*) FROM ExperienciaEducativa WHERE nrc = ?";
+    private static final String EXISTS_BY_NRC_QUERY
+            = "SELECT COUNT(*) FROM ExperienciaEducativa WHERE nrc = ?";
 
-    private static final String EXISTS_BY_NAME_NRC_PERIOD_QUERY =
-            "SELECT COUNT(*) FROM ExperienciaEducativa WHERE nombre = ? AND nrc = ? AND id_periodo = ?";
+    private static final String EXISTS_BY_NAME_NRC_PERIOD_QUERY
+            = "SELECT COUNT(*) FROM ExperienciaEducativa WHERE nombre = ? AND nrc = ? AND id_periodo = ?";
 
     @Override
     public void createOne(ExperienciaEducativaDTO experienceDTO) throws ExcepcionMostrableUsuario {
@@ -131,9 +131,7 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
 
     public boolean existsByNrc(String nrc) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(EXISTS_BY_NRC_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(EXISTS_BY_NRC_QUERY)) {
             statement.setString(1, nrc);
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -151,9 +149,7 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
 
     public boolean existsByNameNrcAndPeriod(String name, String nrc, int periodId) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(EXISTS_BY_NAME_NRC_PERIOD_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(EXISTS_BY_NAME_NRC_PERIOD_QUERY)) {
             statement.setString(1, name);
             statement.setString(2, nrc);
             statement.setInt(3, periodId);
@@ -174,10 +170,7 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
     @Override
     public List<ExperienciaEducativaDTO> getAll() throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
-            ResultSet resultSet = statement.executeQuery()
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY); ResultSet resultSet = statement.executeQuery()) {
             List<ExperienciaEducativaDTO> experiences = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -198,9 +191,7 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
     @Override
     public ExperienciaEducativaDTO getOne(Integer id) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(GET_QUERY)) {
             statement.setInt(1, id);
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -223,9 +214,7 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
     @Override
     public void updateOne(ExperienciaEducativaDTO experienceDTO) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, experienceDTO.getNombre());
 
             if (experienceDTO.getPeriodoId() != null) {
@@ -251,9 +240,7 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
     @Override
     public void deleteOne(Integer id) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, id);
             statement.executeUpdate();
 
@@ -267,8 +254,8 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
     }
 
     public List<ExperienciaEducativaDTO> getExperienciasByUserId(int usuarioId) throws ExcepcionMostrableUsuario {
-        String query =
-                "SELECT e.*, p.nombre AS periodName, "
+        String query
+                = "SELECT e.*, p.nombre AS periodName, "
                 + "CONCAT(prof.nombre, ' ', prof.apellido_paterno) AS professorName "
                 + "FROM ExperienciaEducativa e "
                 + "INNER JOIN ProfesorExperiencia pe ON e.id_experiencia = pe.id_experiencia "
@@ -277,9 +264,7 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
                 + "WHERE prof.id_usuario = ?";
 
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, usuarioId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -315,8 +300,8 @@ public class ExperienciaEducativaDAO extends MoldeDAOCompleto<ExperienciaEducati
                 .setNombrePeriodo(resultSet.getString("periodName"))
                 .setNombreProfesor(
                         professorName != null && !professorName.trim().isEmpty()
-                                ? professorName.trim()
-                                : "Sin asignar"
+                        ? professorName.trim()
+                        : "Sin asignar"
                 )
                 .build();
     }

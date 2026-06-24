@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package main.aplicacion.controladores.coordinador;
 
 import java.net.URL;
@@ -22,11 +18,6 @@ import main.comun.Modal;
 import main.comun.ExcepcionMostrableUsuario;
 import main.basedatos.dao.DocumentoAceptacionDAO;
 
-/**
- * FXML Controller class
- *
- * @author josem
- */
 public class GUIRevisarDocumentos implements Initializable {
 
     @FXML
@@ -42,9 +33,6 @@ public class GUIRevisarDocumentos implements Initializable {
 
     private final DocumentoAceptacionDAO documentoDAO = new DocumentoAceptacionDAO();
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeTable();
@@ -73,16 +61,16 @@ public class GUIRevisarDocumentos implements Initializable {
             Modal.displayInformation("Selección Requerida", "Por favor seleccione un documento de la tabla.");
             return;
         }
-        
+
         try {
             DocumentoAceptacionDTO updated = new DocumentoAceptacionDTO.DocumentoAceptacionBuilder()
-                .setDocumentoAceptacionId(selected.getDocumentoAceptacionId())
-                .setAsignacionId(selected.getAsignacionId())
-                .setNombreEntregable(selected.getNombreEntregable())
-                .setArchivo(selected.getArchivo())
-                .setEstado("Pendiente")
-                .setFechaLimite(selected.getFechaLimite())
-                .build();
+                    .setDocumentoAceptacionId(selected.getDocumentoAceptacionId())
+                    .setAsignacionId(selected.getAsignacionId())
+                    .setNombreEntregable(selected.getNombreEntregable())
+                    .setArchivo(selected.getArchivo())
+                    .setEstado("Pendiente")
+                    .setFechaLimite(selected.getFechaLimite())
+                    .build();
             documentoDAO.updateOne(updated);
             Modal.displayInformation("Éxito", "El documento ha sido habilitado para entrega.");
             loadDocuments();
@@ -98,18 +86,18 @@ public class GUIRevisarDocumentos implements Initializable {
             Modal.displayInformation("Selección Requerida", "Por favor seleccione un documento de la tabla.");
             return;
         }
-        
+
         if (selected.getArchivo() == null || selected.getArchivo().length == 0) {
             Modal.displayInformation("Sin Archivo", "Este registro no tiene ningún archivo PDF entregado aún.");
             return;
         }
-        
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar Documento PDF");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         fileChooser.setInitialFileName(selected.getNombreEntregable() + ".pdf");
         File file = fileChooser.showSaveDialog(null);
-        
+
         if (file != null) {
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 fos.write(selected.getArchivo());
@@ -120,4 +108,3 @@ public class GUIRevisarDocumentos implements Initializable {
         }
     }
 }
-

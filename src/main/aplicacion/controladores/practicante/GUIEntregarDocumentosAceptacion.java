@@ -62,10 +62,13 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
     private Label labelManager;
     @FXML
     private Label labelEE;
-    
-    @FXML private TableView<DocumentoAceptacionDTO> tableViewDocuments;
-    @FXML private TableColumn<DocumentoAceptacionDTO, String> columnName;
-    @FXML private TableColumn<DocumentoAceptacionDTO, String> columnStatus;
+
+    @FXML
+    private TableView<DocumentoAceptacionDTO> tableViewDocuments;
+    @FXML
+    private TableColumn<DocumentoAceptacionDTO, String> columnName;
+    @FXML
+    private TableColumn<DocumentoAceptacionDTO, String> columnStatus;
 
     private AsignacionDTO currentAssignment;
     private DocumentoAceptacionDAO documentDAO = new DocumentoAceptacionDAO();
@@ -76,21 +79,21 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
         try {
             PracticanteDAO practicanteDAO = new PracticanteDAO();
             currentPracticante = practicanteDAO.getByEnrollment(Sesion.getCurrentUser().getNombreUsuario());
-            
+
             if (currentPracticante != null) {
                 AsignacionDAO asignacionDAO = new AsignacionDAO();
                 currentAssignment = asignacionDAO.getActiveAssignmentByIntern(currentPracticante.getPracticanteId());
-                
+
                 if (currentAssignment != null) {
                     labelProjectName.setText(currentAssignment.getNombreProyecto());
                     labelMatricula.setText(currentAssignment.getMatriculaPracticante());
-                    
+
                     try {
                         ProyectoDTO project = new ProyectoDAO().getOne(currentAssignment.getProyectoId());
                         ResponsableProyectoDTO manager = new ResponsableProyectoDAO().getOne(project.getTitularId());
                         OrganizacionVinculadaDTO org = new OrganizacionVinculadaDAO().getOne(manager.getOrganizacionId());
                         ExperienciaEducativaDTO ee = new ExperienciaEducativaDAO().getOne(currentAssignment.getExperienciaEducativaId());
-                        
+
                         labelOrganization.setText(org.getNombreEmpresa());
                         labelManager.setText(manager.getNombre());
                         labelEE.setText(ee.getNombre() + " (" + ee.getNrc() + ")");
@@ -111,7 +114,7 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
         } catch (ExcepcionMostrableUsuario e) {
             Modal.displayError(e);
         }
-    }    
+    }
 
     private void loadDocuments() throws ExcepcionMostrableUsuario {
         List<DocumentoAceptacionDTO> docs = documentDAO.getAllByAssignmentId(currentAssignment.getAsignacionId());
@@ -132,33 +135,30 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         fileChooser.setInitialFileName("Oficio_Asignacion_" + currentAssignment.getMatriculaPracticante() + ".pdf");
         File file = fileChooser.showSaveDialog(null);
-        
+
         if (file != null) {
             try {
                 Document document = new Document();
                 document.setMargins(50, 50, 50, 50);
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
-                
+
                 Font boldFont = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
                 Font normalFont = new Font(Font.FontFamily.HELVETICA, 11, Font.NORMAL);
-                
-                // Fecha
+
                 SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
                 String dateStr = sdf.format(new Date());
                 Paragraph datePara = new Paragraph("Xalapa-Enríquez, Veracruz, a " + dateStr + "\n\n", normalFont);
                 datePara.setAlignment(Element.ALIGN_RIGHT);
                 document.add(datePara);
-                
-                // Extraer info adicional de la BD
+
                 ProyectoDTO project = new ProyectoDAO().getOne(currentAssignment.getProyectoId());
                 ResponsableProyectoDTO manager = new ResponsableProyectoDAO().getOne(project.getTitularId());
                 OrganizacionVinculadaDTO org = new OrganizacionVinculadaDAO().getOne(manager.getOrganizacionId());
                 ExperienciaEducativaDTO ee = new ExperienciaEducativaDAO().getOne(currentAssignment.getExperienciaEducativaId());
                 List<CoordinadorDTO> coords = new CoordinadorDAO().getAll();
                 CoordinadorDTO coord = coords.isEmpty() ? null : coords.get(0);
-                
-                // Destinatario
+
                 Paragraph destinatario = new Paragraph();
                 destinatario.add(new Chunk(manager.getNombre().toUpperCase() + "\n", boldFont));
                 destinatario.add(new Chunk("GESTOR DE PROYECTOS\n", boldFont));
@@ -166,29 +166,27 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
                 destinatario.add(new Chunk(org.getDireccion().toUpperCase() + "\n\n", boldFont));
                 destinatario.setAlignment(Element.ALIGN_LEFT);
                 document.add(destinatario);
-                
-                // Párrafo 1 (Simplificado)
+
                 Paragraph p1 = new Paragraph();
                 p1.setAlignment(Element.ALIGN_JUSTIFIED);
                 p1.setFont(normalFont);
-                
+
                 String texto = String.format(
-                    "El practicante %s con matrícula %s en la experiencia educativa %s (NRC: %s) fue asignado al proyecto \"%s\" de la organización %s el día %s. Se compromete en el periodo \"%s\" a cumplir 420 horas.\n\n" +
-                    "Las prácticas profesionales de ingeniería de software en la Universidad Veracruzana se evalúan mediante una rúbrica de reportes y evaluaciones.\n\n\n\n",
-                    currentAssignment.getNombrePracticante().toUpperCase(),
-                    currentAssignment.getMatriculaPracticante().toUpperCase(),
-                    ee.getNombre().toUpperCase(),
-                    currentAssignment.getNrc(),
-                    currentAssignment.getNombreProyecto(),
-                    org.getNombreEmpresa(),
-                    dateStr,
-                    ee.getNombrePeriodo()
+                        "El practicante %s con matrícula %s en la experiencia educativa %s (NRC: %s) fue asignado al proyecto \"%s\" de la organización %s el día %s. Se compromete en el periodo \"%s\" a cumplir 420 horas.\n\n"
+                        + "Las prácticas profesionales de ingeniería de software en la Universidad Veracruzana se evalúan mediante una rúbrica de reportes y evaluaciones.\n\n\n\n",
+                        currentAssignment.getNombrePracticante().toUpperCase(),
+                        currentAssignment.getMatriculaPracticante().toUpperCase(),
+                        ee.getNombre().toUpperCase(),
+                        currentAssignment.getNrc(),
+                        currentAssignment.getNombreProyecto(),
+                        org.getNombreEmpresa(),
+                        dateStr,
+                        ee.getNombrePeriodo()
                 );
-                
+
                 p1.add(new Chunk(texto));
                 document.add(p1);
-                
-                // Firmas
+
                 String nombreFirma = coord != null ? (coord.getNombre() + " " + coord.getApellidoPaterno() + " " + coord.getApellidoMaterno()) : "COORDINADOR";
                 Paragraph firma = new Paragraph();
                 firma.setAlignment(Element.ALIGN_CENTER);
@@ -196,7 +194,7 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
                 firma.add(new Chunk("Atentamente\n\n\n\n___________________________________\n", normalFont));
                 firma.add(new Chunk(nombreFirma.toUpperCase() + "\nCoordinador de Servicio Social y Prácticas Profesionales\nLicenciatura en Ingeniería de Software", normalFont));
                 document.add(firma);
-                
+
                 document.close();
                 Modal.displayInformation("Éxito", "Oficio generado y descargado exitosamente en formato PDF.");
             } catch (Exception e) {
@@ -209,25 +207,25 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
     @FXML
     private void entregarDocumento(ActionEvent event) {
         DocumentoAceptacionDTO selected = tableViewDocuments.getSelectionModel().getSelectedItem();
-        
+
         try {
             ValidadorEntrega.validateDelivery(selected);
         } catch (ExcepcionMostrableUsuario e) {
             Modal.displayError(e);
             return;
         }
-        
+
         if ("Entregado".equalsIgnoreCase(selected.getEstado())) {
             if (!Modal.displayConfirmation("Ya existe un archivo cargado. ¿Desea sobrescribirlo?")) {
                 return;
             }
         }
-        
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar Documento PDF");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showOpenDialog(null);
-        
+
         if (file != null) {
             if (!file.getName().toLowerCase().endsWith(".pdf")) {
                 Modal.displayError(new ExcepcionMostrableUsuario("Formato incorrecto", "Documento inválido", "El archivo debe tener el formato PDF."));

@@ -34,7 +34,6 @@ public class GUIAdministrarEntregables implements Initializable {
     @FXML private TableColumn<ReporteDTO, String> colRepName;
     @FXML private TableColumn<ReporteDTO, String> colRepStatus;
 
-    // We use a generic representation or just EvaluacionOVDTO for the table since it has the same getters
     @FXML private TableView<EvaluacionOVDTO> tableEvals;
     @FXML private TableColumn<EvaluacionOVDTO, String> colEvalName;
     @FXML private TableColumn<EvaluacionOVDTO, String> colEvalStatus;
@@ -65,7 +64,6 @@ public class GUIAdministrarEntregables implements Initializable {
             AutoevaluacionDAO autoDao = new AutoevaluacionDAO();
             
             List<EvaluacionOVDTO> allEvals = evalDao.getUniqueEntregablesByExperiencia(experiencia.getExperienciaEducativaId());
-            // Add autoevaluaciones casted as EvaluacionOVDTO just for the table display since they share properties
             List<AutoevaluacionDTO> autos = autoDao.getUniqueEntregablesByExperiencia(experiencia.getExperienciaEducativaId());
             for (AutoevaluacionDTO a : autos) {
                 allEvals.add(new EvaluacionOVDTO.EvaluacionOVBuilder().setNombreEntregable(a.getNombreEntregable()).setEstado(a.getEstado()).build());

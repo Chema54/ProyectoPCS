@@ -69,14 +69,13 @@ public class GUIRegistrarPeriodo implements Initializable {
     @FXML
     private void registerPeriod(ActionEvent event) {
         if (!validateFields()) {
-            return; // Regresa al paso 2 del flujo normal (FA 3.1 y FA 3.2)
+            return;
         }
 
-        // 4. Despliega ventana de confirmación (Paso 4 y 5)
         boolean isConfirmed = Modal.displayConfirmation("¿Está seguro que desea registrar este Periodo?");
         
         if (!isConfirmed) {
-            return; // FA 5.1 Rechazar Confirmación: Regresa al paso 3 (se queda en la ventana)
+            return; 
         }
 
         try {
@@ -112,8 +111,6 @@ public class GUIRegistrarPeriodo implements Initializable {
         String name = textFieldName.getText().trim();
         LocalDate startDate = datePickerStartDate.getValue();
         LocalDate endDate = datePickerEndDate.getValue();
-
-        // FA 3.1 Campos Vacíos de registro
         if (name.isEmpty()) {
             labelErrorName.setText("El campo Nombre del Periodo es obligatorio");
             isValid = false;
@@ -131,7 +128,6 @@ public class GUIRegistrarPeriodo implements Initializable {
             isValid = false;
         }
 
-        // FA 3.2 Campos con valores incorrectos (Lógica superficial, la profunda está en el Service)
         if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
             labelErrorEndDate.setText("El campo Fecha de Fin contiene valores invalidos (No puede ser antes del inicio)");
             isValid = false;

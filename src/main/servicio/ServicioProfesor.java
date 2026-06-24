@@ -24,38 +24,38 @@ public class ServicioProfesor {
 
         if (usuarioDAO.getOne(username) != null) {
             throw new ExcepcionMostrableUsuario(
-                "Usuario Duplicado",
-                "Ya existe un usuario con ese nombre de usuario",
-                "Ingrese un nombre de usuario diferente."
+                    "Usuario Duplicado",
+                    "Ya existe un usuario con ese nombre de usuario",
+                    "Ingrese un nombre de usuario diferente."
             );
         }
 
         if (existeNumeroPersonal(profesorDAO.getAll(), profesor.getNumeroPersonal())) {
             throw new ExcepcionMostrableUsuario(
-                "Número de personal duplicado",
-                "El profesor ya existe en el sistema",
-                "Existe un profesor registrado con el mismo número de personal."
+                    "Número de personal duplicado",
+                    "El profesor ya existe en el sistema",
+                    "Existe un profesor registrado con el mismo número de personal."
             );
         }
 
         UsuarioDTO nuevoUsuario = new UsuarioDTO.UsuarioBuilder()
-            .setNombreUsuario(username)
-            .setContrasenia(password)
-            .setRol(RolUsuario.PROFESSOR)
-            .setAcceso(true)
-            .build();
+                .setNombreUsuario(username)
+                .setContrasenia(password)
+                .setRol(RolUsuario.PROFESSOR)
+                .setAcceso(true)
+                .build();
 
         int idUsuario = usuarioDAO.createOneAndReturnId(nuevoUsuario);
 
         ProfesorDTO profesorAInsertar = new ProfesorDTO.ProfesorBuilder()
-            .setNumeroPersonal(profesor.getNumeroPersonal())
-            .setNombre(profesor.getNombre())
-            .setApellidoPaterno(profesor.getApellidoPaterno())
-            .setApellidoMaterno(profesor.getApellidoMaterno())
-            .setCorreo(profesor.getCorreo())
-            .setEstado(profesor.getEstado())
-            .setUsuarioId(idUsuario)
-            .build();
+                .setNumeroPersonal(profesor.getNumeroPersonal())
+                .setNombre(profesor.getNombre())
+                .setApellidoPaterno(profesor.getApellidoPaterno())
+                .setApellidoMaterno(profesor.getApellidoMaterno())
+                .setCorreo(profesor.getCorreo())
+                .setEstado(profesor.getEstado())
+                .setUsuarioId(idUsuario)
+                .build();
 
         profesorDAO.createOne(profesorAInsertar);
     }
@@ -68,9 +68,9 @@ public class ServicioProfesor {
 
         if (!esNumeroPersonalValido(profesor.getNumeroPersonal())) {
             throw new ExcepcionMostrableUsuario(
-                "Restricción de Profesor",
-                "Formato de número de personal inválido",
-                "El número de personal debe contener solo números y tener entre 3 y 10 dígitos."
+                    "Restricción de Profesor",
+                    "Formato de número de personal inválido",
+                    "El número de personal debe contener solo números y tener entre 3 y 10 dígitos."
             );
         }
 
@@ -78,33 +78,33 @@ public class ServicioProfesor {
                 || !Validador.isAlphabeticWithAccents(profesor.getApellidoPaterno())
                 || !Validador.isAlphabeticWithAccents(profesor.getApellidoMaterno())) {
             throw new ExcepcionMostrableUsuario(
-                "Restricción de Profesor",
-                "El nombre y apellidos solo pueden contener letras y acentos",
-                "Dato asignado tiene un valor inválido, debe seguir el formato asignado."
+                    "Restricción de Profesor",
+                    "El nombre y apellidos solo pueden contener letras y acentos",
+                    "Dato asignado tiene un valor inválido, debe seguir el formato asignado."
             );
         }
 
         if (!esCorreoValido(profesor.getCorreo())) {
             throw new ExcepcionMostrableUsuario(
-                "Restricción de Profesor",
-                "Formato de correo electrónico inválido",
-                "Ingrese un correo electrónico válido."
+                    "Restricción de Profesor",
+                    "Formato de correo electrónico inválido",
+                    "Ingrese un correo electrónico válido."
             );
         }
 
         if (!esUsernameValido(username)) {
             throw new ExcepcionMostrableUsuario(
-                "Restricción de Usuario",
-                "Formato de usuario inválido",
-                "El usuario debe tener de 3 a 50 caracteres y solo puede usar letras, números, guion, guion bajo o punto."
+                    "Restricción de Usuario",
+                    "Formato de usuario inválido",
+                    "El usuario debe tener de 3 a 50 caracteres y solo puede usar letras, números, guion, guion bajo o punto."
             );
         }
 
         if (!esPasswordValida(password)) {
             throw new ExcepcionMostrableUsuario(
-                "Restricción de Usuario",
-                "Formato de contraseña inválido",
-                "La contraseña debe tener al menos 4 caracteres y no debe contener espacios, comillas ni diagonal invertida."
+                    "Restricción de Usuario",
+                    "Formato de contraseña inválido",
+                    "La contraseña debe tener al menos 4 caracteres y no debe contener espacios, comillas ni diagonal invertida."
             );
         }
     }

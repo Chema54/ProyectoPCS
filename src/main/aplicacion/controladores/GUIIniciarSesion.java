@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.aplicacion.controladores;
 
 import java.io.IOException;
@@ -31,16 +27,13 @@ import main.basedatos.dao.UsuarioDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- *
- * @author josem
- */
-public class GUIIniciarSesion implements Initializable{
+public class GUIIniciarSesion implements Initializable {
+
     private static final Logger LOGGER = LogManager.getLogger(GUIIniciarSesion.class);
-    
-    @FXML 
+
+    @FXML
     private Button buttonLogin;
-    
+
     @FXML
     private TextField textFieldUsername;
 
@@ -63,28 +56,28 @@ public class GUIIniciarSesion implements Initializable{
     private void iniciarSesion() throws SQLException {
         String username = textFieldUsername.getText().trim();
         String password = passwordFieldPassword.getText();
-        
-        if(!validarCampos(username, password)){
+
+        if (!validarCampos(username, password)) {
             return;
-        } 
+        }
         try {
             createConnection();
             UsuarioDAO userDAO = new UsuarioDAO();
             UsuarioDTO user = userDAO.getOne(username);
             if (user == null || !Objects.equals(user.getContrasenia(), password)) {
                 throw new ExcepcionMostrableUsuario(
-                    "Error de Autenticación",
-                    "Inicio de sesión fallido",
-                    "Usuario y/o contraseña incorrectos.",
-                    null
+                        "Error de Autenticación",
+                        "Inicio de sesión fallido",
+                        "Usuario y/o contraseña incorrectos.",
+                        null
                 );
             }
             if (!user.tieneAcceso()) {
                 throw new ExcepcionMostrableUsuario(
-                    "Usuario Inactivo",
-                    "Acceso Denegado",
-                    "Su cuenta ha sido deshabilitada. Por favor, comuníquese con el coordinador para más información.",
-                    null
+                        "Usuario Inactivo",
+                        "Acceso Denegado",
+                        "Su cuenta ha sido deshabilitada. Por favor, comuníquese con el coordinador para más información.",
+                        null
                 );
             }
             Sesion.setCurrentUser(user);
@@ -94,7 +87,7 @@ public class GUIIniciarSesion implements Initializable{
             Modal.displayError(e);
         }
     }
-    
+
     private boolean validarCampos(String username, String password) {
         labelErrorUsername.setText("");
         labelErrorPassword.setText("");
@@ -110,7 +103,7 @@ public class GUIIniciarSesion implements Initializable{
         return emptyFields;
 
     }
-    
+
     private void createConnection() throws ExcepcionMostrableUsuario {
         String url = "jdbc:mysql://100.119.92.93/practicas_profesionales";
         String dbUser = textFieldUsername.getText().trim();
@@ -122,7 +115,7 @@ public class GUIIniciarSesion implements Initializable{
             if (!connection.isClosed()) {
                 connector.saveProperties();
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             if (e.getErrorCode() == 1045 || "28000".equals(e.getSQLState())) {
                 throw new ExcepcionMostrableUsuario("Acceso Denegado", "Usuario o contraseña incorrectos", "El usuario no existe o la contraseña es errónea.");
             } else if (e.getSQLState() != null && e.getSQLState().startsWith("08")) {
@@ -131,28 +124,28 @@ public class GUIIniciarSesion implements Initializable{
             throw ManejadorExcepciones.handleSQLException(LOGGER, e, "No se puede conectar a la base de datos.");
         }
     }
-    
+
     private void openMenuByRole(RolUsuario rol) throws ExcepcionMostrableUsuario {
-    switch (rol) {
+        switch (rol) {
 
-        case INTERN://aqui seria CASE INTERN
-            openWindow("/main/aplicacion/vistas/practicante/GUIMenuPracticante.fxml");
-            break;
+            case INTERN:
+                openWindow("/main/aplicacion/vistas/practicante/GUIMenuPracticante.fxml");
+                break;
 
-        case COORDINADOR://aqui seria case COORDINATOR
-            openWindow("/main/aplicacion/vistas/coordinador/GUIMenuCoordinador.fxml");
-            break;
+            case COORDINADOR:
+                openWindow("/main/aplicacion/vistas/coordinador/GUIMenuCoordinador.fxml");
+                break;
 
-        case PROFESSOR://aqui seria case PROFESOR
-            openWindow("/main/aplicacion/vistas/profesor/GUIMenuProfesor.fxml");
-            break;
-            
-        default:
-            Modal.displayInformation("rol de Usuario no encontrado","No se ha encontrado un rol definido para este usuario");
-            break;
+            case PROFESSOR:
+                openWindow("/main/aplicacion/vistas/profesor/GUIMenuProfesor.fxml");
+                break;
+
+            default:
+                Modal.displayInformation("rol de Usuario no encontrado", "No se ha encontrado un rol definido para este usuario");
+                break;
+        }
     }
-}
-    
+
     private void openWindow(String fxmlPath) throws ExcepcionMostrableUsuario {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

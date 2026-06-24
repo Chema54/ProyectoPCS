@@ -34,7 +34,8 @@ public class GUIRealizarAutoevaluacion implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(GUIRealizarAutoevaluacion.class);
 
-    @FXML private VBox vboxPreguntas;
+    @FXML
+    private VBox vboxPreguntas;
 
     private List<ToggleGroup> gruposRespuestas = new ArrayList<>();
     private String[] preguntas = {
@@ -61,11 +62,11 @@ public class GUIRealizarAutoevaluacion implements Initializable {
             Label labelPregunta = new Label(q);
             labelPregunta.setWrapText(true);
             labelPregunta.setPrefWidth(600);
-            
+
             HBox opciones = new HBox(20);
             ToggleGroup grupo = new ToggleGroup();
             gruposRespuestas.add(grupo);
-            
+
             for (int i = 1; i <= 5; i++) {
                 RadioButton rbOpcion = new RadioButton(String.valueOf(i));
                 rbOpcion.setUserData(i);
@@ -101,7 +102,7 @@ public class GUIRealizarAutoevaluacion implements Initializable {
 
         try {
             byte[] bytesPDF = generarPDF(puntajeTotal, respuestas);
-            
+
             AutoevaluacionDTO actualizada = new AutoevaluacionDTO.AutoevaluacionBuilder()
                     .setAutoevaluacionId(autoevaluacion.getAutoevaluacionId())
                     .setAsignacionId(autoevaluacion.getAsignacionId())
@@ -112,11 +113,11 @@ public class GUIRealizarAutoevaluacion implements Initializable {
                     .build();
 
             new AutoevaluacionDAO().updateOne(actualizada);
-            
+
             Modal.displayInformation("Éxito", "La autoevaluación se ha registrado exitosamente. Puntuación Final: " + puntajeTotal + "/50");
             controladorPadre.loadDeliverables();
             cerrarVentana();
-            
+
         } catch (Exception e) {
             LOGGER.error("Error generando/guardando autoevaluación", e);
             Modal.displayError(new ExcepcionMostrableUsuario("Error", "Error al procesar", e.getMessage()));
@@ -128,29 +129,29 @@ public class GUIRealizarAutoevaluacion implements Initializable {
         Document documento = new Document();
         PdfWriter.getInstance(documento, salidaBytes);
         documento.open();
-        
+
         Font fuenteTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
         Font fuenteNegrita = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
         Font fuenteNormal = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
-        
+
         Paragraph titulo = new Paragraph("FORMATO: EVALUACIÓN DEL ALUMNO\n\n", fuenteTitulo);
         titulo.setAlignment(Element.ALIGN_CENTER);
         documento.add(titulo);
-        
+
         documento.add(new Paragraph("Nombre del alumno: " + practicante.getNombre() + " " + practicante.getApellidoPaterno(), fuenteNormal));
         documento.add(new Paragraph("Matrícula: " + practicante.getMatricula(), fuenteNormal));
         documento.add(new Paragraph("Proyecto: " + asignacion.getNombreProyecto() + "\n\n", fuenteNormal));
-        
+
         documento.add(new Paragraph("RESULTADOS DEL CUESTIONARIO:\n\n", fuenteNegrita));
         for (int i = 0; i < preguntas.length; i++) {
             documento.add(new Paragraph(preguntas[i], fuenteNormal));
             documento.add(new Paragraph("Respuesta: " + respuestas.get(i) + " / 5\n", fuenteNegrita));
         }
-        
+
         Paragraph parrafoPuntaje = new Paragraph("\nPUNTUACIÓN FINAL: " + puntajeTotal + " / 50", fuenteTitulo);
         parrafoPuntaje.setAlignment(Element.ALIGN_RIGHT);
         documento.add(parrafoPuntaje);
-        
+
         documento.close();
         return salidaBytes.toByteArray();
     }

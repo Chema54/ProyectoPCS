@@ -17,70 +17,69 @@ public class ServicioPracticante {
     }
 
     public static void registrarNuevoPracticante(PracticanteDTO practicante) throws ExcepcionMostrableUsuario {
-        
+
         String matricula = practicante.getMatricula();
         String email = practicante.getCorreo();
 
-        
         if (!Validador.isValidEnrollment(matricula)) {
             throw new ExcepcionMostrableUsuario(
-                "Restricción de Practicante",
-                "Formato de matrícula inválido",
-                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
-            );
-        }
-        
-        if (!Validador.isValidStudentEmail(email)) {
-            throw new ExcepcionMostrableUsuario(
-                "Restricción de Practicante",
-                "Formato de correo electrónico inválido",
-                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
+                    "Restricción de Practicante",
+                    "Formato de matrícula inválido",
+                    "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
             );
         }
 
-        if (!Validador.isAlphabeticWithAccents(practicante.getNombre()) || 
-            !Validador.isAlphabeticWithAccents(practicante.getApellidoPaterno()) || 
-            !Validador.isAlphabeticWithAccents(practicante.getApellidoMaterno())) {
+        if (!Validador.isValidStudentEmail(email)) {
             throw new ExcepcionMostrableUsuario(
-                "Restricción de Practicante", 
-                "El nombre y apellidos solo pueden contener letras y acentos", 
-                "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
+                    "Restricción de Practicante",
+                    "Formato de correo electrónico inválido",
+                    "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
             );
         }
-        
+
+        if (!Validador.isAlphabeticWithAccents(practicante.getNombre())
+                || !Validador.isAlphabeticWithAccents(practicante.getApellidoPaterno())
+                || !Validador.isAlphabeticWithAccents(practicante.getApellidoMaterno())) {
+            throw new ExcepcionMostrableUsuario(
+                    "Restricción de Practicante",
+                    "El nombre y apellidos solo pueden contener letras y acentos",
+                    "Dato asignado tiene un valor invalido, debe seguir un formato asignado"
+            );
+        }
+
         PracticanteDAO practicanteDAO = new PracticanteDAO();
         UsuarioDAO userDAO = new UsuarioDAO();
 
         if (practicanteDAO.isEnrollmentRegistered(matricula) || userDAO.getOne(matricula) != null) {
             throw new ExcepcionMostrableUsuario(
-                "Matrícula Duplicada",
-                "El Practicante ya existe en el sistema",
-                "Existe un usuario o practicante registrado con la misma matrícula"
+                    "Matrícula Duplicada",
+                    "El Practicante ya existe en el sistema",
+                    "Existe un usuario o practicante registrado con la misma matrícula"
             );
         }
-        
+
         String rawPassword = practicante.getMatricula().toLowerCase();
-        
+
         UsuarioDTO nuevoUsuario = new UsuarioDTO.UsuarioBuilder()
-            .setNombreUsuario(practicante.getMatricula())
-            .setContrasenia(rawPassword)
-            .setRol(RolUsuario.INTERN)
-            .setAcceso(true)
-            .build();
-            
+                .setNombreUsuario(practicante.getMatricula())
+                .setContrasenia(rawPassword)
+                .setRol(RolUsuario.INTERN)
+                .setAcceso(true)
+                .build();
+
         int nuevoIdUsuario = userDAO.createOneAndReturnId(nuevoUsuario);
-        
+
         PracticanteDTO practicanteAInsertar = new PracticanteDTO.PracticanteBuilder()
-            .setPracticanteId(practicante.getPracticanteId())
-            .setNombre(practicante.getNombre())
-            .setApellidoPaterno(practicante.getApellidoPaterno())
-            .setApellidoMaterno(practicante.getApellidoMaterno())
-            .setCorreo(practicante.getCorreo())
-            .setMatricula(practicante.getMatricula())
-            .setEstado(practicante.getEstado())
-            .setUsuarioId(nuevoIdUsuario)
-            .build();
-        
+                .setPracticanteId(practicante.getPracticanteId())
+                .setNombre(practicante.getNombre())
+                .setApellidoPaterno(practicante.getApellidoPaterno())
+                .setApellidoMaterno(practicante.getApellidoMaterno())
+                .setCorreo(practicante.getCorreo())
+                .setMatricula(practicante.getMatricula())
+                .setEstado(practicante.getEstado())
+                .setUsuarioId(nuevoIdUsuario)
+                .build();
+
         practicanteDAO.createOne(practicanteAInsertar);
     }
 
@@ -91,9 +90,9 @@ public class ServicioPracticante {
         if (!Validador.isValidStudentEmail(practicante.getCorreo())) {
             throw new ExcepcionMostrableUsuario("Restricción de Practicante", "Formato de correo electrónico inválido", "Dato asignado tiene un valor invalido");
         }
-        if (!Validador.isAlphabeticWithAccents(practicante.getNombre()) || 
-            !Validador.isAlphabeticWithAccents(practicante.getApellidoPaterno()) || 
-            !Validador.isAlphabeticWithAccents(practicante.getApellidoMaterno())) {
+        if (!Validador.isAlphabeticWithAccents(practicante.getNombre())
+                || !Validador.isAlphabeticWithAccents(practicante.getApellidoPaterno())
+                || !Validador.isAlphabeticWithAccents(practicante.getApellidoMaterno())) {
             throw new ExcepcionMostrableUsuario("Restricción de Practicante", "El nombre y apellidos solo pueden contener letras y acentos", "Dato asignado tiene un valor invalido");
         }
 

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMain.java to edit this template
- */
 package main;
 
 import javafx.application.Application;
@@ -11,10 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.basedatos.ConexionBD;
 
-/**
- *
- * @author josem
- */
 public class ProyectoPCS extends Application {
 
     @Override
@@ -27,13 +19,13 @@ public class ProyectoPCS extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-    
+
     @Override
     public void stop() {
         ConexionBD.deleteConfiguration();
     }
 
-        public static void main(String[] args) {
-            launch(args);
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
+}

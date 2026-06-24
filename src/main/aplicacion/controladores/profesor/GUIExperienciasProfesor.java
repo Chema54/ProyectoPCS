@@ -59,15 +59,8 @@ public class GUIExperienciasProfesor implements Initializable {
             Parent view = loader.load();
             GUIAdministrarEntregables controller = loader.getController();
             controller.setExperiencia(selected);
-            
-            // To replace central pane, we can get parent of parent or use static method if needed.
-            // A simpler way: Find the menu controller from scene or pass it.
-            // For now, replacing the scene's root is too drastic, let's just get the anchor pane:
             tableViewExperiencias.getScene().lookup("#anchorPaneCentral"); // Just an idea, but cleaner to use the node.
-            
-            // We just set the children of the parent AnchorPane
-            ((javafx.scene.layout.AnchorPane) tableViewExperiencias.getParent()).getChildren().setAll(view);
-            
+            ((javafx.scene.layout.AnchorPane) tableViewExperiencias.getParent()).getChildren().setAll(view);  
         } catch (IOException ex) {
             LOGGER.error("Error al cargar Administrar Entregas", ex);
         }

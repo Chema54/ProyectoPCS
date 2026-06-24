@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package main.aplicacion.controladores.coordinador;
 
 import java.io.IOException;
@@ -27,16 +23,8 @@ import main.basedatos.ConexionBD;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * FXML Controller class
- *
- * @author josem
- */
 public class GUIMenuCoordinador implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
     private static final Logger LOGGER = LogManager.getLogger(GUIMenuCoordinador.class);
 
     @FXML
@@ -56,7 +44,7 @@ public class GUIMenuCoordinador implements Initializable {
 
     @FXML
     private ToggleButton toggleButtonUsers;
-    
+
     @FXML
     private ToggleButton toggleButtonAcceptanceDocuments;
 
@@ -69,34 +57,34 @@ public class GUIMenuCoordinador implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         labelAcademicName.setText("¡Bienvenido de vuelta, Coordinador!");
         try {
-        configureToggleGroup();
-        toggleButtonProject.setSelected(true);
+            configureToggleGroup();
+            toggleButtonProject.setSelected(true);
         } catch (ExcepcionMostrableUsuario e) {
             LOGGER.error(e.getMessage(), e);
             Modal.displayError(e);
         }
     }
 
-    private void configureToggleGroup() throws ExcepcionMostrableUsuario{
+    private void configureToggleGroup() throws ExcepcionMostrableUsuario {
         toggleButtonProject.setToggleGroup(toggleGroupMenu);
         toggleButtonPeriod.setToggleGroup(toggleGroupMenu);
         toggleButtonUsers.setToggleGroup(toggleGroupMenu);
         toggleButtonAcceptanceDocuments.setToggleGroup(toggleGroupMenu);
 
         toggleGroupMenu.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
-                if (newToggle == null) {
-                    if (oldToggle != null) {
-                        oldToggle.setSelected(true);
-                    }
-                    return;
+            if (newToggle == null) {
+                if (oldToggle != null) {
+                    oldToggle.setSelected(true);
                 }
-                try {
-                    loadSelectedView(newToggle);
-                } catch (ExcepcionMostrableUsuario ex) {
-                    LOGGER.error(ex.getMessage(), ex);
-                    Modal.displayError(ex);
-                }
+                return;
             }
+            try {
+                loadSelectedView(newToggle);
+            } catch (ExcepcionMostrableUsuario ex) {
+                LOGGER.error(ex.getMessage(), ex);
+                Modal.displayError(ex);
+            }
+        }
         );
     }
 
@@ -112,7 +100,7 @@ public class GUIMenuCoordinador implements Initializable {
         }
     }
 
-    private void changeSubView(String routeFXML)throws ExcepcionMostrableUsuario {
+    private void changeSubView(String routeFXML) throws ExcepcionMostrableUsuario {
         try {
             anchorPaneCentral.getChildren().clear();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(routeFXML));
@@ -127,7 +115,7 @@ public class GUIMenuCoordinador implements Initializable {
         } catch (NullPointerException e) {
             throw ManejadorExcepciones.handleUnexpectedException(LOGGER, e, "No se encontró la vista: " + routeFXML);
         } catch (Exception e) {
-            throw ManejadorExcepciones.handleUnexpectedException(LOGGER, e,"Error al cargar la vista: " + routeFXML);
+            throw ManejadorExcepciones.handleUnexpectedException(LOGGER, e, "Error al cargar la vista: " + routeFXML);
         }
     }
 
@@ -137,7 +125,7 @@ public class GUIMenuCoordinador implements Initializable {
             ConexionBD.deleteConfiguration();
             returnToLogin();
         } catch (ExcepcionMostrableUsuario e) {
-            LOGGER.error(e.getMessage(), e); 
+            LOGGER.error(e.getMessage(), e);
             Modal.displayError(e);
         }
     }

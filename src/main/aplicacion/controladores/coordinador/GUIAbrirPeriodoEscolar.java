@@ -30,11 +30,6 @@ import org.apache.logging.log4j.Logger;
 import main.negocio.dto.ExperienciaEducativaDTO;
 import main.basedatos.dao.ExperienciaEducativaDAO;
 
-/**
- * FXML Controller class
- *
- * @author josem
- */
 public class GUIAbrirPeriodoEscolar implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(GUIAbrirPeriodoEscolar.class);
@@ -78,9 +73,6 @@ public class GUIAbrirPeriodoEscolar implements Initializable {
     @FXML
     private Button btnRegisterEE;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeTables();

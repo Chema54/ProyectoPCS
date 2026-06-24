@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -6,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="554.0" prefWidth="663.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.aplicacion.controladores.profesor.GUIAdministrarEntregables">
+<AnchorPane id="AnchorPane" prefHeight="554.0" prefWidth="663.0" stylesheets="@../estilos/SubMenuStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.aplicacion.controladores.profesor.GUIAdministrarEntregables">
    <children>
       <Label fx:id="labelTitle" layoutX="20.0" layoutY="15.0" text="Entregables de la Experiencia">
          <font>

@@ -18,21 +18,19 @@ public class ExperienciaProfesorDAO extends MoldeDAOCompleto<ExperienciaProfesor
 
     private static final Logger LOGGER = LogManager.getLogger(ExperienciaProfesorDAO.class);
 
-    private static final String CREATE_QUERY =
-            "INSERT INTO ProfesorExperiencia (id_profesor, id_experiencia) VALUES (?, ?)";
+    private static final String CREATE_QUERY
+            = "INSERT INTO ProfesorExperiencia (id_profesor, id_experiencia) VALUES (?, ?)";
 
-    private static final String GET_ALL_QUERY =
-            "SELECT * FROM ProfesorExperiencia";
+    private static final String GET_ALL_QUERY
+            = "SELECT * FROM ProfesorExperiencia";
 
-    private static final String DELETE_QUERY =
-            "DELETE FROM ProfesorExperiencia WHERE id_profesor = ? AND id_experiencia = ?";
+    private static final String DELETE_QUERY
+            = "DELETE FROM ProfesorExperiencia WHERE id_profesor = ? AND id_experiencia = ?";
 
     @Override
     public void createOne(ExperienciaProfesorDTO dto) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)) {
             statement.setInt(1, dto.getProfesorId());
             statement.setInt(2, dto.getExperienciaId());
             statement.executeUpdate();
@@ -44,10 +42,7 @@ public class ExperienciaProfesorDAO extends MoldeDAOCompleto<ExperienciaProfesor
     @Override
     public List<ExperienciaProfesorDTO> getAll() throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
-            ResultSet resultSet = statement.executeQuery()
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY); ResultSet resultSet = statement.executeQuery()) {
             List<ExperienciaProfesorDTO> list = new ArrayList<>();
             while (resultSet.next()) {
                 list.add(mapResultSetToDTO(resultSet));
@@ -72,9 +67,7 @@ public class ExperienciaProfesorDAO extends MoldeDAOCompleto<ExperienciaProfesor
     public void deleteOne(String idCompuesto) throws ExcepcionMostrableUsuario {
         String[] ids = idCompuesto.split("-");
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, Integer.parseInt(ids[0]));
             statement.setInt(2, Integer.parseInt(ids[1]));
             statement.executeUpdate();
@@ -85,8 +78,8 @@ public class ExperienciaProfesorDAO extends MoldeDAOCompleto<ExperienciaProfesor
 
     private ExperienciaProfesorDTO mapResultSetToDTO(ResultSet resultSet) throws SQLException {
         return new ExperienciaProfesorDTO.ExperienciaProfesorBuilder()
-            .setProfesorId(resultSet.getInt("id_profesor"))
-            .setExperienciaId(resultSet.getInt("id_experiencia"))
-            .build();
+                .setProfesorId(resultSet.getInt("id_profesor"))
+                .setExperienciaId(resultSet.getInt("id_experiencia"))
+                .build();
     }
 }

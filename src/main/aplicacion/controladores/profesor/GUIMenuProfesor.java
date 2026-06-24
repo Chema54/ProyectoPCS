@@ -26,10 +26,14 @@ public class GUIMenuProfesor implements Initializable {
 
     private static final Logger LOGGER = LogManager.getLogger(GUIMenuProfesor.class);
 
-    @FXML private Button buttonCloseSesion;
-    @FXML private Label labelProfessorName;
-    @FXML private ToggleButton toggleButtonExperiencias;
-    @FXML private AnchorPane anchorPaneCentral;
+    @FXML
+    private Button buttonCloseSesion;
+    @FXML
+    private Label labelProfessorName;
+    @FXML
+    private ToggleButton toggleButtonExperiencias;
+    @FXML
+    private AnchorPane anchorPaneCentral;
 
     private final ToggleGroup toggleGroupMenu = new ToggleGroup();
 
@@ -49,16 +53,16 @@ public class GUIMenuProfesor implements Initializable {
         toggleButtonExperiencias.setToggleGroup(toggleGroupMenu);
 
         toggleGroupMenu.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
-                if (newToggle == null) {
-                    if (oldToggle != null) {
-                        oldToggle.setSelected(true);
-                    }
-                    return;
+            if (newToggle == null) {
+                if (oldToggle != null) {
+                    oldToggle.setSelected(true);
                 }
-                if (newToggle == toggleButtonExperiencias) {
-                    loadView("/main/aplicacion/vistas/profesor/GUIExperienciasProfesor.fxml");
-                }
+                return;
             }
+            if (newToggle == toggleButtonExperiencias) {
+                loadView("/main/aplicacion/vistas/profesor/GUIExperienciasProfesor.fxml");
+            }
+        }
         );
     }
 

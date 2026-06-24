@@ -18,20 +18,20 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
 
     private static final Logger LOGGER = LogManager.getLogger(PeriodoDAO.class);
 
-    private static final String CREATE_QUERY =
-            "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin, estado) VALUES (?, ?, ?, ?)";
+    private static final String CREATE_QUERY
+            = "INSERT INTO Periodo (nombre, fecha_inicio, fecha_fin, estado) VALUES (?, ?, ?, ?)";
 
-    private static final String GET_ALL_QUERY =
-            "SELECT * FROM Periodo";
+    private static final String GET_ALL_QUERY
+            = "SELECT * FROM Periodo";
 
-    private static final String GET_QUERY =
-            "SELECT * FROM Periodo WHERE id_periodo = ?";
+    private static final String GET_QUERY
+            = "SELECT * FROM Periodo WHERE id_periodo = ?";
 
-    private static final String UPDATE_QUERY =
-            "UPDATE Periodo SET nombre = ?, fecha_inicio = ?, fecha_fin = ?, estado = ? WHERE id_periodo = ?";
+    private static final String UPDATE_QUERY
+            = "UPDATE Periodo SET nombre = ?, fecha_inicio = ?, fecha_fin = ?, estado = ? WHERE id_periodo = ?";
 
-    private static final String DELETE_QUERY =
-            "DELETE FROM Periodo WHERE id_periodo = ?";
+    private static final String DELETE_QUERY
+            = "DELETE FROM Periodo WHERE id_periodo = ?";
 
     @Override
     public void createOne(PeriodoDTO periodDTO) throws ExcepcionMostrableUsuario {
@@ -40,12 +40,10 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
 
     public Integer createAndReturnId(PeriodoDTO periodDTO) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                    CREATE_QUERY,
-                    PreparedStatement.RETURN_GENERATED_KEYS
-            )
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(
+                CREATE_QUERY,
+                PreparedStatement.RETURN_GENERATED_KEYS
+        )) {
             statement.setString(1, periodDTO.getNombre());
             statement.setDate(2, periodDTO.getFechaInicio());
             statement.setDate(3, periodDTO.getFechaFin());
@@ -73,10 +71,7 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
     @Override
     public List<PeriodoDTO> getAll() throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
-            ResultSet resultSet = statement.executeQuery()
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY); ResultSet resultSet = statement.executeQuery()) {
             List<PeriodoDTO> periods = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -97,9 +92,7 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
     @Override
     public PeriodoDTO getOne(Integer id) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(GET_QUERY)) {
             statement.setInt(1, id);
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -122,9 +115,7 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
     @Override
     public void updateOne(PeriodoDTO periodDTO) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, periodDTO.getNombre());
             statement.setDate(2, periodDTO.getFechaInicio());
             statement.setDate(3, periodDTO.getFechaFin());
@@ -145,9 +136,7 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
     @Override
     public void deleteOne(Integer id) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, id);
             statement.executeUpdate();
 
@@ -162,11 +151,9 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
 
     public void changeStatus(Integer id, String status) throws ExcepcionMostrableUsuario {
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE Periodo SET estado = ? WHERE id_periodo = ?"
-            )
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(
+                "UPDATE Periodo SET estado = ? WHERE id_periodo = ?"
+        )) {
             statement.setString(1, status);
             statement.setInt(2, id);
             statement.executeUpdate();
@@ -181,17 +168,14 @@ public class PeriodoDAO extends MoldeDAOCompleto<PeriodoDTO, Integer> {
     }
 
     public List<PeriodoDTO> getClosedPeriods() throws ExcepcionMostrableUsuario {
-        String query =
-                "SELECT * "
+        String query
+                = "SELECT * "
                 + "FROM Periodo "
                 + "WHERE estado = 'Cerrado' "
                 + "ORDER BY fecha_inicio DESC";
 
         try (
-            Connection connection = ConexionBD.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery()
-        ) {
+                Connection connection = ConexionBD.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             List<PeriodoDTO> periods = new ArrayList<>();
 
             while (resultSet.next()) {

@@ -12,19 +12,19 @@ public class ServicioOrganizacionVinculada {
         OrganizacionVinculadaDAO dao = new OrganizacionVinculadaDAO();
         return dao.getAll();
     }
-    
+
     public static void registrarNuevaOrganizacion(OrganizacionVinculadaDTO organizacion) throws ExcepcionMostrableUsuario {
 
         OrganizacionVinculadaDAO dao = new OrganizacionVinculadaDAO();
-        
+
         if (dao.isNameRegistered(organizacion.getNombreEmpresa())) {
             throw new ExcepcionMostrableUsuario(
-                "Organización Duplicada",
-                "El nombre de la organización ya existe en el sistema",
-                "Esta Organización Vinculada ya se encuentra registrada en el sistema"
+                    "Organización Duplicada",
+                    "El nombre de la organización ya existe en el sistema",
+                    "Esta Organización Vinculada ya se encuentra registrada en el sistema"
             );
         }
-        
+
         dao.createOne(organizacion);
     }
 
