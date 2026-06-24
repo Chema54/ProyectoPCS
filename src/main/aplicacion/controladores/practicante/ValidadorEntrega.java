@@ -16,10 +16,10 @@ public class ValidadorEntrega {
         }
         
         if (deliverable.getFechaLimite() != null) {
-            LocalDate deadline = deliverable.getFechaLimite().toLocalDate();
-            LocalDate today = LocalDate.now();
-            if (today.isAfter(deadline.plusDays(1))) {
-                throw new ExcepcionMostrableUsuario("Fecha Expirada", "El plazo ha concluido", "La fecha límite (" + deadline.toString() + ") ha expirado. Ya no se pueden realizar entregas.");
+            LocalDate expiracion = deliverable.getFechaLimite().toLocalDate();
+            LocalDate hoy = LocalDate.now();
+            if (hoy.isAfter(expiracion.plusDays(1))) {
+                throw new ExcepcionMostrableUsuario("Fecha Expirada", "El plazo ha concluido", "La fecha límite (" + expiracion.toString() + ") ha expirado. Ya no se pueden realizar entregas.");
             }
         }
     }
