@@ -91,8 +91,8 @@ public class GUIEntregarEntregables implements Initializable {
         
         try {
             ValidadorEntrega.validateDelivery(selected);
-        } catch (Exception e) {
-            Modal.displayInformation("No permitido", e.getMessage());
+        } catch (main.comun.ExcepcionMostrableUsuario e) {
+            Modal.displayError(e);
             return;
         }
         
@@ -136,8 +136,8 @@ public class GUIEntregarEntregables implements Initializable {
         
         try {
             ValidadorEntrega.validateDelivery(selected);
-        } catch (Exception e) {
-            Modal.displayInformation("No permitido", e.getMessage());
+        } catch (main.comun.ExcepcionMostrableUsuario e) {
+            Modal.displayError(e);
             return;
         }
         
@@ -181,8 +181,8 @@ public class GUIEntregarEntregables implements Initializable {
         
         try {
             ValidadorEntrega.validateDelivery(selected);
-        } catch (Exception e) {
-            Modal.displayInformation("No permitido", e.getMessage());
+        } catch (main.comun.ExcepcionMostrableUsuario e) {
+            Modal.displayError(e);
             return;
         }
         if ("Entregado".equalsIgnoreCase(selected.getEstado())) {

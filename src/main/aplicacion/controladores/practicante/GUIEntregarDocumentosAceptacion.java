@@ -212,8 +212,8 @@ public class GUIEntregarDocumentosAceptacion implements Initializable {
         
         try {
             ValidadorEntrega.validateDelivery(selected);
-        } catch (Exception e) {
-            Modal.displayInformation("No permitido", e.getMessage());
+        } catch (ExcepcionMostrableUsuario e) {
+            Modal.displayError(e);
             return;
         }
         
