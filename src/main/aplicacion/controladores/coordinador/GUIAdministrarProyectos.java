@@ -154,6 +154,7 @@ public class GUIAdministrarProyectos implements Initializable {
 
     @FXML
     private void handleAssignProject(ActionEvent event) {
+        cargarDatosTabla();        
         openModalWindow("/main/aplicacion/vistas/coordinador/practicante/GUIRegistrarAsignacion.fxml", "Asignar Proyecto a Practicante");
         cargarDatosTabla();
     }

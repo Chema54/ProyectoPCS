@@ -54,11 +54,12 @@ public class GUIRegistrarAsignacion implements Initializable {
                 Modal.displayError(new ExcepcionMostrableUsuario(
                     "Registro Bloqueado", 
                     "Faltan elementos disponibles", 
-                    "Actualmente no hay estudiantes sin asignación o proyectos con cupo disponible en el sistema."
+                    "Actualmente no hay asignaciones posibles."
                 ));
             }
         } catch (ExcepcionMostrableUsuario e) {
             Modal.displayError(e);
+            cerrarVentana();
         }
     }
 
